@@ -1,0 +1,7 @@
+python3 -m pip install --user qmk
+qmk setup -H path (the path needs to be an emty folder)
+qmk compile -kb crkbd/rev1 -km Elil_50
+qmk config user.keyboard=crkbd/rev1
+qmk flash
+
+To update: qmk update

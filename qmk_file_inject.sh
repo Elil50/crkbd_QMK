@@ -1,0 +1,13 @@
+TARGET="./qmk_firmware/keyboards/crkbd/keymaps"
+KEYMAP="./Elil_50/keymap.c"
+CONFIG="./Elil_50/config.h"
+RULES="./Elil_50/rules.mk"
+PS2_VENDOR="./PS2_driver/ps2_vendor.c"
+PS2_PATH="qmk_firmware/platforms/chibios/drivers/vendor/RP/RP2040"
+
+# rm -r "$TARGET/Elil_50"
+# mkdir "$TARGET/Elil_50"
+cp "$KEYMAP" "$TARGET/Elil_50"
+cp "$CONFIG" "$TARGET/Elil_50"
+cp "$RULES" "$TARGET/Elil_50"
+cp "$PS2_VENDOR" "$PS2_PATH" 
