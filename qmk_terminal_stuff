@@ -1,7 +1,10 @@
 python3 -m pip install --user qmk
 qmk setup -H path (the path needs to be an emty folder)
+
+If you just downloaded from internet, do not forget to download submodules too (run qmk git-submodule)
+
 qmk compile -kb crkbd/rev1 -km Elil_50
 qmk config user.keyboard=crkbd/rev1
 qmk flash
 
-To update: qmk update
+

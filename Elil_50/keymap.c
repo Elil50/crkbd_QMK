@@ -50,10 +50,10 @@ tap_dance_action_t tap_dance_actions[] = {
 
 
 
-const key_override_t wheel_R_override = ko_make_basic(MOD_MASK_ALT, KC_RIGHT, KC_WH_R);
-const key_override_t wheel_L_override = ko_make_basic(MOD_MASK_ALT, KC_LEFT, KC_WH_L);
-const key_override_t wheel_U_override = ko_make_basic(MOD_MASK_ALT, KC_UP, KC_WH_U);
-const key_override_t wheel_D_override = ko_make_basic(MOD_MASK_ALT, KC_DOWN, KC_WH_D);
+const key_override_t wheel_R_override = ko_make_basic(MOD_MASK_ALT, KC_RIGHT, MS_WHLR);
+const key_override_t wheel_L_override = ko_make_basic(MOD_MASK_ALT, KC_LEFT, MS_WHLL);
+const key_override_t wheel_U_override = ko_make_basic(MOD_MASK_ALT, KC_UP, MS_WHLU);
+const key_override_t wheel_D_override = ko_make_basic(MOD_MASK_ALT, KC_DOWN, MS_WHLD);
 //const key_override_t CTRL_ALT_override = ko_make_basic(MOD_MASK_CTRL, TD(TD_SHIFT_CAPS), C(KC_LALT));
 const key_override_t override_1 = ko_make_basic(MOD_MASK_SHIFT, KC_LPRN, KC_RPRN);
 const key_override_t override_2 = ko_make_basic(MOD_MASK_SHIFT, KC_LBRC, KC_RBRC);
@@ -361,7 +361,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { //alphabetic
 
      [2] = LAYOUT_split_3x6_3( //stuff
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,  KC_TAB  ,                     RGB_TOG,  KC_PSCR, KC_MUTE, KC_VOLU, KC_MPLY,  EE_CLR,
+         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,  KC_TAB  ,                     UG_TOGG,  KC_PSCR, KC_MUTE, KC_VOLU, KC_MPLY,  EE_CLR,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         KC_F6,    KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_BSPC,                     XXXXXXX,  KC_UP,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
