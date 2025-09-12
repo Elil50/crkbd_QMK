@@ -63,3 +63,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define MK_W_OFFSET_UNMOD 1
 #define MK_W_OFFSET_0 2
 #define MK_W_OFFSET_1 15
+// #define MK_C_OFFSET_0 2
+// #define MK_C_OFFSET_1 10
