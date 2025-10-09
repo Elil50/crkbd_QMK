@@ -610,11 +610,11 @@ void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_split_3x6_3( //alphabetic
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,  KC_QUOTE,                        KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_SCLN,
+      KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,  KC_QUOTE,                        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,   KC_SCLN,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_BSPC,                        KC_H,    KC_J,    KC_UP,   KC_K,   KC_L,  KC_COMMA,
+      KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_BSPC,                        KC_H,    KC_J,    KC_UP,   KC_K,    KC_L,  KC_COMMA,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_Z,    KC_X,    KC_C,    KC_V,    KC_SPC, KC_ENTER,           		  KC_B,  KC_LEFT, KC_DOWN,  KC_RIGHT,   KC_N,   KC_M,
+      KC_Z,    KC_X,    KC_C,    KC_V,    KC_SPC, KC_ENTER,           		  KC_B,  KC_LEFT, KC_DOWN, KC_RIGHT,  KC_N,   KC_M,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                             	   TD(META_TO6),LEFT_TOGGLE,KC_LCTL,  TD(TD_SHIFT_CAPS),RIGHT_TOGGLE,ESC_ALT
                                       //`--------------------------'  `--------------------------'
@@ -625,7 +625,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_0,    KC_1,    KC_2,    KC_3,    KC_4,  KC_QUOTE,                     KC_PWR,  KC_PSCR, KC_QUES, KC_EQL,  MY_LESS, KC_SCLN,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_5,    KC_6,    KC_7,    KC_8,    KC_9,   KC_BSPC,                      KC_BSLS,  ACCEL,   KC_UP, KC_PPLS, KC_PAST, KC_COMMA,
+      KC_5,    KC_6,    KC_7,    KC_8,    KC_9,   KC_BSPC,                      KC_BSLS,  ACCEL,   KC_UP,  KC_PPLS, KC_PAST, KC_COMMA,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_DLR, KC_HASH, KC_AMPR, KC_LALT,  KC_SPC, KC_ENTER,                 	KC_LPRN, KC_LEFT, KC_DOWN, KC_RIGHT, KC_LBRC, KC_LCBR,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -637,7 +637,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
          KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,  KC_TAB ,                    UG_TOGG,KC_PSCR,XXXXXXX,XXXXXXX,TG(ADD_LAYER+1),TG(ADD_LAYER),
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        KC_F6,    KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_BSPC,                   GREEK_LAYER, ACCEL,   KC_UP,  KC_BRIU,  KC_VOLU, KC_MUTE,
+        KC_F6,    KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_BSPC,                   GREEK_LAYER, ACCEL,  KC_UP,  KC_BRIU,  KC_VOLU, KC_MUTE,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         KC_F11,   KC_F12, KC_RALT, KC_LALT, KC_SPC, KC_ENTER,            	  KC_CALC, KC_LEFT, KC_DOWN, KC_RIGHT, KC_MPLY, EE_CLR,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -652,7 +652,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
          ALPH,    SIGM,    DELT,    PHI,     GAMM,  KC_BSPC,                        ETA,     XI,     KC_UP,    KAPP,   LAMB,   KC_COMMA,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-         ZETA,    CHI,     PSI,     OMEG,   KC_SPC, KC_ENTER,              		    BETA,  KC_LEFT, KC_DOWN, KC_RIGHT,   NU,      MU,
+         ZETA,    CHI,     PSI,     OMEG,   KC_SPC, KC_ENTER,                       BETA,  KC_LEFT, KC_DOWN, KC_RIGHT,   NU,      MU,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                             	   TD(META_TO6),LEFT_TOGGLE,KC_LCTL,  TD(TD_SHIFT_CAPS),RIGHT_TOGGLE,ESC_ALT
                                         //`--------------------------'  `--------------------------'
@@ -667,25 +667,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   
     [ADD_LAYER] = LAYOUT_split_3x6_3( //vr_chat
       //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-         KC_F12,  XXXXXXX, KC_E,   KC_W,   KC_R,   KC_C ,                    S(KC_F1), S(KC_F2), S(KC_F3), S(KC_F4), S(KC_F5), S(KC_F6),
+          KC_F12,  XXXXXXX,  KC_E,    KC_W,    KC_R,    KC_C,                     S(KC_F1), S(KC_F2), S(KC_F3), S(KC_F4), S(KC_F5), S(KC_F6),
       //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_V, TD(TD_SHIFT_CAPS), KC_A,  KC_S,     KC_D,   KC_Z,                      S(KC_F7), S(KC_F8), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      KC_V, TD(TD_SHIFT_CAPS), KC_A,  KC_S,    KC_D,    KC_Z,                      S(KC_F7), S(KC_F8), KC_UP,  XXXXXXX,  XXXXXXX, XXXXXXX,
       //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_H,     KC_N,                      XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_H,     KC_N,                      XXXXXXX,  KC_LEFT, KC_DOWN, KC_RIGHT, XXXXXXX, XXXXXXX,
       //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          TD(META_TO6), LEFT_TOGGLE,  KC_SPC,     XXXXXXX, RIGHT_TOGGLE, ESC_ALT
+                                        TD(META_TO6),LEFT_TOGGLE,KC_SPC,   XXXXXXX,RIGHT_TOGGLE,ESC_ALT
                                           //`--------------------------'  `--------------------------'
   ),
 
     [ADD_LAYER+1] = LAYOUT_split_3x6_3( //minecraft
       //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-         KC_M, KC_B, KC_E,  KC_W,   KC_F5,   KC_F1 ,                          KC_1,     KC_2,    KC_3,   KC_4,     KC_5,    KC_6,
+           KC_M,    KC_B,    KC_E,    KC_W,   KC_F5,   KC_F1,                         KC_1,   KC_2,     KC_3,    KC_4,    KC_5,    KC_6,
       //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-          KC_Q,   KC_LCTL,   KC_A,    KC_S,   KC_D,   KC_TILD,                      KC_7,     KC_8,   KC_9,    XXXXXXX, XXXXXXX, XXXXXXX,
+          KC_Q,   KC_LCTL,   KC_A,    KC_S,   KC_D,   KC_TILD,                        KC_7,    KC_8,    KC_UP,   KC_9,   XXXXXXX, XXXXXXX,
       //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-           KC_T,    KC_C,   XXXXXXX, XXXXXXX, KC_V,   KC_EQL,                        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+           KC_T,    KC_C,   XXXXXXX, XXXXXXX, KC_V,   KC_EQL,                       XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XXXXXXX, XXXXXXX,
       //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                    TD(META_TO6), LEFT_TOGGLE,  TD(TD_SHIFT_CAPS),     KC_SPC, RIGHT_TOGGLE, ESC_ALT
+                             TD(META_TO6),LEFT_TOGGLE,TD(TD_SHIFT_CAPS),   KC_SPC,RIGHT_TOGGLE,ESC_ALT
                                           //`--------------------------'  `--------------------------'
   ),
 
@@ -701,10 +701,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
       //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
       //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                              KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS
-                                        //`--------------------------'  `--------------------------'
+                                          //`--------------------------'  `--------------------------'
   ),
   #endif
 
@@ -714,9 +714,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                       KC_TRNS,  ACCEL, MS_WHLU,  KC_TRNS, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS,  ACCEL, MS_WHLU,  KC_TRNS, KC_TRNS, KC_TRNS,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                       KC_TRNS, MS_WHLL, MS_WHLD, MS_WHLR, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, MS_WHLL, MS_WHLD, MS_WHLR, KC_TRNS, KC_TRNS,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                            KC_TRNS, KC_TRNS,  KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS
                                         //`--------------------------'  `--------------------------'
