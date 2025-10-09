@@ -137,7 +137,7 @@ The main components are:
 
 There are tons of sites who sell DIY kits and pre-builts: each one has their own well-documented and similar guide on little details I won't write here. Nowadays even aliexpress sells low cost pre-builts, but be aware they are not easily flashable.
 
-The following files were made for Corne V3. It's not compatible with Corne V4. You can still port the ideas.
+The following files were made for Corne V3 which is not compatible with Corne V4. You can still port the ideas.
 
 ## External shell
 <img src="./Images/portable_config.jpg" width="400">
