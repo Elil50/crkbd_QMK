@@ -91,7 +91,7 @@ This layout already has two gaming layer examples: you can understand the logic 
 
 **qmk_file_inject.sh:** injects user files (described below) in ```qmk_firmware```. 
 
-**flash.sh:** executes ```qmk_file_inject.sh``` and qmk flash in user keyboard folder. 
+**flash.sh:** executes ```qmk_file_inject.sh``` and ```qmk flash``` in the user keyboard folder. 
 
 **commit_all.sh:** commits all changes, both of ```qmk_firmware``` submodule and ```crkbd_QMK module```.
 
