@@ -31,7 +31,7 @@ This was written for Corne V3. If you use a Corne V4 just add the 4 additional k
 
 ## Keyboard layout
 
-This layout was optimized in 1 year for coding and typing purposes. It works only if you set the OS language input to English. 
+This layout was optimized in 1 year for coding and typing purposes. It works only if you set the OS language input to English(US). 
 
 The trackpoint can be disabled by turning false the flag ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk```. This action removes the automatic mouse layer, so reduce ```MY_MAX_LAYER``` by 1 at the beginning of ```./Elil_50/keymap.c```.<br/>
 This option will not affect any other functionality.
@@ -46,7 +46,7 @@ In the following sketch I refer to the key ```GUI```, also called ```meta``` or 
 
 <img src="./Images/1_1.jpg" width=max-width>
 <img src="./Images/2_1.jpg" width=max-width>
-<img src="./Images/3.jpg" width=max-width>
+<img src="./Images/3_1.jpg" width=max-width>
 <img src="./Images/4.jpg" width=max-width>
 
 * ### Automatic Mouse Layer
