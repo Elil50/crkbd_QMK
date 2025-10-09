@@ -31,7 +31,7 @@ This was written for Corne V3. If you use a Corne V4 just add the 4 additional k
 
 ## Keyboard layout
 
-This layout was optimized for coding and typing purposes. It works only if you set the OS language input to English. 
+This layout was optimized in 1 year for coding and typing purposes. It works only if you set the OS language input to English. 
 
 The trackpoint can be disabled by turning false the flag ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk```. This action removes the automatic mouse layer, so reduce ```MY_MAX_LAYER``` by 1 at the beginning of ```./Elil_50/keymap.c```.<br/>
 This option will not affect any other functionality.
@@ -95,7 +95,9 @@ This layout already has two gaming layer examples: you can understand the logic 
 
 **commit_all.sh:** commits all changes, both of ```qmk_firmware``` submodule and ```crkbd_QMK module```.
 
-Follow [QMK documentation](https://docs.qmk.fm/newbs_getting_started) for setting up your enviroment before flashing it to your keyboard. Note that Corne keyboards are called crkbd in the QMK framework. All the following actions are automatically performed by running ```./qmk_file_inject.sh```. Before running a program, remember to change its execution permissions. For example, on Linux you run ```chmod +x program_name.sh```.  
+Follow [QMK documentation](https://docs.qmk.fm/newbs_getting_started) for setting up your enviroment before flashing it to your keyboard. Note that Corne keyboards are called crkbd in the QMK framework. 
+
+**IMPORTANT**: All the following actions are automatically performed by running ```./qmk_file_inject.sh```. Before running a program, remember to change its execution permissions. For example, on Linux you run ```chmod +x program_name.sh```.  
 
 * ### Keymap.c, rules.mk, config.h
 
