@@ -375,8 +375,8 @@ const key_override_t override_23 = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL
 const key_override_t override_24 = ko_make_basic(MOD_MASK_SHIFT, KC_AMPR, KC_AT);
 const key_override_t override_25 = ko_make_basic(MOD_MASK_SHIFT, KC_QUES, KC_EXLM);
 const key_override_t override_27 = ko_make_basic(MOD_MASK_SHIFT, KC_PAST, KC_SLASH);
-const key_override_t override_28 = ko_make_basic(MOD_MASK_CTRL, KC_VOLD, KC_VOLU);
-const key_override_t override_29 = ko_make_basic(MOD_MASK_CTRL, KC_BRID, KC_BRIU);
+const key_override_t override_28 = ko_make_basic(MOD_MASK_CTRL, KC_VOLU, KC_VOLD);
+const key_override_t override_29 = ko_make_basic(MOD_MASK_CTRL, KC_BRIU, KC_BRID);
 
 const key_override_t *key_overrides[] = {
   &override_1,
@@ -637,7 +637,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
          KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,  KC_TAB ,                    UG_TOGG,KC_PSCR,XXXXXXX,XXXXXXX,TG(ADD_LAYER+1),TG(ADD_LAYER),
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        KC_F6,    KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_BSPC,                   GREEK_LAYER, ACCEL,   KC_UP,  KC_BRID,  KC_VOLD, KC_MUTE,
+        KC_F6,    KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_BSPC,                   GREEK_LAYER, ACCEL,   KC_UP,  KC_BRIU,  KC_VOLU, KC_MUTE,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         KC_F11,   KC_F12, KC_RALT, KC_LALT, KC_SPC, KC_ENTER,            	  KC_CALC, KC_LEFT, KC_DOWN, KC_RIGHT, KC_MPLY, EE_CLR,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
