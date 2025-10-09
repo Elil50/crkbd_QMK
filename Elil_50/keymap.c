@@ -452,6 +452,17 @@ const uint16_t PROGMEM combo38[] = {ESC_ALT, KC_PPLS, COMBO_END};
 const uint16_t PROGMEM combo40[] = {ESC_ALT, KC_BSLS, COMBO_END};
 const uint16_t PROGMEM combo39[] = {TD(TD_SHIFT_CAPS), ESC_ALT, MY_LESS, COMBO_END};
 const uint16_t PROGMEM combo42[] = {TD(TD_SHIFT_CAPS), KC_DLR, COMBO_END};
+const uint16_t PROGMEM combo43[] = {TD(TD_SHIFT_CAPS), KC_0, COMBO_END};
+const uint16_t PROGMEM combo44[] = {TD(TD_SHIFT_CAPS), KC_1, COMBO_END};
+const uint16_t PROGMEM combo45[] = {TD(TD_SHIFT_CAPS), KC_2, COMBO_END};
+const uint16_t PROGMEM combo46[] = {TD(TD_SHIFT_CAPS), KC_3, COMBO_END};
+const uint16_t PROGMEM combo47[] = {TD(TD_SHIFT_CAPS), KC_4, COMBO_END};
+const uint16_t PROGMEM combo48[] = {TD(TD_SHIFT_CAPS), KC_5, COMBO_END};
+const uint16_t PROGMEM combo49[] = {TD(TD_SHIFT_CAPS), KC_6, COMBO_END};
+const uint16_t PROGMEM combo50[] = {TD(TD_SHIFT_CAPS), KC_7, COMBO_END};
+const uint16_t PROGMEM combo51[] = {TD(TD_SHIFT_CAPS), KC_8, COMBO_END};
+const uint16_t PROGMEM combo52[] = {TD(TD_SHIFT_CAPS), KC_9, COMBO_END};
+
 #endif 
 
 combo_t key_combos[] = {
@@ -482,6 +493,16 @@ combo_t key_combos[] = {
   COMBO(combo40, UM(FORALL)),
   COMBO(combo39, UM(GTEQ)),
   COMBO(combo42, UM(EUR)),
+  COMBO(combo43, UM(SUB_0)),
+  COMBO(combo44, UM(SUB_1)),
+  COMBO(combo45, UM(SUB_2)),
+  COMBO(combo46, UM(SUB_3)),
+  COMBO(combo47, UM(SUB_4)),
+  COMBO(combo48, UM(SUB_5)),
+  COMBO(combo49, UM(SUB_6)),
+  COMBO(combo50, UM(SUB_7)),
+  COMBO(combo51, UM(SUB_8)),
+  COMBO(combo52, UM(SUB_9)),
   #endif
 };
 
