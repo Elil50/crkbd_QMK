@@ -20,6 +20,7 @@ That's when I went down the ergonomic keyboard rabbit hole and discovered split 
 * I needed a firmware framework to customize the keyboard layout to my heart's content.<br/>
 * I needed a built-in pointing device to replace a standalone mouse. <br/>
 * I needed something portable.
+* I needed something easy both to learn and to use.
 
 This is the solution I found and I'm learning touch typing for the first time in my life.
 
@@ -32,6 +33,14 @@ This was written for Corne V3. If you use a Corne V4 just add the 4 additional k
 ## Keyboard layout
 
 This layout was optimized in 1 year for coding and typing purposes. It works only if you set the OS language input to English(US). 
+
+Layouts like QWERTY, DVORAK, COLEMAC and so on are designed around commonly used letters and words in order to reduce finger movement and strain. This is useless on a keyboard which is literally designed around your hand.<br/>
+I only needed to assign commonly used keys - like modifiers and arrows - to strong fingers, and to avoid creating ankward positions when combining multiple modifiers with the other keys.
+
+Thus, I chose QWERTY to reduce the learning curve and improve compatibility with other devices.<br/>
+For the same reasons I avoided strange key combinations - like ```D+F=TAB``` - which may help you reduce the number of keys at the cost of increasing the keyboard complexity. I found that this keyboard has nearly the minimum number of keys to type fast without resorting to such tricks.
+
+**Overall this is an easy and fast layout you can approach without a gradual approach, directly from your big rectangular keyboard.**
 
 The trackpoint can be disabled by turning false the flag ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk```. This action removes the automatic mouse layer, so reduce ```MY_MAX_LAYER``` by 1 at the beginning of ```./Elil_50/keymap.c```.<br/>
 This option will not affect any other functionality.
