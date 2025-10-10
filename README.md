@@ -157,7 +157,7 @@ After some attempts, I discovered the underneath of my leg - called ```semitendi
 
 <img src="./Images/Old_kb_0.jpg" width="400">
 
-I even added some sponge to increase the leg grip and keyboard stability
+I even added some sponge to increase the leg grip and keyboard stability.
 
 <img src="./Images/Old_kb_1.jpg" width="400">
 
