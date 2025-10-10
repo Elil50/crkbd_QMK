@@ -147,6 +147,21 @@ The following files were made for Corne V3, which is not compatible with Corne V
 
 I 3D printed [this case](https://www.printables.com/model/347524-corne-keyboard-case-5-and-6-columns) and designed for portability purposes the light grey interlocking "case wall" depicted above. Note that you don't need to unplug the TRRS cable from the keyboard (the less mechanical stress, the longer the life span). You can find its file in ```./stl_files/eiga-wall-Elil50.stl```.
 
+## Chair mount and previous ideas
+
+The community is wild when trying to find the ergonomic sweet spot and you could join the [cool guys](https://mgsloan.com/posts/tree-based-computing/) community too.
+
+Split keyboards are, well... split. It's only natural to try mounting them on your legs. <br/>
+After some attempts, I discovered the underneath of my leg - called ```semitendinous muscle``` - didn't like even the lightest tension. The leg mount idea was the reason for printing a keyboard case with holes. You can see a thin red rope I left attached to one of them: if necessity arises I can still tie them.
+
+<img src="./Images/old_kb_1.jpg" width="400">
+<img src="./Images/old_kb_0.jpg" width="400">
+
+Some people mount them below their desk, but that would hinder my beloved chair swings: I needed a chair mount and I hated armrest. 
+
+TO DO: FINISH THIS SECTION
+
+
 
 ## Key Switches and Keycaps
 The world of key switches is really big. The important keywords you need to know are: low-profile(choc), standard profile (MX), tactile, linear, clicky, silent, lubed. I built a MX compatible one for aesthetics (most artisanal keycaps are cherry (MX) ) and bought tactile silent switches. However I forgot to check if they were pre-lubed: they were not and they feel scratchy as hell. I won't complain as I'm not building this keyboard for the mechanical switch pleasure, even though I admit the linear gateron of a friend of mine feel like heaven. 
