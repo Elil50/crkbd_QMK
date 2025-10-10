@@ -178,7 +178,7 @@ First, you need to cut/print a slab with holes in the right place and screw it u
 
 <img src="./Images/Under.jpg" width="400">
 
-The measures I found comfortable are the following. 
+The measures I found comfortable are the followings. 
 
 <img src="./Images/Flat.jpg" width="400">
 <img src="./Images/Joint.jpg" width="400">
