@@ -53,10 +53,10 @@ The keymap I wrote does an automatic OS detection to use the right unicode input
 
 In the following sketch I refer to the key ```GUI```, also called ```meta``` or ```command``` or ```windows```, as ```super``` which is just another alias.
 
-<img src="./Images/1_2.jpg" width=max-width>
-<img src="./Images/2_2.jpg" width=max-width>
-<img src="./Images/3_2.jpg" width=max-width>
-<img src="./Images/4_2.jpg" width=max-width>
+<img src="./Images/1_3.jpg" width=max-width>
+<img src="./Images/2_3.jpg" width=max-width>
+<img src="./Images/3_3.jpg" width=max-width>
+<img src="./Images/4_3.jpg" width=max-width>
 
 * ### Automatic Mouse Layer
 
@@ -225,7 +225,7 @@ Anyway, what I have now works wonderfully.
 
 You can find a printable Corne case with an integrated trackpoint mount [here](https://github.com/joh/crkbd-trackpoint?tab=readme-ov-file). If you are unsure about your PCB (for example with a Corne V4) or you already have a case, you can manually glue the trackpoint to it. For example I glued it to a metal plate that came with the DIY kit, screwed underneath the case mentioned in the previous sections. Just be sure to start by using some removable adhesive tape when placing the trackpoint. After a few attempts you find the right position: you don't want the stem to touch - or be too close to - the edges of the PCB hole. You can glue everything now.
 
-<img src="./Images/trackpoint_extensor_project.jpg" width="400">
+<img src="./Images/trackpoint_stem.jpg" width="400">
 
 ---
 
@@ -247,7 +247,7 @@ In ```KDE_Plasma``` folder you can find both monitor overview (which stores the 
 .config/kglobalshortcutsrc
 ```
 
-<img src="./Images/0.jpg" width=max-width>
+<img src="./Images/0_3.jpg" width=max-width>
 
 ---
 
