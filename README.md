@@ -3,7 +3,7 @@
 
 This project is subdivided as it follows:
 1. An explaination of my custom firmware, written for the 6 columns [Corne keyboard](https://github.com/foostan/crkbd/) (a 42 keys ortholinear split keyboard), based on [QMK](https://github.com/qmk/qmk_firmware/) framework.
-2. My hardware customization: from printable files for the case, to key switches and keycaps, and even mounting tips for the trackpoint (optional).
+2. My hardware customization: from printable files for the case and the chair mount in picture, to key switches and keycaps, and even mounting tips for the trackpoint (optional).
 3. My desktop enviroment shortcuts (optional).
 
 # Just a keyboard for show?
@@ -20,6 +20,7 @@ That's when I went down the ergonomic keyboard rabbit hole and discovered split 
 * I needed a firmware framework to customize the keyboard layout to my heart's content.<br/>
 * I needed a built-in pointing device to replace a standalone mouse. <br/>
 * I needed something portable.
+* I needed something easy to learn and use.
 
 This is the solution I found and I'm learning touch typing for the first time in my life.
 
@@ -33,8 +34,41 @@ This was written for Corne V3. If you use a Corne V4 just add the 4 additional k
 
 This layout was optimized in 1 year for coding and typing purposes. It works only if you set the OS language input to English(US). 
 
-The trackpoint can be disabled by turning false the flag ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk```. This action removes the automatic mouse layer, so reduce ```MY_MAX_LAYER``` by 1 at the beginning of ```./Elil_50/keymap.c```.<br/>
-This option will not affect any other functionality.
+Layouts like QWERTY, DVORAK, COLEMAK are designed around commonly used letters and words in order to reduce finger movement and strain. This is useless on a keyboard which is literally designed around your hand.<br/>
+I only needed to assign commonly used keys - like modifiers and arrows - to strong fingers, and to avoid creating ankward positions when combining multiple modifiers with other keys.
+
+Thus, I chose QWERTY to reduce the learning curve and improve compatibility with other devices.<br/>
+For the same reasons, I avoided strange key combinations - like ```D+F=TAB``` - which may help you reduce the number of keys at the cost of increasing the keyboard complexity. I found that this keyboard has nearly the minimum number of keys to type fast without resorting to such tricks.
+
+Indeed, the alphabetical layer - later called ```layer 0``` - cannot be reduced anymore without using combinations. On the other hand, the numerical one has so much space I filled it with unicode I sometimes use when talking to people.
+
+> [!NOTE]
+> Overall this is an easy and fast layout you can start using without gradually approaching ergonomic mechanical keyboards, jumping directly from your big rectangular keyboard.
+
+In the following, I use the key ```GUI``` to refer to all the other aliases like ```meta```, ```command```, ```windows```, ```super```.
+
+---
+
+<img src="./Images/Elil50_layer_0_1.png" width=max-width>
+
+---
+
+<img src="./Images/Elil50_layer_1_1.png" width=max-width>
+
+---
+
+<img src="./Images/Elil50_layer_2_1.png" width=max-width>
+
+---
+
+<img src="./Images/Elil50_layer_greek.png" width=max-width>
+
+---
+
+* ### Disabling Trackpoint and Unicode
+
+The trackpoint can be disabled by turning false the flag ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk```.<br/>
+This action removes the automatic mouse layer, so reduce ```MY_MAX_LAYER``` by 1 at the beginning of ```./Elil_50/keymap.c```. This option will not affect any other functionality.
 
 Unicode symbols can be disabled by turning false the flag ```MY_UNICODE_ENABLE``` in ```./Elil_50/rules.mk```.<br/>
 This option will not affect any other functionality.
@@ -42,28 +76,19 @@ This option will not affect any other functionality.
 Unicode support depends on both OS and software used: most recent Linux and Mac OS do support it by default, but you need to install Wincompose for Windows (another reason to avoid it). I use gedit as text editor: I switched from Kate because it doesn't recognise unicode really well.<br/> 
 The keymap I wrote does an automatic OS detection to use the right unicode input method.
 
-In the following sketch I refer to the key ```GUI```, also called ```meta``` or ```command``` or ```windows```, as ```super``` which is just another alias.
-
-<img src="./Images/1_1.jpg" width=max-width>
-<img src="./Images/2_1.jpg" width=max-width>
-<img src="./Images/3_1.jpg" width=max-width>
-<img src="./Images/4.jpg" width=max-width>
-
 * ### Automatic Mouse Layer
 
 Enabled if ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk``` is enabled. Highlighted in grey in the keyboard layout. 
 
-Whenever you move the trackpoint and 300ms after, this layer is activated. You can change this time by changing the number of ```TURN_LAYER_OFF_TIMEOUT``` at line 584 of ```./Elil_50/keymap.c```. <br/>
+Whenever you move the trackpoint and 500ms after, this layer is activated. You can change this time by changing the number of ```TURN_LAYER_OFF_TIMEOUT``` at line 702 of ```./Elil_50/keymap.c```. <br/>
 The layer switching key △ or ▢ deactivates it.
 
-TO DO (Issues with PS/2 and mouse keys interactions) 
+* ### Scroll Layer
 
-* ### Scroll features
+If you double click the key ```GUI``` you activate the scroll layer, which replaces arrows with scroll movements, adds the key ```AC``` - which can be found by default in layer 1 - and mouse keys - the same of the automatic mouse layer. <br/>
+If you double click the key ```GUI``` again or single click the layer switching key △ or ▢, the layer is deactivated. 
 
-If you double click the key ```super``` you activate the wheel layer, which replaces arrows with scroll movements and adds the key ```accel``` which can be found by default in layer 1. <br/>
-If you double click the key ```super``` again or single click the layer switching key △ or ▢, the layer is deactivated. 
-
-If you toggle the key ```accel``` you change the scroll speed between fast and slow. You can change them by changing the numbers of the two ```MK_W_OFFSET``` in ```./Elil_50/config.h```.
+If you toggle the key ```AC``` you change the scroll speed between fast and slow. You can change them by changing the numbers of the two ```MK_W_OFFSET``` in ```./Elil_50/config.h```.
 
 * ### Overrides and combos
 
@@ -85,7 +110,8 @@ Be sure to place the additional layers after layer 3 (i.e. the Greek layer. Foll
 
 This layout already has two gaming layer examples: you can understand the logic just by reading the layout implementation. 
 
-**IMPORTANT**: Remember to change ```MY_MAX_LAYER``` at the beginning of ```./Elil_50/keymap.c``` according to the layers added or removed. Layer count starts from 0.
+> [!IMPORTANT]
+> Remember to change ```MY_MAX_LAYER``` at the beginning of ```./Elil_50/keymap.c``` according to the layers added or removed. Layer count starts from 0.
 
 * ### Executables
 
@@ -97,7 +123,9 @@ This layout already has two gaming layer examples: you can understand the logic 
 
 Follow [QMK documentation](https://docs.qmk.fm/newbs_getting_started) for setting up your enviroment before flashing it to your keyboard. Note that Corne keyboards are called crkbd in the QMK framework. 
 
-**IMPORTANT**: All the following actions are automatically performed by running ```./qmk_file_inject.sh```. <br/>
+> [!TIP]
+> All the following actions are automatically performed by running ```./qmk_file_inject.sh```.
+
 Before running a program, remember to change its execution permissions. For example, on Linux you run ```chmod +x program_name.sh```.  
 
 * ### Keymap.c, rules.mk, config.h
@@ -109,14 +137,14 @@ Add the folder ``` Elil_50 ``` in the following path:
 
 * ### PS/2 Driver Trackpoint (optional)
 
-The host needs pull-up resistors on PS/2 DATA and CLK lines. The built-in pullup resistors from the host 4k to 100k are acceptable. 
-So, I need to add those pull-up resistors (didn't do it), or apply the following patch:
+The host needs pull-up resistors on PS/2 DATA and CLK lines. The built-in pullup resistors from the host 4k to 100k are acceptable.<br/>
+In conclusion, you need to add those pull-up resistors (I didn't), or apply the following patch:
 
-Add in line 150 of file:
+Add ```PAL_RP_PAD_PUE |``` in line 150 of file
 ```
 ./qmk_firmware/platforms/chibios/drivers/vendor/RP/RP2040/ps2_vendor.c
 ```
-The line ``` PAL_RP_PAD_PUE | ``` so that it looks like:
+so that it looks like:
 ```c
     // clang-format off
     iomode_t pin_mode = PAL_RP_PAD_IE |
@@ -124,6 +152,19 @@ The line ``` PAL_RP_PAD_PUE | ``` so that it looks like:
                         PAL_RP_PAD_SLEWFAST |
                         PAL_RP_PAD_DRIVE12 |
                         PAL_RP_PAD_PUE |
+```
+
+The PS/2 section of QMK is quite a mess, so you need to apply the following patches to file
+```
+./qmk_firmware/drivers/ps2/ps2_mouse.c
+```
+* Comment ```return``` in both line 92 and 105, so that it looks like:
+```c
+    } else {
+        if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
+        /* return here to avoid updating the mouse button state */
+        //return;
+    }
 ```
 
 ---
@@ -140,13 +181,56 @@ The main components are:
 
 There are tons of sites who sell DIY kits and pre-builts: each one has their own well-documented and similar guide on little details I won't write here. Nowadays even aliexpress sells low cost pre-builts, but be aware they are not easily flashable.
 
-The following files were made for Corne V3, which is not compatible with Corne V4. You can still port the ideas.
+In my personal opinion the OLED of Corne V3 is useless: the keymap I wrote doesn't need a screen as a reminder of which layers you activated, and I want to focus on my screen, not my hands. Corne V4 replaced it with 2 additionak keys, but you need to stretch your hand a little to reach them. In conclusion, I didn't mount it and covered the microcontroller with a black acrylic.
 
-## External shell
+## External shell (optional)
 <img src="./Images/portable_config.jpg" width="400">
 
 I 3D printed [this case](https://www.printables.com/model/347524-corne-keyboard-case-5-and-6-columns) and designed for portability purposes the light grey interlocking "case wall" depicted above. Note that you don't need to unplug the TRRS cable from the keyboard (the less mechanical stress, the longer the life span). You can find its file in ```./stl_files/eiga-wall-Elil50.stl```.
 
+These files were made for Corne V3, which is not compatible with Corne V4. You can still port the ideas.
+
+## Chair mount and other ideas (optional)
+
+The community is wild when trying to find the ergonomic sweet spot and you could join the [cool guys](https://mgsloan.com/posts/tree-based-computing/) community too.
+
+Split keyboards are, well... split. It's only natural to try mounting them on your legs.
+
+After some attempts, I discovered the underneath of my leg - called ```semitendinous muscle``` - didn't like even the lightest tension. The leg mount idea was the reason for printing a keyboard case with holes. You can see a thin red rope I left attached to one of them: if necessity arises I can still tie them (I had old pictures without the trackpoint, so I'll just use them).
+
+<img src="./Images/Old_kb_0.jpg" width="400">
+
+I even added some sponge to increase the leg grip and keyboard stability.
+
+<img src="./Images/Old_kb_1.jpg" width="400">
+
+Some people mount them [below their desk](https://www.reddit.com/r/ErgoMechKeyboards/comments/1hyeo4n/custom_mount_for_typing_with_wrists_in_lap/), but that would ruin my precious chair-rocking sessions. I needed a chair mount and I hated armrests: those two things are complementary, and [not incompatible](https://www.reddit.com/r/ErgoMechKeyboards/comments/1lckoa4/joined_the_chair_mounted_split_gng/). 
+
+The rest of this section is useful if you can solder metal, know someone who can do it for you, or can 3D print with some tough materials. Otherwise it's just to give you a general idea.
+
+First, you need to cut/print a slab with holes in the right place and screw it under your chair. This obviously depends on your chair.
+
+<img src="./Images/Under.jpg" width="400">
+
+The measures I found comfortable are the following. 
+
+<img src="./Images/Flat.jpg" width="400">
+<img src="./Images/Joint.jpg" width="400">
+
+You can see I used cylinders: they are helpful for changing their relative angles with ease. I soldered two of these "circles" together, to make screwable joints. Here, screwable means that if I screw hard enough - even without any hole in the metal cylinder - I lock stuff in place: it works, and you can see the little adjustments scratch away the black paint.
+
+<img src="./Images/Circles.jpg" width="400">
+
+You need a slab under your keyboard too.
+
+<img src="./Images/Below.jpg" width="400">
+<img src="./Images/Lateral.jpg" width="400">
+
+And it's done: now you just need to adjust relative distances and angles to your liking.
+
+This setup doesn't prevent you to move around and place your keyboard wherever you want, maybe with some light to impress people. This setup is useful if you mainly write in one specific place.
+
+<img src="./Images/Light.jpg" width="400">
 
 ## Key Switches and Keycaps
 The world of key switches is really big. The important keywords you need to know are: low-profile(choc), standard profile (MX), tactile, linear, clicky, silent, lubed. I built a MX compatible one for aesthetics (most artisanal keycaps are cherry (MX) ) and bought tactile silent switches. However I forgot to check if they were pre-lubed: they were not and they feel scratchy as hell. I won't complain as I'm not building this keyboard for the mechanical switch pleasure, even though I admit the linear gateron of a friend of mine feel like heaven. 
@@ -168,14 +252,21 @@ More informations about the trackpoint can be found in the official datasheet; y
 
 * ### Trackpoint stem
 
-In order to raise the trackpoint keycap above the PCB, I 3D printed the following sketch. Then, I proceeded to cut the excess height and manually reduce the diameter of the section which goes through the PCB. It's probably better to print with 3mm instead of 4mm. I increased the diameter of the PCB hole with a drill. Finally I glued the stem on the trackpoint sensor: it was too shaky otherwise.
+> [!CAUTION]
+> My 3D printed trackpoint stem just broke. I suggest to use metal. I'm going to buy a cheek piercer and try gluing it. I will update this section when it works.
 
-I leave just a sketch because I think a better design can be made.<br/>
-Anyway, what I have now works wonderfully. 
+Most of the guides I've read use wrong voltages (5V) or gloss over stem mounting, for the sole exception of [this detailed repo](https://github.com/wolfwood/navcaps) which I found too later. I hope to shed some light on this topic here, once and for all. 
+
+If your PCB has big enough holes - I increased the diameter with a drill on mine - you can safely go down the 3D printing route described by that repository. After having a 3D printed stem broken in half, I went down the metal route: just buy one cheek piercer with the right height and glue / [clamp](https://github.com/wolfwood/navcaps) it to the trackpoint sensor. There are also proptotypes of the SK8707-01-005(3.3V) going around, which should have a little screw as an integrated stem. There is no such item on the Sprintek site, but you just need to email them asking for it (you need to send an email for a normal trackpoint too).
+
+~~In order to raise the trackpoint keycap above the PCB, I 3D printed the following sketch. Then, I proceeded to cut the excess height and manually reduce the diameter of the section which goes through the PCB. It's probably better to print with 3mm instead of 4mm. I increased the diameter of the PCB hole with a drill. Finally I glued the stem on the trackpoint sensor: it was too shaky otherwise.~~
+
+~~I leave just a sketch because I think a better design can be made.<br/>
+Anyway, what I have now works.~~
 
 You can find a printable Corne case with an integrated trackpoint mount [here](https://github.com/joh/crkbd-trackpoint?tab=readme-ov-file). If you are unsure about your PCB (for example with a Corne V4) or you already have a case, you can manually glue the trackpoint to it. For example I glued it to a metal plate that came with the DIY kit, screwed underneath the case mentioned in the previous sections. Just be sure to start by using some removable adhesive tape when placing the trackpoint. After a few attempts you find the right position: you don't want the stem to touch - or be too close to - the edges of the PCB hole. You can glue everything now.
 
-<img src="./Images/trackpoint_extensor_project.jpg" width="400">
+<img src="./Images/trackpoint_stem.jpg" width="400">
 
 ---
 
@@ -185,7 +276,7 @@ You can find a printable Corne case with an integrated trackpoint mount [here](h
 <img src="./Images/Monitor_overview.png" width=max-width>
 
 
-In ```KDE_Plasma``` folder you can find both monitor overview and keyboard shortcuts files. This is totally optional and it's more related to my typing experience than the keyboard.
+In ```KDE_Plasma``` folder you can find both monitor overview (which stores the widget positions) and keyboard shortcuts files. This is totally optional and it's more related to my typing experience than the keyboard. The two files are independent of each other.
 
 * Replace ```./KDE_Plasma/overview.page``` in the following path:
 ```
@@ -197,9 +288,17 @@ In ```KDE_Plasma``` folder you can find both monitor overview and keyboard short
 .config/kglobalshortcutsrc
 ```
 
-## OS Shortcuts
+The customized OS Shortcuts are the following:
 
-<img src="./Images/0.jpg" width=max-width>
+* Hold ```GUI``` + arrows = Switch Windows
+
+* Hold ```GUI``` + click ```F```/```D``` = Toggle Windows Grid (In addition to ```F``` and ```D```, once pressed this combo you can even use arrows to navigate between the different windows inside the grid)
+
+* Hold ```GUI``` + ```Shift``` + arrows = Switch Desktop
+
+* ```GUI``` + ```N``` = Open Text Editor (Gedit)
+
+* ```GUI``` + ```R``` = Open Terminal (Konsol)
 
 ---
 
@@ -207,4 +306,4 @@ In ```KDE_Plasma``` folder you can find both monitor overview and keyboard short
 
 # :star2: Thanks
 
-I thank the whole open source ergonomic mechanical keyboard community for the projects they pushed out in the world and QMK developers for their support over their discord server. A special thanks to my friend Luca which helped me mounting and soldering the trackpoint.
+I thank the whole open source ergonomic mechanical keyboard community for the projects they pushed out in the world and QMK developers for their support over their discord server. A special thanks to my friend Luca which helped me mounting and soldering the trackpoint, and gave me valuable github insight.
