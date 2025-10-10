@@ -44,7 +44,7 @@ The keymap I wrote does an automatic OS detection to use the right unicode input
 
 In the following sketch I refer to the key ```GUI```, also called ```meta``` or ```command``` or ```windows```, as ```super``` which is just another alias.
 
-<img src="./Images/1_1.jpg" width=max-width>
+<img src="./Images/1_2.jpg" width=max-width>
 <img src="./Images/2_1.jpg" width=max-width>
 <img src="./Images/3_1.jpg" width=max-width>
 <img src="./Images/4.jpg" width=max-width>
