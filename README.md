@@ -40,7 +40,7 @@ I only needed to assign commonly used keys - like modifiers and arrows - to stro
 Thus, I chose QWERTY to reduce the learning curve and improve compatibility with other devices.<br/>
 For the same reasons I avoided strange key combinations - like ```D+F=TAB``` - which may help you reduce the number of keys at the cost of increasing the keyboard complexity. I found that this keyboard has nearly the minimum number of keys to type fast without resorting to such tricks.
 
-**Overall this is an easy and fast layout you can approach without a gradual approach, directly from your big rectangular keyboard.**
+**Overall this is an easy and fast layout you can start using without gradually approaching ergonomic mechanical keyboards, jumping directly from your big rectangular keyboard.**
 
 The trackpoint can be disabled by turning false the flag ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk```. This action removes the automatic mouse layer, so reduce ```MY_MAX_LAYER``` by 1 at the beginning of ```./Elil_50/keymap.c```.<br/>
 This option will not affect any other functionality.
