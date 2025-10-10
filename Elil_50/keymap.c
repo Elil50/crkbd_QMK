@@ -59,6 +59,7 @@ bool process_detected_host_os_kb(os_variant_t detected_os) {
 #endif
 
 
+
 //    %--------------%
 //    |  TRACKPOINT  |
 //    %--------------%
@@ -425,6 +426,33 @@ const key_override_t *key_overrides[] = {
 //    |    COMBO    |
 //    %-------------%
 
+const uint16_t PROGMEM combo53[] = {TD(TD_SHIFT_CAPS), KC_A, COMBO_END};
+const uint16_t PROGMEM combo54[] = {TD(TD_SHIFT_CAPS), KC_B, COMBO_END};
+const uint16_t PROGMEM combo55[] = {TD(TD_SHIFT_CAPS), KC_C, COMBO_END};
+const uint16_t PROGMEM combo56[] = {TD(TD_SHIFT_CAPS), KC_D, COMBO_END};
+const uint16_t PROGMEM combo57[] = {TD(TD_SHIFT_CAPS), KC_E, COMBO_END};
+const uint16_t PROGMEM combo58[] = {TD(TD_SHIFT_CAPS), KC_F, COMBO_END};
+const uint16_t PROGMEM combo59[] = {TD(TD_SHIFT_CAPS), KC_G, COMBO_END};
+const uint16_t PROGMEM combo60[] = {TD(TD_SHIFT_CAPS), KC_H, COMBO_END};
+const uint16_t PROGMEM combo61[] = {TD(TD_SHIFT_CAPS), KC_I, COMBO_END};
+const uint16_t PROGMEM combo62[] = {TD(TD_SHIFT_CAPS), KC_J, COMBO_END};
+const uint16_t PROGMEM combo63[] = {TD(TD_SHIFT_CAPS), KC_K, COMBO_END};
+const uint16_t PROGMEM combo64[] = {TD(TD_SHIFT_CAPS), KC_L, COMBO_END};
+const uint16_t PROGMEM combo65[] = {TD(TD_SHIFT_CAPS), KC_M, COMBO_END};
+const uint16_t PROGMEM combo66[] = {TD(TD_SHIFT_CAPS), KC_N, COMBO_END};
+const uint16_t PROGMEM combo67[] = {TD(TD_SHIFT_CAPS), KC_O, COMBO_END};
+const uint16_t PROGMEM combo68[] = {TD(TD_SHIFT_CAPS), KC_P, COMBO_END};
+const uint16_t PROGMEM combo69[] = {TD(TD_SHIFT_CAPS), KC_Q, COMBO_END};
+const uint16_t PROGMEM combo70[] = {TD(TD_SHIFT_CAPS), KC_R, COMBO_END};
+const uint16_t PROGMEM combo71[] = {TD(TD_SHIFT_CAPS), KC_S, COMBO_END};
+const uint16_t PROGMEM combo72[] = {TD(TD_SHIFT_CAPS), KC_T, COMBO_END};
+const uint16_t PROGMEM combo73[] = {TD(TD_SHIFT_CAPS), KC_U, COMBO_END};
+const uint16_t PROGMEM combo74[] = {TD(TD_SHIFT_CAPS), KC_V, COMBO_END};
+const uint16_t PROGMEM combo75[] = {TD(TD_SHIFT_CAPS), KC_W, COMBO_END};
+const uint16_t PROGMEM combo76[] = {TD(TD_SHIFT_CAPS), KC_X, COMBO_END};
+const uint16_t PROGMEM combo77[] = {TD(TD_SHIFT_CAPS), KC_Y, COMBO_END};
+const uint16_t PROGMEM combo78[] = {TD(TD_SHIFT_CAPS), KC_Z, COMBO_END};
+
 const uint16_t PROGMEM combo2[] = {TD(TD_SHIFT_CAPS), KC_COMM, COMBO_END};
 const uint16_t PROGMEM combo4[] = {TD(TD_SHIFT_CAPS), KC_EQL, COMBO_END};
 const uint16_t PROGMEM combo7[] = {TD(TD_SHIFT_CAPS), KC_QUOTE, COMBO_END};
@@ -466,6 +494,33 @@ const uint16_t PROGMEM combo52[] = {TD(TD_SHIFT_CAPS), KC_9, COMBO_END};
 #endif 
 
 combo_t key_combos[] = {
+  COMBO(combo53, S(KC_A)),
+  COMBO(combo54, S(KC_B)),
+  COMBO(combo55, S(KC_C)),
+  COMBO(combo56, S(KC_D)),
+  COMBO(combo57, S(KC_E)),
+  COMBO(combo58, S(KC_F)),
+  COMBO(combo59, S(KC_G)),
+  COMBO(combo60, S(KC_H)),
+  COMBO(combo61, S(KC_I)),
+  COMBO(combo62, S(KC_J)),
+  COMBO(combo63, S(KC_K)),
+  COMBO(combo64, S(KC_L)),
+  COMBO(combo65, S(KC_M)),
+  COMBO(combo66, S(KC_N)),
+  COMBO(combo67, S(KC_O)),
+  COMBO(combo68, S(KC_P)),
+  COMBO(combo69, S(KC_Q)),
+  COMBO(combo70, S(KC_R)),
+  COMBO(combo71, S(KC_S)),
+  COMBO(combo72, S(KC_T)),
+  COMBO(combo73, S(KC_U)),
+  COMBO(combo74, S(KC_V)),
+  COMBO(combo75, S(KC_W)),
+  COMBO(combo76, S(KC_X)),
+  COMBO(combo77, S(KC_Y)),
+  COMBO(combo78, S(KC_Z)),  
+  
   COMBO(combo2, KC_DOT),
   COMBO(combo4, KC_TILD),
   COMBO(combo7, KC_DQT),
@@ -567,6 +622,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 
+
 //    %-------------------------%
 //    |  AUTOMATIC MOUSE LAYER  |
 //    %-------------------------%
@@ -593,6 +649,7 @@ void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
     token = defer_exec(TURN_LAYER_OFF_TIMEOUT, turn_off, (void *)MOUSE_BUTTONS_LAYER);
 }
 # endif
+
 
 
 //    %---------------------%
