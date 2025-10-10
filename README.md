@@ -183,7 +183,7 @@ The measures I found comfortable are the following.
 <img src="./Images/Flat.jpg" width="400">
 <img src="./Images/Joint.jpg" width="400">
 
-You can see I used cylinders: they are helpful for changing their relative angles with ease. I soldered two of these "circles" together, to make screwable joints.
+You can see I used cylinders: they are helpful for changing their relative angles with ease. I soldered two of these "circles" together, to make screwable joints. Here, screwable means that if I screw hard enough - even without any hole in the metal cylinder - I lock stuff in place: it works, and you can see the little adjustments scratch away the black paint.
 
 <img src="./Images/Circles.jpg" width="400">
 
