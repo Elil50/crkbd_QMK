@@ -235,7 +235,7 @@ You can find a printable Corne case with an integrated trackpoint mount [here](h
 <img src="./Images/Monitor_overview.png" width=max-width>
 
 
-In ```KDE_Plasma``` folder you can find both monitor overview and keyboard shortcuts files. This is totally optional and it's more related to my typing experience than the keyboard.
+In ```KDE_Plasma``` folder you can find both monitor overview (which stores the widget positions) and keyboard shortcuts files. This is totally optional and it's more related to my typing experience than the keyboard. The two files are independent of each other.
 
 * Replace ```./KDE_Plasma/overview.page``` in the following path:
 ```
@@ -246,8 +246,6 @@ In ```KDE_Plasma``` folder you can find both monitor overview and keyboard short
 ```
 .config/kglobalshortcutsrc
 ```
-
-## OS Shortcuts
 
 <img src="./Images/0.jpg" width=max-width>
 
