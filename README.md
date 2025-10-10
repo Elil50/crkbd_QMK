@@ -154,8 +154,8 @@ The community is wild when trying to find the ergonomic sweet spot and you could
 Split keyboards are, well... split. It's only natural to try mounting them on your legs. <br/>
 After some attempts, I discovered the underneath of my leg - called ```semitendinous muscle``` - didn't like even the lightest tension. The leg mount idea was the reason for printing a keyboard case with holes. You can see a thin red rope I left attached to one of them: if necessity arises I can still tie them.
 
-<img src="./Images/old_kb_1.jpg" width="400">
-<img src="./Images/old_kb_0.jpg" width="400">
+<img src="./Images/Old_kb_1.jpg" width="400">
+<img src="./Images/Old_kb_0.jpg" width="400">
 
 Some people mount them below their desk, but that would hinder my beloved chair swings: I needed a chair mount and I hated armrest. 
 
