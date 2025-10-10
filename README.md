@@ -34,11 +34,11 @@ This was written for Corne V3. If you use a Corne V4 just add the 4 additional k
 
 This layout was optimized in 1 year for coding and typing purposes. It works only if you set the OS language input to English(US). 
 
-Layouts like QWERTY, DVORAK, COLEMAC and so on are designed around commonly used letters and words in order to reduce finger movement and strain. This is useless on a keyboard which is literally designed around your hand.<br/>
-I only needed to assign commonly used keys - like modifiers and arrows - to strong fingers, and to avoid creating ankward positions when combining multiple modifiers with the other keys.
+Layouts like QWERTY, DVORAK, COLEMAC are designed around commonly used letters and words in order to reduce finger movement and strain. This is useless on a keyboard which is literally designed around your hand.<br/>
+I only needed to assign commonly used keys - like modifiers and arrows - to strong fingers, and to avoid creating ankward positions when combining multiple modifiers with other keys.
 
 Thus, I chose QWERTY to reduce the learning curve and improve compatibility with other devices.<br/>
-For the same reasons I avoided strange key combinations - like ```D+F=TAB``` - which may help you reduce the number of keys at the cost of increasing the keyboard complexity. I found that this keyboard has nearly the minimum number of keys to type fast without resorting to such tricks.
+For the same reasons, I avoided strange key combinations - like ```D+F=TAB``` - which may help you reduce the number of keys at the cost of increasing the keyboard complexity. I found that this keyboard has nearly the minimum number of keys to type fast without resorting to such tricks.
 
 **Overall this is an easy and fast layout you can start using without gradually approaching ergonomic mechanical keyboards, jumping directly from your big rectangular keyboard.**
 
