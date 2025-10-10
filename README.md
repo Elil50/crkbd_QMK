@@ -156,7 +156,7 @@ The following files were made for Corne V3, which is not compatible with Corne V
 
 I 3D printed [this case](https://www.printables.com/model/347524-corne-keyboard-case-5-and-6-columns) and designed for portability purposes the light grey interlocking "case wall" depicted above. Note that you don't need to unplug the TRRS cable from the keyboard (the less mechanical stress, the longer the life span). You can find its file in ```./stl_files/eiga-wall-Elil50.stl```.
 
-## Chair mount and previous ideas
+## Chair mount and other ideas (optional)
 
 The community is wild when trying to find the ergonomic sweet spot and you could join the [cool guys](https://mgsloan.com/posts/tree-based-computing/) community too.
 
