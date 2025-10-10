@@ -149,12 +149,12 @@ The main components are:
 
 There are tons of sites who sell DIY kits and pre-builts: each one has their own well-documented and similar guide on little details I won't write here. Nowadays even aliexpress sells low cost pre-builts, but be aware they are not easily flashable.
 
-The following files were made for Corne V3, which is not compatible with Corne V4. You can still port the ideas.
-
-## External shell
+## External shell (optional)
 <img src="./Images/portable_config.jpg" width="400">
 
 I 3D printed [this case](https://www.printables.com/model/347524-corne-keyboard-case-5-and-6-columns) and designed for portability purposes the light grey interlocking "case wall" depicted above. Note that you don't need to unplug the TRRS cable from the keyboard (the less mechanical stress, the longer the life span). You can find its file in ```./stl_files/eiga-wall-Elil50.stl```.
+
+These files were made for Corne V3, which is not compatible with Corne V4. You can still port the ideas.
 
 ## Chair mount and other ideas (optional)
 
