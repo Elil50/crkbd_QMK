@@ -153,7 +153,7 @@ The community is wild when trying to find the ergonomic sweet spot and you could
 
 Split keyboards are, well... split. It's only natural to try mounting them on your legs.
 
-After some attempts, I discovered the underneath of my leg - called ```semitendinous muscle``` - didn't like even the lightest tension. The leg mount idea was the reason for printing a keyboard case with holes. You can see a thin red rope I left attached to one of them: if necessity arises I can still tie them.
+After some attempts, I discovered the underneath of my leg - called ```semitendinous muscle``` - didn't like even the lightest tension. The leg mount idea was the reason for printing a keyboard case with holes. You can see a thin red rope I left attached to one of them: if necessity arises I can still tie them (I had old pictures without the trackpoint, so I'll just use them).
 
 <img src="./Images/Old_kb_0.jpg" width="400">
 
@@ -182,6 +182,10 @@ You need a slab under your keyboard too.
 <img src="./Images/Lateral.jpg" width="400">
 
 And it's done: now you just need to adjust relative distances and angles to your liking.
+
+This setup doesn't prevent you to move around and place your keyboard wherever you want, maybe with some light to impress people. This setup is useful if you mainly write in one specific place.
+
+<img src="./Images/Light.jpg" width="400">
 
 ## Key Switches and Keycaps
 The world of key switches is really big. The important keywords you need to know are: low-profile(choc), standard profile (MX), tactile, linear, clicky, silent, lubed. I built a MX compatible one for aesthetics (most artisanal keycaps are cherry (MX) ) and bought tactile silent switches. However I forgot to check if they were pre-lubed: they were not and they feel scratchy as hell. I won't complain as I'm not building this keyboard for the mechanical switch pleasure, even though I admit the linear gateron of a friend of mine feel like heaven. 
