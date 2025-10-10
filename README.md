@@ -170,7 +170,7 @@ I even added some sponge to increase the leg grip and keyboard stability.
 
 <img src="./Images/Old_kb_1.jpg" width="400">
 
-Some people mount them below their desk, but that would hinder my beloved chair swings. I needed a chair mount and I hated armrests: those two things are complementary if you can solder metal, know someone who can do it for you, or 3D print with some tough materials.
+Some people mount them below their desk, but that would ruin my precious chair-rocking time. I needed a chair mount and I hated armrests: those two things are complementary if you can solder metal, know someone who can do it for you, or 3D print with some tough materials.
 
 First, you need to cut/print a slab with holes in the right place and screw it under your chair. This obviously depends on your chair.
 
