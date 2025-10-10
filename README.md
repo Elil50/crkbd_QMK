@@ -20,7 +20,7 @@ That's when I went down the ergonomic keyboard rabbit hole and discovered split 
 * I needed a firmware framework to customize the keyboard layout to my heart's content.<br/>
 * I needed a built-in pointing device to replace a standalone mouse. <br/>
 * I needed something portable.
-* I needed something easy both to learn and to use.
+* I needed something easy to learn and use.
 
 This is the solution I found and I'm learning touch typing for the first time in my life.
 
