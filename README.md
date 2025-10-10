@@ -170,7 +170,9 @@ I even added some sponge to increase the leg grip and keyboard stability.
 
 <img src="./Images/Old_kb_1.jpg" width="400">
 
-Some people mount them below their desk, but that would ruin my precious chair-rocking time. I needed a chair mount and I hated armrests: those two things are complementary if you can solder metal, know someone who can do it for you, or 3D print with some tough materials.
+Some people mount them [below their desk](https://www.reddit.com/r/ErgoMechKeyboards/comments/1hyeo4n/custom_mount_for_typing_with_wrists_in_lap/), but that would ruin my precious chair-rocking time. I needed a chair mount and I hated armrests: those two things are complementary, and [not incompatible](https://www.reddit.com/r/ErgoMechKeyboards/comments/1lckoa4/joined_the_chair_mounted_split_gng/). 
+
+The rest of this section is useful if you can solder metal, know someone who can do it for you, or can 3D print with some tough materials. Otherwise it's just to give you a general idea.
 
 First, you need to cut/print a slab with holes in the right place and screw it under your chair. This obviously depends on your chair.
 
