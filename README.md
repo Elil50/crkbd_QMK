@@ -34,7 +34,7 @@ This was written for Corne V3. If you use a Corne V4 just add the 4 additional k
 
 This layout was optimized in 1 year for coding and typing purposes. It works only if you set the OS language input to English(US). 
 
-Layouts like QWERTY, DVORAK, COLEMAC are designed around commonly used letters and words in order to reduce finger movement and strain. This is useless on a keyboard which is literally designed around your hand.<br/>
+Layouts like QWERTY, DVORAK, COLEMAK are designed around commonly used letters and words in order to reduce finger movement and strain. This is useless on a keyboard which is literally designed around your hand.<br/>
 I only needed to assign commonly used keys - like modifiers and arrows - to strong fingers, and to avoid creating ankward positions when combining multiple modifiers with other keys.
 
 Thus, I chose QWERTY to reduce the learning curve and improve compatibility with other devices.<br/>
@@ -172,7 +172,7 @@ I even added some sponge to increase the leg grip and keyboard stability.
 
 Some people mount them below their desk, but that would hinder my beloved chair swings. I needed a chair mount and I hated armrests: those two things are complementary if you can solder metal, know someone who can do it for you, or 3D print with some tough materials.
 
-First, you need to cut/print a metal slab with holes in the right place to screw under your chair. This obviously depends on your chair.
+First, you need to cut/print a slab with holes in the right place and screw it under your chair. This obviously depends on your chair.
 
 <img src="./Images/Under.jpg" width="400">
 
@@ -181,7 +181,7 @@ The measures I found comfortable are the following.
 <img src="./Images/Flat.jpg" width="400">
 <img src="./Images/Joint.jpg" width="400">
 
-You can see I used metal cylinders: they are helpful for changing their relative angles with ease. I soldered two of these "circles" together, to make screwable joints.
+You can see I used cylinders: they are helpful for changing their relative angles with ease. I soldered two of these "circles" together, to make screwable joints.
 
 <img src="./Images/Circles.jpg" width="400">
 
