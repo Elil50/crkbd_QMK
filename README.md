@@ -163,9 +163,25 @@ I even added some sponge to increase the leg grip and keyboard stability.
 
 Some people mount them below their desk, but that would hinder my beloved chair swings. I needed a chair mount and I hated armrests: those two things are complementary if you can solder metal, know someone who can do it for you, or 3D print with some tough materials.
 
-TO DO: FINISH THIS SECTION
+First, you need to cut/print a metal slab with holes in the right place to screw under your chair. This obviously depends on your chair.
 
+<img src="./Images/Under.jpg" width="400">
 
+The measures I found comfortable are the following. 
+
+<img src="./Images/Flat.jpg" width="400">
+<img src="./Images/Joint.jpg" width="400">
+
+You can see I used metal cylinders: they are helpful for changing their relative angles with ease. I soldered two of these "circles" together, to make screwable joints.
+
+<img src="./Images/Circles.jpg" width="400">
+
+You need a slab under your keyboard too.
+
+<img src="./Images/Below.jpg" width="400">
+<img src="./Images/Lateral.jpg" width="400">
+
+And it's done: now you just need to adjust relative distances and angles to your liking.
 
 ## Key Switches and Keycaps
 The world of key switches is really big. The important keywords you need to know are: low-profile(choc), standard profile (MX), tactile, linear, clicky, silent, lubed. I built a MX compatible one for aesthetics (most artisanal keycaps are cherry (MX) ) and bought tactile silent switches. However I forgot to check if they were pre-lubed: they were not and they feel scratchy as hell. I won't complain as I'm not building this keyboard for the mechanical switch pleasure, even though I admit the linear gateron of a friend of mine feel like heaven. 
