@@ -54,8 +54,8 @@ The keymap I wrote does an automatic OS detection to use the right unicode input
 In the following sketch I refer to the key ```GUI```, also called ```meta``` or ```command``` or ```windows```, as ```super``` which is just another alias.
 
 <img src="./Images/Elil50_layer_0.png" width=max-width>
-<img src="./Images/Elil50_layer_1.jpg" width=max-width>
-<img src="./Images/Elil50_layer_2.jpg" width=max-width>
+<img src="./Images/Elil50_layer_1.png" width=max-width>
+<img src="./Images/Elil50_layer_2.png" width=max-width>
 <img src="./Images/4_3.jpg" width=max-width>
 
 * ### Automatic Mouse Layer
