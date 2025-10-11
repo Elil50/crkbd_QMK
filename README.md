@@ -74,7 +74,7 @@ TO DO (Issues with PS/2 and mouse keys interactions)
 If you double click the key ```GUI``` you activate the scroll layer, which replaces arrows with scroll movements and adds the key ```accel``` which can be found by default in layer 1. <br/>
 If you double click the key ```GUI``` again or single click the layer switching key △ or ▢, the layer is deactivated. 
 
-If you toggle the key ```accel``` you change the scroll speed between fast and slow. You can change them by changing the numbers of the two ```MK_W_OFFSET``` in ```./Elil_50/config.h```.
+If you toggle the key ```AC``` you change the scroll speed between fast and slow. You can change them by changing the numbers of the two ```MK_W_OFFSET``` in ```./Elil_50/config.h```.
 
 * ### Overrides and combos
 
