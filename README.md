@@ -51,7 +51,7 @@ This option will not affect any other functionality.
 Unicode support depends on both OS and software used: most recent Linux and Mac OS do support it by default, but you need to install Wincompose for Windows (another reason to avoid it). I use gedit as text editor: I switched from Kate because it doesn't recognise unicode really well.<br/> 
 The keymap I wrote does an automatic OS detection to use the right unicode input method.
 
-In the following sketch I refer to the key ```GUI```, also called ```meta``` or ```command``` or ```windows```, as ```super``` which is just another alias.
+In the following, I use the key ```GUI``` to refer to all the other aliases like ```meta```, ```command```, ```windows```, ```super```.
 
 <img src="./Images/Elil50_layer_0.png" width=max-width>
 <img src="./Images/Elil50_layer_1.png" width=max-width>
