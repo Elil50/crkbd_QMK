@@ -16,6 +16,7 @@
 #define MY_GREAT S(KC_DOT)
 #define LEFT_TOGGLE LT(1, KC_Q)
 #define RIGHT_TOGGLE LT(1, KC_NO)
+#define TWO_TOGGLE LT(1, KC_W)
 #define ESC_ALT MT(MOD_LALT, KC_ESC)
 
 // #define MY_UNICODE_ENABLE 1  // it's in rules.mk
@@ -341,7 +342,7 @@ static bool send_unicode(bool activated, void *context) {
     MAKE_OVERRIDE(mods, trig, send_unicode, (unicode))
 
 const key_override_t my_overrides_1 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, MY_LESS, UM(LTEQ));
-const key_override_t my_overrides_2 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SA, MY_LESS, UM(GTEQ));
+const key_override_t my_overrides_2 = MAKE_UNICODE_OVERRIDE(MOD_MASK_CA, MY_LESS, UM(GTEQ));
 const key_override_t my_overrides_3 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, KC_EQL, UM(NOTEQ));
 const key_override_t my_overrides_4 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, KC_PPLS, UM(PLMIN));
 const key_override_t my_overrides_5 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, KC_BSLS, UM(FORALL));
@@ -478,7 +479,7 @@ const uint16_t PROGMEM combo36[] = {ESC_ALT, MY_LESS, COMBO_END};
 const uint16_t PROGMEM combo37[] = {ESC_ALT, KC_EQL, COMBO_END};
 const uint16_t PROGMEM combo38[] = {ESC_ALT, KC_PPLS, COMBO_END};
 const uint16_t PROGMEM combo40[] = {ESC_ALT, KC_BSLS, COMBO_END};
-const uint16_t PROGMEM combo39[] = {TD(TD_SHIFT_CAPS), ESC_ALT, MY_LESS, COMBO_END};
+const uint16_t PROGMEM combo39[] = {KC_LCTL, ESC_ALT, MY_LESS, COMBO_END};
 const uint16_t PROGMEM combo42[] = {TD(TD_SHIFT_CAPS), KC_DLR, COMBO_END};
 const uint16_t PROGMEM combo43[] = {TD(TD_SHIFT_CAPS), KC_0, COMBO_END};
 const uint16_t PROGMEM combo44[] = {TD(TD_SHIFT_CAPS), KC_1, COMBO_END};
@@ -532,7 +533,7 @@ combo_t key_combos[] = {
   COMBO(combo17, KC_RBRC),
   COMBO(combo18, KC_RCBR),
   COMBO(combo24, C(KC_LALT)),
-  COMBO(combo25, TO(2)),
+  COMBO(combo25, TWO_TOGGLE),
   COMBO(combo29, KC_UNDS),
   COMBO(combo30, KC_TAB),
   COMBO(combo31, MY_GREAT),
@@ -598,6 +599,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             else {
                 if (!record->tap.count) {
                     layer_off(1);
+                }
+            }
+            return false;
+            break;
+            
+         ///// ---------------------
+            
+         case TWO_TOGGLE:
+            
+            if (record->event.pressed) {
+                layer_on(2);
+                for(uint16_t i=3; i<=MY_MAX_LAYER-2; i++){
+                    layer_off(i);
                 }
             }
             return false;

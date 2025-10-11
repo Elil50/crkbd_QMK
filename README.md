@@ -53,7 +53,7 @@ The keymap I wrote does an automatic OS detection to use the right unicode input
 
 In the following sketch I refer to the key ```GUI```, also called ```meta``` or ```command``` or ```windows```, as ```super``` which is just another alias.
 
-<img src="./Images/1_3.jpg" width=max-width>
+<img src="./Images/Elil50_layer_0.png" width=max-width>
 <img src="./Images/2_3.jpg" width=max-width>
 <img src="./Images/3_3.jpg" width=max-width>
 <img src="./Images/4_3.jpg" width=max-width>
@@ -62,7 +62,7 @@ In the following sketch I refer to the key ```GUI```, also called ```meta``` or 
 
 Enabled if ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk``` is enabled. Highlighted in grey in the keyboard layout. 
 
-Whenever you move the trackpoint and 300ms after, this layer is activated. You can change this time by changing the number of ```TURN_LAYER_OFF_TIMEOUT``` at line 640 of ```./Elil_50/keymap.c```. <br/>
+Whenever you move the trackpoint and 300ms after, this layer is activated. You can change this time by changing the number of ```TURN_LAYER_OFF_TIMEOUT``` at line 654 of ```./Elil_50/keymap.c```. <br/>
 The layer switching key △ or ▢ deactivates it.
 
 TO DO (Issues with PS/2 and mouse keys interactions) 
@@ -149,6 +149,8 @@ The main components are:
 
 There are tons of sites who sell DIY kits and pre-builts: each one has their own well-documented and similar guide on little details I won't write here. Nowadays even aliexpress sells low cost pre-builts, but be aware they are not easily flashable.
 
+In my personal opinion the OLED of Corne V3 is useless: the keymap I wrote doesn't need a screen which reminds you which layers you activated, and I want to focus on my screen, not my hands. Corne V4 replaced it with 2 keys instead, but you need to stretch your hand a little to reach them. In the end I just didn't mount it and covered the microcontroller with a black acrylic.
+
 ## External shell (optional)
 <img src="./Images/portable_config.jpg" width="400">
 
@@ -170,7 +172,7 @@ I even added some sponge to increase the leg grip and keyboard stability.
 
 <img src="./Images/Old_kb_1.jpg" width="400">
 
-Some people mount them [below their desk](https://www.reddit.com/r/ErgoMechKeyboards/comments/1hyeo4n/custom_mount_for_typing_with_wrists_in_lap/), but that would ruin my precious chair-rocking time. I needed a chair mount and I hated armrests: those two things are complementary, and [not incompatible](https://www.reddit.com/r/ErgoMechKeyboards/comments/1lckoa4/joined_the_chair_mounted_split_gng/). 
+Some people mount them [below their desk](https://www.reddit.com/r/ErgoMechKeyboards/comments/1hyeo4n/custom_mount_for_typing_with_wrists_in_lap/), but that would ruin my precious chair-rocking sessions. I needed a chair mount and I hated armrests: those two things are complementary, and [not incompatible](https://www.reddit.com/r/ErgoMechKeyboards/comments/1lckoa4/joined_the_chair_mounted_split_gng/). 
 
 The rest of this section is useful if you can solder metal, know someone who can do it for you, or can 3D print with some tough materials. Otherwise it's just to give you a general idea.
 
