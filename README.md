@@ -54,15 +54,15 @@ The keymap I wrote does an automatic OS detection to use the right unicode input
 In the following sketch I refer to the key ```GUI```, also called ```meta``` or ```command``` or ```windows```, as ```super``` which is just another alias.
 
 <img src="./Images/Elil50_layer_0.png" width=max-width>
-<img src="./Images/2_3.jpg" width=max-width>
-<img src="./Images/3_3.jpg" width=max-width>
+<img src="./Images/Elil50_layer_1.jpg" width=max-width>
+<img src="./Images/Elil50_layer_2.jpg" width=max-width>
 <img src="./Images/4_3.jpg" width=max-width>
 
 * ### Automatic Mouse Layer
 
 Enabled if ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk``` is enabled. Highlighted in grey in the keyboard layout. 
 
-Whenever you move the trackpoint and 300ms after, this layer is activated. You can change this time by changing the number of ```TURN_LAYER_OFF_TIMEOUT``` at line 654 of ```./Elil_50/keymap.c```. <br/>
+Whenever you move the trackpoint and 300ms after, this layer is activated. You can change this time by changing the number of ```TURN_LAYER_OFF_TIMEOUT``` at line 692 of ```./Elil_50/keymap.c```. <br/>
 The layer switching key △ or ▢ deactivates it.
 
 TO DO (Issues with PS/2 and mouse keys interactions) 

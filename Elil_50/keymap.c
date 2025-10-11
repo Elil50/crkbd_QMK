@@ -166,6 +166,14 @@ enum unicode_name {
     PLMIN,
     FORALL,
     EUR,
+    LEFTARR,
+    RIGHTARR,
+    LEFTRIGHTARR,
+    INTEGR,
+    NABLA,
+    ELEMOF,
+    EXIST,
+    INFTY,
 
     SUB_0,
     SUB_1,
@@ -242,6 +250,14 @@ const uint32_t unicode_map[] PROGMEM = {
     [PLMIN] = 0xB1, // plus minus
     [FORALL] = 0x2200, // plus minus
     [EUR] = 0x20AC,
+    [LEFTARR] = 0x2190,
+    [RIGHTARR] = 0x2192,
+    [LEFTRIGHTARR] = 0x2194,
+    [INTEGR] = 0x222B,
+    [NABLA] = 0x2207,
+    [ELEMOF] = 0x2208,
+    [EXIST] = 0x2203,
+    [INFTY] = 0x221E,
 
     // subscript
     [SUB_0] = 0x2080,
@@ -341,11 +357,11 @@ static bool send_unicode(bool activated, void *context) {
 #define MAKE_UNICODE_OVERRIDE(mods, trig, unicode, no_mod) \
     MAKE_OVERRIDE(mods, trig, send_unicode, (unicode), (no_mod))
 
-const key_override_t my_overrides_1 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, MY_LESS, UM(LTEQ), MOD_MASK_SHIFT);
-const key_override_t my_overrides_2 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SA, MY_LESS, UM(GTEQ), 0);
+const key_override_t my_overrides_1 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, MY_LESS, UM(LTEQ), MOD_MASK_CTRL);
+const key_override_t my_overrides_2 = MAKE_UNICODE_OVERRIDE(MOD_MASK_CA, MY_LESS, UM(GTEQ), 0);
 const key_override_t my_overrides_3 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, KC_EQL, UM(NOTEQ), 0);
 const key_override_t my_overrides_4 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, KC_PPLS, UM(PLMIN), 0);
-const key_override_t my_overrides_5 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, KC_BSLS, UM(FORALL), 0);
+const key_override_t my_overrides_5 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, UM(EXIST), UM(FORALL), 0);
 const key_override_t my_overrides_16 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, KC_DLR, UM(EUR), 0);
 
 const key_override_t my_overrides_6 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, KC_0, UM(SUB_0), 0);
@@ -358,6 +374,11 @@ const key_override_t my_overrides_12 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, KC_
 const key_override_t my_overrides_13 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, KC_7, UM(SUB_7), 0);
 const key_override_t my_overrides_14 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, KC_8, UM(SUB_8), 0);
 const key_override_t my_overrides_15 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, KC_9, UM(SUB_9), 0);
+const key_override_t my_overrides_30 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, UM(RIGHTARR), UM(LEFTARR), 0);
+const key_override_t my_overrides_31 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, UM(RIGHTARR), UM(LEFTRIGHTARR), 0);
+const key_override_t my_overrides_32 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, UM(EXIST), UM(ELEMOF), 0);
+const key_override_t my_overrides_33 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, UM(INTEGR), UM(NABLA), 0);
+const key_override_t my_overrides_34 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, UM(INTEGR), UM(INFTY), 0);
 #endif
 
 const key_override_t override_1 = ko_make_basic(MOD_MASK_SHIFT, KC_LPRN, KC_RPRN);
@@ -372,9 +393,7 @@ const key_override_t override_17 = ko_make_basic(MOD_MASK_SHIFT, KC_LT, KC_GT);
 const key_override_t override_18 = ko_make_basic(MOD_MASK_SHIFT, KC_PPLS, KC_PMNS);;
 const key_override_t override_20 = ko_make_basic(MOD_MASK_SHIFT, KC_SPC, KC_UNDS); 
 const key_override_t override_21 = ko_make_basic(MOD_MASK_SHIFT, KC_ENTER, KC_TAB); 
-const key_override_t override_22 = ko_make_with_layers_and_negmods(MOD_MASK_SHIFT, MY_LESS, MY_GREAT,
-    	~0,                  // Activate on all layers (usual)
-    	MOD_MASK_ALT);         // Do not activate when alt is pressed (was interested in this)
+const key_override_t override_22 = ko_make_basic(MOD_MASK_SHIFT, MY_LESS, MY_GREAT);
 const key_override_t override_23 = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
 const key_override_t override_24 = ko_make_basic(MOD_MASK_SHIFT, KC_AMPR, KC_AT);
 const key_override_t override_25 = ko_make_basic(MOD_MASK_SHIFT, KC_QUES, KC_EXLM);
@@ -419,6 +438,11 @@ const key_override_t *key_overrides[] = {
   &my_overrides_14,
   &my_overrides_15,
   &my_overrides_16,
+  &my_overrides_30,
+  &my_overrides_31,
+  &my_overrides_32,
+  &my_overrides_33,
+  &my_overrides_34,
   #endif
   NULL
 };
@@ -462,8 +486,6 @@ const uint16_t PROGMEM combo7[] = {TD(TD_SHIFT_CAPS), KC_QUOTE, COMBO_END};
 const uint16_t PROGMEM combo8[] = {ESC_ALT, KC_QUOTE, COMBO_END};
 const uint16_t PROGMEM combo9[] = {TD(TD_SHIFT_CAPS), KC_LT, COMBO_END};
 const uint16_t PROGMEM combo10[] = {ESC_ALT, KC_PAST, COMBO_END};
-const uint16_t PROGMEM combo11[] = {KC_LALT, KC_PAST, COMBO_END};
-const uint16_t PROGMEM combo12[] = {KC_LALT, KC_QUOTE, COMBO_END};
 const uint16_t PROGMEM combo15[] = {TD(TD_SHIFT_CAPS), KC_HASH, COMBO_END};
 const uint16_t PROGMEM combo16[] = {TD(TD_SHIFT_CAPS), KC_LPRN, COMBO_END};
 const uint16_t PROGMEM combo17[] = {TD(TD_SHIFT_CAPS), KC_LBRC, COMBO_END};
@@ -477,15 +499,13 @@ const uint16_t PROGMEM combo33[] = {TD(TD_SHIFT_CAPS), KC_AMPR, COMBO_END};
 const uint16_t PROGMEM combo34[] = {TD(TD_SHIFT_CAPS), KC_QUES, COMBO_END};
 const uint16_t PROGMEM combo35[] = {TD(TD_SHIFT_CAPS), KC_DLR, COMBO_END};
 const uint16_t PROGMEM combo41[] = {TD(TD_SHIFT_CAPS), KC_PAST, COMBO_END};
+const uint16_t PROGMEM combo0[] = {TD(TD_SHIFT_CAPS), KC_PPLS, COMBO_END};
+
 #if MY_UNICODE_ENABLE
 const uint16_t PROGMEM combo36[] = {ESC_ALT, MY_LESS, COMBO_END};
 const uint16_t PROGMEM combo37[] = {ESC_ALT, KC_EQL, COMBO_END};
 const uint16_t PROGMEM combo38[] = {ESC_ALT, KC_PPLS, COMBO_END};
-const uint16_t PROGMEM combo40[] = {ESC_ALT, KC_BSLS, COMBO_END};
-const uint16_t PROGMEM combo19[] = {KC_LALT, MY_LESS, COMBO_END};
-const uint16_t PROGMEM combo20[] = {KC_LALT, KC_EQL, COMBO_END};
-const uint16_t PROGMEM combo21[] = {KC_LALT, KC_PPLS, COMBO_END};
-const uint16_t PROGMEM combo22[] = {KC_LALT, KC_BSLS, COMBO_END};
+const uint16_t PROGMEM combo40[] = {ESC_ALT, UM(EXIST), COMBO_END};
 const uint16_t PROGMEM combo42[] = {TD(TD_SHIFT_CAPS), KC_DLR, COMBO_END};
 const uint16_t PROGMEM combo43[] = {TD(TD_SHIFT_CAPS), KC_0, COMBO_END};
 const uint16_t PROGMEM combo44[] = {TD(TD_SHIFT_CAPS), KC_1, COMBO_END};
@@ -497,7 +517,13 @@ const uint16_t PROGMEM combo49[] = {TD(TD_SHIFT_CAPS), KC_6, COMBO_END};
 const uint16_t PROGMEM combo50[] = {TD(TD_SHIFT_CAPS), KC_7, COMBO_END};
 const uint16_t PROGMEM combo51[] = {TD(TD_SHIFT_CAPS), KC_8, COMBO_END};
 const uint16_t PROGMEM combo52[] = {TD(TD_SHIFT_CAPS), KC_9, COMBO_END};
-const uint16_t PROGMEM combo1[] = {TD(TD_SHIFT_CAPS), KC_LALT, MY_LESS, COMBO_END};
+const uint16_t PROGMEM combo1[] = {KC_LCTL, ESC_ALT, MY_LESS, COMBO_END};
+const uint16_t PROGMEM combo3[] = {TD(TD_SHIFT_CAPS), UM(RIGHTARR), COMBO_END};
+const uint16_t PROGMEM combo5[] = {ESC_ALT, UM(RIGHTARR), COMBO_END};
+
+const uint16_t PROGMEM combo19[] = {TD(TD_SHIFT_CAPS), UM(EXIST), COMBO_END};
+const uint16_t PROGMEM combo20[] = {ESC_ALT, UM(INTEGR), COMBO_END};
+const uint16_t PROGMEM combo21[] = {TD(TD_SHIFT_CAPS), UM(INTEGR), COMBO_END};
 
 #endif 
 
@@ -535,8 +561,6 @@ combo_t key_combos[] = {
   COMBO(combo8, KC_GRV),
   COMBO(combo9, KC_GT),
   COMBO(combo10, KC_CIRC),
-  COMBO(combo11, KC_CIRC),
-  COMBO(combo12, KC_GRV),
   COMBO(combo15, KC_PERC),
   COMBO(combo16, KC_RPRN),
   COMBO(combo17, KC_RBRC),
@@ -550,15 +574,12 @@ combo_t key_combos[] = {
   COMBO(combo34, KC_EXLM),
   COMBO(combo35, KC_HASH),
   COMBO(combo41, KC_SLASH),
+  COMBO(combo0, KC_PMNS),
   #if MY_UNICODE_ENABLE
   COMBO(combo36, UM(LTEQ)),
   COMBO(combo37, UM(NOTEQ)),
   COMBO(combo38, UM(PLMIN)),
   COMBO(combo40, UM(FORALL)),
-  COMBO(combo19, UM(LTEQ)),
-  COMBO(combo20, UM(NOTEQ)),
-  COMBO(combo21, UM(PLMIN)),
-  COMBO(combo22, UM(FORALL)),
   COMBO(combo42, UM(EUR)),
   COMBO(combo43, UM(SUB_0)),
   COMBO(combo44, UM(SUB_1)),
@@ -571,6 +592,11 @@ combo_t key_combos[] = {
   COMBO(combo51, UM(SUB_8)),
   COMBO(combo52, UM(SUB_9)),
   COMBO(combo1, UM(GTEQ)),
+  COMBO(combo3, UM(LEFTARR)),
+  COMBO(combo5, UM(LEFTRIGHTARR)),
+  COMBO(combo19, UM(ELEMOF)),
+  COMBO(combo20, UM(INFTY)),
+  COMBO(combo21, UM(NABLA)),
   #endif
 };
 
@@ -706,11 +732,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [1] = LAYOUT_split_3x6_3( //numeric
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_0,    KC_1,    KC_2,    KC_3,    KC_4,  KC_QUOTE,                     KC_PWR,  KC_PSCR, KC_QUES, KC_EQL,  MY_LESS, KC_SCLN,
+       KC_0,    KC_1,    KC_2,    KC_3,    KC_4,  KC_QUOTE,                     KC_QUES,UM(INTEGR),UM(EXIST),KC_EQL, MY_LESS, KC_SCLN,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_5,    KC_6,    KC_7,    KC_8,    KC_9,   KC_BSPC,                      KC_BSLS,  ACCEL,   KC_UP,  KC_PPLS, KC_PAST, KC_COMMA,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_DLR, KC_HASH, KC_AMPR, KC_LALT,  KC_SPC, KC_ENTER,                 	KC_LPRN, KC_LEFT, KC_DOWN, KC_RIGHT, KC_LBRC, KC_LCBR,
+      KC_DLR, KC_HASH,KC_AMPR,UM(RIGHTARR),KC_SPC,KC_ENTER,                 	KC_LPRN, KC_LEFT, KC_DOWN, KC_RIGHT, KC_LBRC, KC_LCBR,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                    TD(META_TO6),LEFT_TOGGLE,KC_LCTL,  TD(TD_SHIFT_CAPS),RIGHT_TOGGLE,ESC_ALT
                                       //`--------------------------'  `--------------------------'
@@ -718,11 +744,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [2] = LAYOUT_split_3x6_3( //stuff
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,  KC_TAB ,                    UG_TOGG,KC_PSCR,XXXXXXX,XXXXXXX,TG(ADD_LAYER+1),TG(ADD_LAYER),
+         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,  UG_TOGG ,                    KC_PWR,KC_PSCR,XXXXXXX,XXXXXXX,TG(ADD_LAYER+1),TG(ADD_LAYER),
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         KC_F6,    KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_BSPC,                   GREEK_LAYER, ACCEL,  KC_UP,  KC_BRIU,  KC_VOLU, KC_MUTE,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        KC_F11,   KC_F12, KC_RALT, KC_LALT, KC_SPC, KC_ENTER,            	  KC_CALC, KC_LEFT, KC_DOWN, KC_RIGHT, KC_MPLY, EE_CLR,
+        KC_F11,   KC_F12, XXXXXXX, XXXXXXX, KC_SPC, KC_ENTER,            	  KC_CALC, KC_LEFT, KC_DOWN, KC_RIGHT, KC_MPLY, EE_CLR,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                      TD(META_TO6),LEFT_TOGGLE,KC_LCTL, 	TD(TD_SHIFT_CAPS),RIGHT_TOGGLE,ESC_ALT
                                         //`--------------------------'  `--------------------------'
