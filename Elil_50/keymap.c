@@ -322,6 +322,16 @@ tap_dance_action_t tap_dance_actions[] = {
 };
 
 
+#if MY_UNICODE_ENABLE 
+    #define MY_INTEGR UM(INTEGR)
+    #define MY_RIGHTARR UM(RIGHTARR)
+    #define MY_EXIST UM(EXIST)
+#else 
+    #define MY_INTEGR XXXXXXX
+    #define MY_RIGHTARR XXXXXXX
+    #define MY_EXIST XXXXXXX
+#endif
+
 
 //    %---------------%
 //    |   OVERRIDES   |
@@ -361,7 +371,7 @@ const key_override_t my_overrides_1 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, MY_LES
 const key_override_t my_overrides_2 = MAKE_UNICODE_OVERRIDE(MOD_MASK_CA, MY_LESS, UM(GTEQ), 0);
 const key_override_t my_overrides_3 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, KC_EQL, UM(NOTEQ), 0);
 const key_override_t my_overrides_4 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, KC_PPLS, UM(PLMIN), 0);
-const key_override_t my_overrides_5 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, UM(EXIST), UM(FORALL), 0);
+const key_override_t my_overrides_5 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, MY_EXIST, UM(FORALL), 0);
 const key_override_t my_overrides_16 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, KC_DLR, UM(EUR), 0);
 
 const key_override_t my_overrides_6 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, KC_0, UM(SUB_0), 0);
@@ -374,11 +384,11 @@ const key_override_t my_overrides_12 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, KC_
 const key_override_t my_overrides_13 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, KC_7, UM(SUB_7), 0);
 const key_override_t my_overrides_14 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, KC_8, UM(SUB_8), 0);
 const key_override_t my_overrides_15 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, KC_9, UM(SUB_9), 0);
-const key_override_t my_overrides_30 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, UM(RIGHTARR), UM(LEFTARR), 0);
-const key_override_t my_overrides_31 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, UM(RIGHTARR), UM(LEFTRIGHTARR), 0);
-const key_override_t my_overrides_32 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, UM(EXIST), UM(ELEMOF), 0);
-const key_override_t my_overrides_33 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, UM(INTEGR), UM(NABLA), 0);
-const key_override_t my_overrides_34 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, UM(INTEGR), UM(INFTY), 0);
+const key_override_t my_overrides_30 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, MY_RIGHTARR, UM(LEFTARR), 0);
+const key_override_t my_overrides_31 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, MY_RIGHTARR, UM(LEFTRIGHTARR), 0);
+const key_override_t my_overrides_32 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, MY_EXIST, UM(ELEMOF), 0);
+const key_override_t my_overrides_33 = MAKE_UNICODE_OVERRIDE(MOD_MASK_SHIFT, MY_INTEGR, UM(NABLA), 0);
+const key_override_t my_overrides_34 = MAKE_UNICODE_OVERRIDE(MOD_MASK_ALT, MY_INTEGR, UM(INFTY), 0);
 #endif
 
 const key_override_t override_1 = ko_make_basic(MOD_MASK_SHIFT, KC_LPRN, KC_RPRN);
@@ -505,7 +515,7 @@ const uint16_t PROGMEM combo0[] = {TD(TD_SHIFT_CAPS), KC_PPLS, COMBO_END};
 const uint16_t PROGMEM combo36[] = {ESC_ALT, MY_LESS, COMBO_END};
 const uint16_t PROGMEM combo37[] = {ESC_ALT, KC_EQL, COMBO_END};
 const uint16_t PROGMEM combo38[] = {ESC_ALT, KC_PPLS, COMBO_END};
-const uint16_t PROGMEM combo40[] = {ESC_ALT, UM(EXIST), COMBO_END};
+const uint16_t PROGMEM combo40[] = {ESC_ALT, MY_EXIST, COMBO_END};
 const uint16_t PROGMEM combo42[] = {TD(TD_SHIFT_CAPS), KC_DLR, COMBO_END};
 const uint16_t PROGMEM combo43[] = {TD(TD_SHIFT_CAPS), KC_0, COMBO_END};
 const uint16_t PROGMEM combo44[] = {TD(TD_SHIFT_CAPS), KC_1, COMBO_END};
@@ -518,12 +528,12 @@ const uint16_t PROGMEM combo50[] = {TD(TD_SHIFT_CAPS), KC_7, COMBO_END};
 const uint16_t PROGMEM combo51[] = {TD(TD_SHIFT_CAPS), KC_8, COMBO_END};
 const uint16_t PROGMEM combo52[] = {TD(TD_SHIFT_CAPS), KC_9, COMBO_END};
 const uint16_t PROGMEM combo1[] = {KC_LCTL, ESC_ALT, MY_LESS, COMBO_END};
-const uint16_t PROGMEM combo3[] = {TD(TD_SHIFT_CAPS), UM(RIGHTARR), COMBO_END};
-const uint16_t PROGMEM combo5[] = {ESC_ALT, UM(RIGHTARR), COMBO_END};
+const uint16_t PROGMEM combo3[] = {TD(TD_SHIFT_CAPS), MY_RIGHTARR, COMBO_END};
+const uint16_t PROGMEM combo5[] = {ESC_ALT, MY_RIGHTARR, COMBO_END};
 
-const uint16_t PROGMEM combo19[] = {TD(TD_SHIFT_CAPS), UM(EXIST), COMBO_END};
-const uint16_t PROGMEM combo20[] = {ESC_ALT, UM(INTEGR), COMBO_END};
-const uint16_t PROGMEM combo21[] = {TD(TD_SHIFT_CAPS), UM(INTEGR), COMBO_END};
+const uint16_t PROGMEM combo19[] = {TD(TD_SHIFT_CAPS), MY_EXIST, COMBO_END};
+const uint16_t PROGMEM combo20[] = {ESC_ALT, MY_INTEGR, COMBO_END};
+const uint16_t PROGMEM combo21[] = {TD(TD_SHIFT_CAPS), MY_INTEGR, COMBO_END};
 
 #endif 
 
@@ -732,11 +742,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [1] = LAYOUT_split_3x6_3( //numeric
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_0,    KC_1,    KC_2,    KC_3,    KC_4,  KC_QUOTE,                     KC_QUES,UM(INTEGR),UM(EXIST),KC_EQL, MY_LESS, KC_SCLN,
+       KC_0,    KC_1,    KC_2,    KC_3,    KC_4,  KC_QUOTE,                     KC_QUES,MY_INTEGR,MY_EXIST, KC_EQL, MY_LESS, KC_SCLN,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_5,    KC_6,    KC_7,    KC_8,    KC_9,   KC_BSPC,                      KC_BSLS,  ACCEL,   KC_UP,  KC_PPLS, KC_PAST, KC_COMMA,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_DLR, KC_HASH,KC_AMPR,UM(RIGHTARR),KC_SPC,KC_ENTER,                 	KC_LPRN, KC_LEFT, KC_DOWN, KC_RIGHT, KC_LBRC, KC_LCBR,
+      KC_DLR, KC_HASH,KC_AMPR,MY_RIGHTARR,KC_SPC,KC_ENTER,                 	KC_LPRN, KC_LEFT, KC_DOWN, KC_RIGHT, KC_LBRC, KC_LCBR,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                    TD(META_TO6),LEFT_TOGGLE,KC_LCTL,  TD(TD_SHIFT_CAPS),RIGHT_TOGGLE,ESC_ALT
                                       //`--------------------------'  `--------------------------'
