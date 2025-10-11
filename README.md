@@ -67,9 +67,9 @@ The layer switching key △ or ▢ deactivates it.
 
 TO DO (Issues with PS/2 and mouse keys interactions) 
 
-* ### Scroll features
+* ### Scroll Layer
 
-If you double click the key ```super``` you activate the wheel layer, which replaces arrows with scroll movements and adds the key ```accel``` which can be found by default in layer 1. <br/>
+If you double click the key ```super``` you activate the scroll layer, which replaces arrows with scroll movements and adds the key ```accel``` which can be found by default in layer 1. <br/>
 If you double click the key ```super``` again or single click the layer switching key △ or ▢, the layer is deactivated. 
 
 If you toggle the key ```accel``` you change the scroll speed between fast and slow. You can change them by changing the numbers of the two ```MK_W_OFFSET``` in ```./Elil_50/config.h```.
@@ -149,7 +149,7 @@ The main components are:
 
 There are tons of sites who sell DIY kits and pre-builts: each one has their own well-documented and similar guide on little details I won't write here. Nowadays even aliexpress sells low cost pre-builts, but be aware they are not easily flashable.
 
-In my personal opinion the OLED of Corne V3 is useless: the keymap I wrote doesn't need a screen which reminds you which layers you activated, and I want to focus on my screen, not my hands. Corne V4 replaced it with 2 keys instead, but you need to stretch your hand a little to reach them. In the end I just didn't mount it and covered the microcontroller with a black acrylic.
+In my personal opinion the OLED of Corne V3 is useless: the keymap I wrote doesn't need a screen as a reminder of which layers you activated, and I want to focus on my screen, not my hands. Corne V4 replaced it with 2 additionak keys, but you need to stretch your hand a little to reach them. In conclusion, I didn't mount it and covered the microcontroller with a black acrylic.
 
 ## External shell (optional)
 <img src="./Images/portable_config.jpg" width="400">

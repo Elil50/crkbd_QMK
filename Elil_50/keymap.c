@@ -462,6 +462,8 @@ const uint16_t PROGMEM combo7[] = {TD(TD_SHIFT_CAPS), KC_QUOTE, COMBO_END};
 const uint16_t PROGMEM combo8[] = {ESC_ALT, KC_QUOTE, COMBO_END};
 const uint16_t PROGMEM combo9[] = {TD(TD_SHIFT_CAPS), KC_LT, COMBO_END};
 const uint16_t PROGMEM combo10[] = {ESC_ALT, KC_PAST, COMBO_END};
+const uint16_t PROGMEM combo11[] = {KC_LALT, KC_PAST, COMBO_END};
+const uint16_t PROGMEM combo12[] = {KC_LALT, KC_QUOTE, COMBO_END};
 const uint16_t PROGMEM combo15[] = {TD(TD_SHIFT_CAPS), KC_HASH, COMBO_END};
 const uint16_t PROGMEM combo16[] = {TD(TD_SHIFT_CAPS), KC_LPRN, COMBO_END};
 const uint16_t PROGMEM combo17[] = {TD(TD_SHIFT_CAPS), KC_LBRC, COMBO_END};
@@ -480,6 +482,10 @@ const uint16_t PROGMEM combo36[] = {ESC_ALT, MY_LESS, COMBO_END};
 const uint16_t PROGMEM combo37[] = {ESC_ALT, KC_EQL, COMBO_END};
 const uint16_t PROGMEM combo38[] = {ESC_ALT, KC_PPLS, COMBO_END};
 const uint16_t PROGMEM combo40[] = {ESC_ALT, KC_BSLS, COMBO_END};
+const uint16_t PROGMEM combo19[] = {KC_LALT, MY_LESS, COMBO_END};
+const uint16_t PROGMEM combo20[] = {KC_LALT, KC_EQL, COMBO_END};
+const uint16_t PROGMEM combo21[] = {KC_LALT, KC_PPLS, COMBO_END};
+const uint16_t PROGMEM combo22[] = {KC_LALT, KC_BSLS, COMBO_END};
 const uint16_t PROGMEM combo42[] = {TD(TD_SHIFT_CAPS), KC_DLR, COMBO_END};
 const uint16_t PROGMEM combo43[] = {TD(TD_SHIFT_CAPS), KC_0, COMBO_END};
 const uint16_t PROGMEM combo44[] = {TD(TD_SHIFT_CAPS), KC_1, COMBO_END};
@@ -529,6 +535,8 @@ combo_t key_combos[] = {
   COMBO(combo8, KC_GRV),
   COMBO(combo9, KC_GT),
   COMBO(combo10, KC_CIRC),
+  COMBO(combo11, KC_CIRC),
+  COMBO(combo12, KC_GRV),
   COMBO(combo15, KC_PERC),
   COMBO(combo16, KC_RPRN),
   COMBO(combo17, KC_RBRC),
@@ -547,6 +555,10 @@ combo_t key_combos[] = {
   COMBO(combo37, UM(NOTEQ)),
   COMBO(combo38, UM(PLMIN)),
   COMBO(combo40, UM(FORALL)),
+  COMBO(combo19, UM(LTEQ)),
+  COMBO(combo20, UM(NOTEQ)),
+  COMBO(combo21, UM(PLMIN)),
+  COMBO(combo22, UM(FORALL)),
   COMBO(combo42, UM(EUR)),
   COMBO(combo43, UM(SUB_0)),
   COMBO(combo44, UM(SUB_1)),
@@ -781,7 +793,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 
-  [MY_MAX_LAYER] = LAYOUT_split_3x6_3( // wheel transparent layer
+  [MY_MAX_LAYER] = LAYOUT_split_3x6_3( // scroll transparent layer
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
