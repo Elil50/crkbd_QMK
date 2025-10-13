@@ -42,7 +42,8 @@ For the same reasons, I avoided strange key combinations - like ```D+F=TAB``` - 
 
 Indeed, the alphabetical layer - later called ```layer 0``` - cannot be reduced anymore without using combinations. On the other hand, the numerical one has so much space I filled it with unicode I sometimes use when talking to people.
 
-**Overall this is an easy and fast layout you can start using without gradually approaching ergonomic mechanical keyboards, jumping directly from your big rectangular keyboard.**
+> [!NOTE]
+> Overall this is an easy and fast layout you can start using without gradually approaching ergonomic mechanical keyboards, jumping directly from your big rectangular keyboard.
 
 In the following, I use the key ```GUI``` to refer to all the other aliases like ```meta```, ```command```, ```windows```, ```super```.
 
@@ -55,6 +56,7 @@ In the following, I use the key ```GUI``` to refer to all the other aliases like
 <img src="./Images/Elil50_layer_1_1.png" width=max-width>
 
 ---
+
 <img src="./Images/Elil50_layer_2_1.png" width=max-width>
 
 ---
@@ -110,7 +112,8 @@ Be sure to place the additional layers after layer 3 (i.e. the Greek layer. Foll
 
 This layout already has two gaming layer examples: you can understand the logic just by reading the layout implementation. 
 
-**IMPORTANT**: Remember to change ```MY_MAX_LAYER``` at the beginning of ```./Elil_50/keymap.c``` according to the layers added or removed. Layer count starts from 0.
+> [!IMPORTANT]
+> Remember to change ```MY_MAX_LAYER``` at the beginning of ```./Elil_50/keymap.c``` according to the layers added or removed. Layer count starts from 0.
 
 * ### Executables
 
@@ -122,7 +125,9 @@ This layout already has two gaming layer examples: you can understand the logic 
 
 Follow [QMK documentation](https://docs.qmk.fm/newbs_getting_started) for setting up your enviroment before flashing it to your keyboard. Note that Corne keyboards are called crkbd in the QMK framework. 
 
-**IMPORTANT**: All the following actions are automatically performed by running ```./qmk_file_inject.sh```. <br/>
+> [!TIP]
+> All the following actions are automatically performed by running ```./qmk_file_inject.sh```.
+
 Before running a program, remember to change its execution permissions. For example, on Linux you run ```chmod +x program_name.sh```.  
 
 * ### Keymap.c, rules.mk, config.h
