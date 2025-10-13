@@ -58,7 +58,7 @@ In the following, I use the key ```GUI``` to refer to all the other aliases like
 <img src="./Images/Elil50_layer_0_1.png" width=max-width>
 <img src="./Images/Elil50_layer_1_1.png" width=max-width>
 <img src="./Images/Elil50_layer_2_1.png" width=max-width>
-<img src="./Images/4_3.jpg" width=max-width>
+<img src="./Images/Elil50_greek_layer.png" width=max-width>
 
 * ### Automatic Mouse Layer
 
