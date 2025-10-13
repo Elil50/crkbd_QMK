@@ -158,9 +158,9 @@ so that it looks like:
 
 The PS/2 section of QMK is quite a mess, so you need to apply the following patches to file
 ```
-qmk_ufirmware/drivers/ps2/ps2_mouse.c
+./qmk_firmware/drivers/ps2/ps2_mouse.c
 ```
-Comment ```mouse_report->buttons = 0;``` in line 234 so that it looks like:
+* Comment ```mouse_report->buttons = 0;``` in line 234 so that it looks like:
 ```c
 static inline void ps2_mouse_clear_report(report_mouse_t *mouse_report) {
     mouse_report->x       = 0;
@@ -170,7 +170,7 @@ static inline void ps2_mouse_clear_report(report_mouse_t *mouse_report) {
     // mouse_report->buttons = 0;
 } 
 ```
-Comment ```return``` in both line 89 and 102, so that it looks like:
+* Comment ```return``` in both line 89 and 102, so that it looks like:
 ```c
     } else {
         if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
