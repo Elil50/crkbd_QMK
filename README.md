@@ -66,8 +66,7 @@ In the following, I use the key ```GUI``` to refer to all the other aliases like
 * ### Disabling Trackpoint and Unicode
 
 The trackpoint can be disabled by turning false the flag ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk```.<br/>
-This action removes the automatic mouse layer, so reduce ```MY_MAX_LAYER``` by 1 at the beginning of ```./Elil_50/keymap.c```.<br/>
-This option will not affect any other functionality.
+This action removes the automatic mouse layer, so reduce ```MY_MAX_LAYER``` by 1 at the beginning of ```./Elil_50/keymap.c```. This option will not affect any other functionality.
 
 Unicode symbols can be disabled by turning false the flag ```MY_UNICODE_ENABLE``` in ```./Elil_50/rules.mk```.<br/>
 This option will not affect any other functionality.
