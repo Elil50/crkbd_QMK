@@ -139,7 +139,7 @@ so that it looks like:
 
 The PS/2 section of QMK is quite a mess, so you need to apply the following patches to file
 ```
-qmk_firmware/drivers/ps2/ps2_mouse.c
+qmk_ufirmware/drivers/ps2/ps2_mouse.c
 ```
 Comment ```mouse_report->buttons = 0;``` in line 234 so that it looks like:
 ```c
