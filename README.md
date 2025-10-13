@@ -64,7 +64,7 @@ In the following, I use the key ```GUI``` to refer to all the other aliases like
 
 Enabled if ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk``` is enabled. Highlighted in grey in the keyboard layout. 
 
-Whenever you move the trackpoint and 300ms after, this layer is activated. You can change this time by changing the number of ```TURN_LAYER_OFF_TIMEOUT``` at line 702 of ```./Elil_50/keymap.c```. <br/>
+Whenever you move the trackpoint and 500ms after, this layer is activated. You can change this time by changing the number of ```TURN_LAYER_OFF_TIMEOUT``` at line 702 of ```./Elil_50/keymap.c```. <br/>
 The layer switching key △ or ▢ deactivates it.
 
 TO DO (Issues with PS/2 and mouse keys interactions) 
@@ -121,13 +121,13 @@ Add the folder ``` Elil_50 ``` in the following path:
 * ### PS/2 Driver Trackpoint (optional)
 
 The host needs pull-up resistors on PS/2 DATA and CLK lines. The built-in pullup resistors from the host 4k to 100k are acceptable. 
-So, I need to add those pull-up resistors (didn't do it), or apply the following patch:
+So, you need to add those pull-up resistors (I didn't), or apply the following patch:
 
-Add in line 150 of file:
+Add ```PAL_RP_PAD_PUE |``` in line 150 of file
 ```
 ./qmk_firmware/platforms/chibios/drivers/vendor/RP/RP2040/ps2_vendor.c
 ```
-The line ``` PAL_RP_PAD_PUE | ``` so that it looks like:
+so that it looks like:
 ```c
     // clang-format off
     iomode_t pin_mode = PAL_RP_PAD_IE |
@@ -136,6 +136,30 @@ The line ``` PAL_RP_PAD_PUE | ``` so that it looks like:
                         PAL_RP_PAD_DRIVE12 |
                         PAL_RP_PAD_PUE |
 ```
+
+The PS/2 section of QMK is quite a mess, so you need to apply the following patches to file
+```
+qmk_firmware/drivers/ps2/ps2_mouse.c
+```
+Comment ```mouse_report->buttons = 0;``` in line 234 so that it looks like:
+```c
+static inline void ps2_mouse_clear_report(report_mouse_t *mouse_report) {
+    mouse_report->x       = 0;
+    mouse_report->y       = 0;
+    mouse_report->v       = 0;
+    mouse_report->h       = 0;
+    // mouse_report->buttons = 0;
+} 
+```
+Comment ```return``` in both line 89 and 102, so that it looks like:
+```c
+    } else {
+        if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
+        /* return here to avoid updating the mouse button state */
+        //return;
+    }
+```
+
 
 ---
 

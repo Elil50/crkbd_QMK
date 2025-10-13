@@ -81,7 +81,7 @@ void ps2_mouse_init_user() {
     PS2_MOUSE_SEND(0xE2, "tpsens: 0xE2"); //address
     PS2_MOUSE_SEND(0x81, "tpsens: 0x81"); //address
     PS2_MOUSE_SEND(0x4A, "tpsens: 0x4A"); // address
-    PS2_MOUSE_SEND(0xB4, "tpsens: 0xB4"); // value
+    PS2_MOUSE_SEND(0xB4, "tpsens: 0xFF"); // value
 
     // I tried enabling press to click, but the Z sensitivity is low even when maxed out
 
@@ -699,7 +699,7 @@ static uint32_t turn_off(uint32_t trigger_time, void *arg) {
 #define MOUSE_BUTTONS_LAYER MY_MAX_LAYER-1
 // QMK has issue with mouse keys when the cursor is not moving,
 // so we will use them only while moving the mouse with high sensitivity.
-#define TURN_LAYER_OFF_TIMEOUT 300 //milliseconds
+#define TURN_LAYER_OFF_TIMEOUT 500 //milliseconds
 // ps2_mouse_moved_user is called only when the keyboard detects mouse movements.  
 void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
     layer_on(MOUSE_BUTTONS_LAYER);
