@@ -169,7 +169,7 @@ The PS/2 section of QMK is quite a mess, so you need to apply the following patc
     }
 ```
 
-* Comment ```mouse_report->buttons = 0;``` in line 234 so that it looks like:
+* Comment ```mouse_report->buttons = 0;``` in line 234, so that it looks like:
 ```c
 static inline void ps2_mouse_clear_report(report_mouse_t *mouse_report) {
     mouse_report->x       = 0;
