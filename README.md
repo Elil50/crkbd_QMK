@@ -56,8 +56,11 @@ The keymap I wrote does an automatic OS detection to use the right unicode input
 In the following, I use the key ```GUI``` to refer to all the other aliases like ```meta```, ```command```, ```windows```, ```super```.
 
 <img src="./Images/Elil50_layer_0_1.png" width=max-width>
+---
 <img src="./Images/Elil50_layer_1_1.png" width=max-width>
+---
 <img src="./Images/Elil50_layer_2_1.png" width=max-width>
+---
 <img src="./Images/Elil50_layer_greek.png" width=max-width>
 
 * ### Automatic Mouse Layer
