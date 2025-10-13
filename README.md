@@ -44,16 +44,9 @@ Indeed, the alphabetical layer - later called ```layer 0``` - cannot be reduced 
 
 **Overall this is an easy and fast layout you can start using without gradually approaching ergonomic mechanical keyboards, jumping directly from your big rectangular keyboard.**
 
-The trackpoint can be disabled by turning false the flag ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk```. This action removes the automatic mouse layer, so reduce ```MY_MAX_LAYER``` by 1 at the beginning of ```./Elil_50/keymap.c```.<br/>
-This option will not affect any other functionality.
-
-Unicode symbols can be disabled by turning false the flag ```MY_UNICODE_ENABLE``` in ```./Elil_50/rules.mk```.<br/>
-This option will not affect any other functionality.
-
-Unicode support depends on both OS and software used: most recent Linux and Mac OS do support it by default, but you need to install Wincompose for Windows (another reason to avoid it). I use gedit as text editor: I switched from Kate because it doesn't recognise unicode really well.<br/> 
-The keymap I wrote does an automatic OS detection to use the right unicode input method.
-
 In the following, I use the key ```GUI``` to refer to all the other aliases like ```meta```, ```command```, ```windows```, ```super```.
+
+---
 
 <img src="./Images/Elil50_layer_0_1.png" width=max-width>
 
@@ -67,6 +60,19 @@ In the following, I use the key ```GUI``` to refer to all the other aliases like
 ---
 
 <img src="./Images/Elil50_layer_greek.png" width=max-width>
+
+---
+
+* ### Disabling Trackpoint and Unicode
+
+The trackpoint can be disabled by turning false the flag ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk```. This action removes the automatic mouse layer, so reduce ```MY_MAX_LAYER``` by 1 at the beginning of ```./Elil_50/keymap.c```.<br/>
+This option will not affect any other functionality.
+
+Unicode symbols can be disabled by turning false the flag ```MY_UNICODE_ENABLE``` in ```./Elil_50/rules.mk```.<br/>
+This option will not affect any other functionality.
+
+Unicode support depends on both OS and software used: most recent Linux and Mac OS do support it by default, but you need to install Wincompose for Windows (another reason to avoid it). I use gedit as text editor: I switched from Kate because it doesn't recognise unicode really well.<br/> 
+The keymap I wrote does an automatic OS detection to use the right unicode input method.
 
 * ### Automatic Mouse Layer
 
