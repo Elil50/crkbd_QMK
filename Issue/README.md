@@ -17,7 +17,7 @@ Before running a program, remember to change its execution permissions. For exam
 
 Add ```Keymap.c```, ```rules.mk```, ```config.h``` in the following path:
 ```
-../qmk_firmware/keyboards/crkbd/keymaps
+../qmk_firmware/keyboards/crkbd/keymaps/Elil_50
 ```
 
 * ### PS/2 Driver Trackpoint (optional)
