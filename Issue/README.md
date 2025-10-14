@@ -1,7 +1,7 @@
 > [!CAUTION]
 > Mouse buttons MS_BTN* are correctly pressed, but they wait for the next mouse movement to release the key press. 
 
-This has direct implications when clicking buttons (you need to move the cursor before the click is recognized, with the lack of double click capabilities and in software with buttons which recognize the time you hold down the button (it holds it down until you move the cursor again).
+This has direct implications when clicking buttons (you need to move the cursor before the click is recognized), with the lack of double click capabilities, and in software with buttons able to recognize the time you hold down the button (it holds it down until you move the cursor again).
 
 * ### Executables
 
