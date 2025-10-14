@@ -6,34 +6,6 @@
 
 #include QMK_KEYBOARD_H
 
-#include "ps2_mouse.h"
-#include "ps2.h"
-
-
-//    %--------------%
-//    |  TRACKPOINT  |
-//    %--------------%
-
-// Sensitivity: Adress: 0xE2 0x81 0x4A, value: 0 - 255 in hex. Default: 0x59
-// Speed: Adress: 0xE2 0x81 0x60, value: 0 - 255 in hex. Default: 0x61
-
-void ps2_mouse_init_user() {
-    PS2_MOUSE_SEND(0xE2, "tpspeed: 0xE2"); //address
-    PS2_MOUSE_SEND(0x81, "tpspeed: 0x81"); //address
-    PS2_MOUSE_SEND(0x60, "tpspeed: 0x60"); // address
-    PS2_MOUSE_SEND(0xFF, "tpspeed: 0xFF"); // value
-
-    PS2_MOUSE_SEND(0xE2, "tpsens: 0xE2"); //address
-    PS2_MOUSE_SEND(0x81, "tpsens: 0x81"); //address
-    PS2_MOUSE_SEND(0x4A, "tpsens: 0x4A"); // address
-    PS2_MOUSE_SEND(0xB4, "tpsens: 0xFF"); // value
-}
-
-
-//    %---------------------%
-//    |   KEYBOARD LAYERS   |
-//    %---------------------%
-
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_split_3x6_3( //alphabetic
@@ -48,7 +20,5 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
 
   )
-
-
 };
 
