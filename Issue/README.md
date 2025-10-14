@@ -15,7 +15,7 @@ Before running a program, remember to change its execution permissions. For exam
 
 * ### Keymap.c, rules.mk, config.h
 
-Add this folder in the following path:
+Add ```Keymap.c```, ```rules.mk```, ```config.h``` in the following path:
 ```
 ../qmk_firmware/keyboards/crkbd/keymaps
 ```
