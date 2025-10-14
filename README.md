@@ -294,7 +294,17 @@ In ```KDE_Plasma``` folder you can find both monitor overview (which stores the 
 .config/kglobalshortcutsrc
 ```
 
-<img src="./Images/0_3.jpg" width=max-width>
+The customized OS Shortcuts are the following:
+
+* Hold ```GUI``` + arrows = Switch Windows
+
+* Hold ```GUI``` + click ```F```/```D``` = Toggle Windows Grid (In addition to ```F``` and ```D```, once pressed this combo you can even use arrows to navigate between the different windows inside the grid)
+
+* Hold ```GUI``` + ```Shift``` + arrows = Switch Desktop
+
+* ```GUI``` + ```N``` = Open Text Editor (Gedit)
+
+* ```GUI``` + ```R``` = Open Terminal (Konsol)
 
 ---
 
