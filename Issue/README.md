@@ -9,7 +9,7 @@ This has direct implications when clicking buttons (you need to move the cursor 
 
 **flash.sh:** executes ```qmk_file_inject.sh``` and ```qmk flash``` in the user keyboard folder. 
 
-> [!NOTE] 
+> [!TIP] 
 > All the following actions are automatically performed by running ```./qmk_file_inject.sh```. <br/>
 Before running a program, remember to change its execution permissions. For example, on Linux you run ```chmod +x program_name.sh```.  
 
