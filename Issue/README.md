@@ -23,7 +23,7 @@ Add ```Keymap.c```, ```rules.mk```, ```config.h``` in the following path:
 * ### PS/2 Driver Trackpoint (optional)
 
 The host needs pull-up resistors on PS/2 DATA and CLK lines. The built-in pullup resistors from the host 4k to 100k are acceptable. 
-So, you need to add those pull-up resistors (I didn't), or apply the following patch:
+In conclusion, you need to add those pull-up resistors (I didn't), or apply the following patch:
 
 Add ```PAL_RP_PAD_PUE |``` in line 150 of file
 ```
@@ -38,7 +38,7 @@ so that it looks like:
                         PAL_RP_PAD_DRIVE12 |
                         PAL_RP_PAD_PUE |
 ```
-Before this patch the trackpoint didn't work. After this patch the it moves the cursor
+Before this patch the trackpoint didn't work. After this patch, it moves the cursor
 
 You also need - according to https://github.com/qmk/qmk_firmware/issues/24455 - to apply the following patches to file
 ```
