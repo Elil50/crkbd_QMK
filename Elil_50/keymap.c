@@ -626,13 +626,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case RIGHT_TOGGLE:
         
             if (record->event.pressed) {
-                for(uint16_t i=1; i<=MY_MAX_LAYER; i++){
-                    layer_off(i);
-                }
+               layer_state = 1; // 100... in binary
+                //for(uint16_t i=1; i<=MY_MAX_LAYER; i++){
+                //    layer_off(i);
+                //}
             }
             else {
                 if (!record->tap.count) {
-                    layer_on(1);
+                    layer_state = 3; // 110... in binary
+                    //layer_on(1);
                 }
             }
             return false;
@@ -643,14 +645,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case LEFT_TOGGLE:
             
             if (record->event.pressed) {
-                layer_on(1);
-                for(uint16_t i=2; i<=MY_MAX_LAYER; i++){
-                    layer_off(i);
-                }
+                layer_state = 3; // 110... in binary
+                //layer_on(1);
+                //for(uint16_t i=2; i<=MY_MAX_LAYER; i++){
+                //    layer_off(i);
+                //}
             }
             else {
                 if (!record->tap.count) {
-                    layer_off(1);
+                    layer_state = 1; // 100... in binary
+                    //layer_off(1);
                 }
             }
             return false;
@@ -835,7 +839,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [MY_MAX_LAYER] = LAYOUT_split_3x6_3( // scroll transparent layer
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, MS_BTN1, MS_BTN3, MS_BTN2, KC_TRNS, KC_TRNS,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS,  ACCEL, MS_WHLU,  KC_TRNS, KC_TRNS, KC_TRNS,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|

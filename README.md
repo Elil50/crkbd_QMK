@@ -85,7 +85,7 @@ The layer switching key △ or ▢ deactivates it.
 
 * ### Scroll Layer
 
-If you double click the key ```GUI``` you activate the scroll layer, which replaces arrows with scroll movements and adds the key ```AC``` which can be found by default in layer 1. <br/>
+If you double click the key ```GUI``` you activate the scroll layer, which replaces arrows with scroll movements, adds the key ```AC``` - which can be found by default in layer 1 - and mouse keys - the same of the automatic mouse layer. <br/>
 If you double click the key ```GUI``` again or single click the layer switching key △ or ▢, the layer is deactivated. 
 
 If you toggle the key ```AC``` you change the scroll speed between fast and slow. You can change them by changing the numbers of the two ```MK_W_OFFSET``` in ```./Elil_50/config.h```.
@@ -251,6 +251,9 @@ More informations about the trackpoint can be found in the official datasheet; y
 <img src="./Images/Trackpoint_pinout.jpg" width="400">
 
 * ### Trackpoint stem
+
+> [!CAUTION]
+> My 3D printed trackpoint just broke. I suggest to use metal. I'm going to buy a cheek piercer and try gluing it.
 
 In order to raise the trackpoint keycap above the PCB, I 3D printed the following sketch. Then, I proceeded to cut the excess height and manually reduce the diameter of the section which goes through the PCB. It's probably better to print with 3mm instead of 4mm. I increased the diameter of the PCB hole with a drill. Finally I glued the stem on the trackpoint sensor: it was too shaky otherwise.
 

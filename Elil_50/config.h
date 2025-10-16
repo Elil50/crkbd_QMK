@@ -16,6 +16,8 @@ SPDX-License-Identifier: GPL-2.0-or-later
 #define TAPPING_TOGGLE 1
 #define MK_W_OFFSET_1 2
 #define MK_W_OFFSET_0 15
+#define PS2_MOUSE_X_MULTIPLIER 2
+#define PS2_MOUSE_Y_MULTIPLIER 2
 
 #if MY_TRACKPOINT_ENABLE
     #define PS2_PIO_USE_PIO1
