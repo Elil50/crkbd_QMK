@@ -253,7 +253,9 @@ More informations about the trackpoint can be found in the official datasheet; y
 * ### Trackpoint stem
 
 > [!CAUTION]
-> My 3D printed trackpoint just broke. I suggest to use metal. I'm going to buy a cheek piercer and try gluing it.
+> My 3D printed trackpoint stem just broke. I suggest to use metal. I'm going to buy a cheek piercer and try gluing it. I will update this section when it works.
+
+Most of the guides I've read use wrong voltages (5V) or gloss over stem mounting. I hope this section can be treated here once and for all.
 
 In order to raise the trackpoint keycap above the PCB, I 3D printed the following sketch. Then, I proceeded to cut the excess height and manually reduce the diameter of the section which goes through the PCB. It's probably better to print with 3mm instead of 4mm. I increased the diameter of the PCB hole with a drill. Finally I glued the stem on the trackpoint sensor: it was too shaky otherwise.
 
