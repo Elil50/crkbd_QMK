@@ -83,8 +83,6 @@ Enabled if ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk``` is enabled. Hi
 Whenever you move the trackpoint and 500ms after, this layer is activated. You can change this time by changing the number of ```TURN_LAYER_OFF_TIMEOUT``` at line 702 of ```./Elil_50/keymap.c```. <br/>
 The layer switching key △ or ▢ deactivates it.
 
-TO DO (Issues with PS/2 and mouse keys interactions) 
-
 * ### Scroll Layer
 
 If you double click the key ```GUI``` you activate the scroll layer, which replaces arrows with scroll movements and adds the key ```AC``` which can be found by default in layer 1. <br/>

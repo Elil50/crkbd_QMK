@@ -510,6 +510,8 @@ const uint16_t PROGMEM combo34[] = {TD(TD_SHIFT_CAPS), KC_QUES, COMBO_END};
 const uint16_t PROGMEM combo35[] = {TD(TD_SHIFT_CAPS), KC_DLR, COMBO_END};
 const uint16_t PROGMEM combo41[] = {TD(TD_SHIFT_CAPS), KC_PAST, COMBO_END};
 const uint16_t PROGMEM combo0[] = {TD(TD_SHIFT_CAPS), KC_PPLS, COMBO_END};
+const uint16_t PROGMEM combo01[] = {TD(TD_SHIFT_CAPS), KC_SCLN, COMBO_END};
+const uint16_t PROGMEM combo02[] = {TD(TD_SHIFT_CAPS), KC_COMMA, COMBO_END};
 
 #if MY_UNICODE_ENABLE
 const uint16_t PROGMEM combo36[] = {ESC_ALT, MY_LESS, COMBO_END};
@@ -563,8 +565,10 @@ combo_t key_combos[] = {
   COMBO(combo75, S(KC_W)),
   COMBO(combo76, S(KC_X)),
   COMBO(combo77, S(KC_Y)),
-  COMBO(combo78, S(KC_Z)),  
+  COMBO(combo78, S(KC_Z)),
   
+  COMBO(combo01, S(KC_SCLN)),
+  COMBO(combo02, S(KC_COMMA)),
   COMBO(combo2, KC_DOT),
   COMBO(combo4, KC_TILD),
   COMBO(combo7, KC_DQT),
