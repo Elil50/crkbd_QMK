@@ -255,12 +255,14 @@ More informations about the trackpoint can be found in the official datasheet; y
 > [!CAUTION]
 > My 3D printed trackpoint stem just broke. I suggest to use metal. I'm going to buy a cheek piercer and try gluing it. I will update this section when it works.
 
-Most of the guides I've read use wrong voltages (5V) or gloss over stem mounting. I hope this section can be treated here once and for all.
+Most of the guides I've read use wrong voltages (5V) or gloss over stem mounting, for the sole exception of [this detailed repo](https://github.com/wolfwood/navcaps) which I found too later. I hope to shed some light on this topic here, once and for all. 
 
-In order to raise the trackpoint keycap above the PCB, I 3D printed the following sketch. Then, I proceeded to cut the excess height and manually reduce the diameter of the section which goes through the PCB. It's probably better to print with 3mm instead of 4mm. I increased the diameter of the PCB hole with a drill. Finally I glued the stem on the trackpoint sensor: it was too shaky otherwise.
+If your PCB has big enough holes - I used a drill to increase the diameter on mine - you can safely go down the 3D printing route described by that repository. After having a 3D printed stem broken in half, I went down the metal route: just buy one cheek piercer with the right height and glue / [clamp](https://github.com/wolfwood/navcaps) it to the trackpoint sensor.
 
-I leave just a sketch because I think a better design can be made.<br/>
-Anyway, what I have now works wonderfully. 
+~~In order to raise the trackpoint keycap above the PCB, I 3D printed the following sketch. Then, I proceeded to cut the excess height and manually reduce the diameter of the section which goes through the PCB. It's probably better to print with 3mm instead of 4mm. I increased the diameter of the PCB hole with a drill. Finally I glued the stem on the trackpoint sensor: it was too shaky otherwise.~~
+
+~~I leave just a sketch because I think a better design can be made.<br/>
+Anyway, what I have now works.~~
 
 You can find a printable Corne case with an integrated trackpoint mount [here](https://github.com/joh/crkbd-trackpoint?tab=readme-ov-file). If you are unsure about your PCB (for example with a Corne V4) or you already have a case, you can manually glue the trackpoint to it. For example I glued it to a metal plate that came with the DIY kit, screwed underneath the case mentioned in the previous sections. Just be sure to start by using some removable adhesive tape when placing the trackpoint. After a few attempts you find the right position: you don't want the stem to touch - or be too close to - the edges of the PCB hole. You can glue everything now.
 
