@@ -22,10 +22,31 @@
 // #define MY_UNICODE_ENABLE 1  // it's in rules.mk
 // #define MY_TRACKPOINT_ENABLE 1  // it's in rules.mk
 
-#define MY_MAX_LAYER 7 
-// if you disable the trackpoint, I automatically remove the
-// mouse layer (you won't need it): reduce MY_MAX_LAYER by 1.
-// It all becomes clear if you take a glance at the end of this file.  
+
+
+//    %--------------------------%
+//    | AUTOMATIC LAYER ORDERING |
+//    %--------------------------%
+
+#if MY_UNICODE_ENABLE
+    #define ADD_GREEK 1
+    #define TG_GREEK_LAYER TG(3)
+#else
+    #define ADD_GREEK 0
+    #define TG_GREEK_LAYER XXXXXXX
+#endif
+
+#if MY_TRACKPOINT_ENABLE
+    #define ADD_MOUSE 1
+#else
+    #define ADD_MOUSE 0
+#endif
+
+#define BASE_LAYERS 2 // alphabetical + numerical + stuff layers
+#define GREEK_LAYER (BASE_LAYERS+ADD_GREEK) // only if unicode is enabled
+#define MOUSE_LAYER (GREEK_LAYER+ADD_MOUSE) // only if trackpoint is enabled
+#define SCROLL_LAYER (MOUSE_LAYER+1)
+#define ADD_LAYER (SCROLL_LAYER+1) // These are the user layers
 
 
 
@@ -54,7 +75,7 @@ bool process_detected_host_os_kb(os_variant_t detected_os) {
             set_unicode_input_mode(UNICODE_MODE_LINUX);
             break;
     }
-    
+
     return true;
 }
 #endif
@@ -133,7 +154,7 @@ enum unicode_name {
     UCHI,
     UPSI,
     UOMEG,
-  
+
     LALPH,
     LBETA,
     LGAMM,
@@ -159,7 +180,7 @@ enum unicode_name {
     LPSI,
     LOMEG,
     FSIGM,
-  
+
     LTEQ,
     GTEQ,
     NOTEQ,
@@ -189,7 +210,7 @@ enum unicode_name {
 };
 
 
-const uint32_t unicode_map[] PROGMEM = { 
+const uint32_t unicode_map[] PROGMEM = {
     // greek letters
     [UALPH] = 0x0391,
     [UBETA] = 0x0392,
@@ -242,7 +263,7 @@ const uint32_t unicode_map[] PROGMEM = {
     [LOMEG] = 0x03C9,
 
     [FSIGM] = 0x03C2,
-  
+
     // other
     [LTEQ] = 0x2264, // less than or equal
     [GTEQ] = 0x2265, // greater than or equal
@@ -318,15 +339,15 @@ enum new_keys {
 // TAP DANCE
 tap_dance_action_t tap_dance_actions[] = {
     [TD_SHIFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
-    [META_TO6] = ACTION_TAP_DANCE_LAYER_TOGGLE(KC_LGUI, MY_MAX_LAYER),
+    [META_TO6] = ACTION_TAP_DANCE_LAYER_TOGGLE(KC_LGUI, SCROLL_LAYER),
 };
 
 
-#if MY_UNICODE_ENABLE 
+#if MY_UNICODE_ENABLE
     #define MY_INTEGR UM(INTEGR)
     #define MY_RIGHTARR UM(RIGHTARR)
     #define MY_EXIST UM(EXIST)
-#else 
+#else
     #define MY_INTEGR XXXXXXX
     #define MY_RIGHTARR XXXXXXX
     #define MY_EXIST XXXXXXX
@@ -339,13 +360,13 @@ tap_dance_action_t tap_dance_actions[] = {
 
 #if MY_UNICODE_ENABLE
 static bool send_unicode(bool activated, void *context) {
-    if (activated) {  	
+    if (activated) {
     	uint8_t saved_mods = get_mods();
     	unregister_mods(saved_mods); // temporarily clear user mods: we don't suppress them in MAKE_OVERRIDE
-    	
+
         uint32_t code = (uintptr_t)context;  // store UM(x) as integer in context
         register_unicodemap(unicodemap_index(code));
-    
+
     	set_mods(saved_mods); // restore mods
     }
     return false;
@@ -401,8 +422,8 @@ const key_override_t override_10 = ko_make_basic(MOD_MASK_SHIFT, KC_HASH, KC_PER
 const key_override_t override_15 = ko_make_basic(MOD_MASK_ALT, KC_QUOTE, KC_GRV);
 const key_override_t override_17 = ko_make_basic(MOD_MASK_SHIFT, KC_LT, KC_GT);
 const key_override_t override_18 = ko_make_basic(MOD_MASK_SHIFT, KC_PPLS, KC_PMNS);;
-const key_override_t override_20 = ko_make_basic(MOD_MASK_SHIFT, KC_SPC, KC_UNDS); 
-const key_override_t override_21 = ko_make_basic(MOD_MASK_SHIFT, KC_ENTER, KC_TAB); 
+const key_override_t override_20 = ko_make_basic(MOD_MASK_SHIFT, KC_SPC, KC_UNDS);
+const key_override_t override_21 = ko_make_basic(MOD_MASK_SHIFT, KC_ENTER, KC_TAB);
 const key_override_t override_22 = ko_make_basic(MOD_MASK_SHIFT, MY_LESS, MY_GREAT);
 const key_override_t override_23 = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
 const key_override_t override_24 = ko_make_basic(MOD_MASK_SHIFT, KC_AMPR, KC_AT);
@@ -490,6 +511,95 @@ const uint16_t PROGMEM combo76[] = {TD(TD_SHIFT_CAPS), KC_X, COMBO_END};
 const uint16_t PROGMEM combo77[] = {TD(TD_SHIFT_CAPS), KC_Y, COMBO_END};
 const uint16_t PROGMEM combo78[] = {TD(TD_SHIFT_CAPS), KC_Z, COMBO_END};
 
+const uint16_t PROGMEM combo053[] = {LEFT_TOGGLE, KC_A, COMBO_END};
+const uint16_t PROGMEM combo054[] = {LEFT_TOGGLE, KC_B, COMBO_END};
+const uint16_t PROGMEM combo055[] = {LEFT_TOGGLE, KC_C, COMBO_END};
+const uint16_t PROGMEM combo056[] = {LEFT_TOGGLE, KC_D, COMBO_END};
+const uint16_t PROGMEM combo057[] = {LEFT_TOGGLE, KC_E, COMBO_END};
+const uint16_t PROGMEM combo058[] = {LEFT_TOGGLE, KC_F, COMBO_END};
+const uint16_t PROGMEM combo059[] = {LEFT_TOGGLE, KC_G, COMBO_END};
+const uint16_t PROGMEM combo060[] = {LEFT_TOGGLE, KC_H, COMBO_END};
+const uint16_t PROGMEM combo063[] = {LEFT_TOGGLE, KC_K, COMBO_END};
+const uint16_t PROGMEM combo064[] = {LEFT_TOGGLE, KC_L, COMBO_END};
+const uint16_t PROGMEM combo065[] = {LEFT_TOGGLE, KC_M, COMBO_END};
+const uint16_t PROGMEM combo066[] = {LEFT_TOGGLE, KC_N, COMBO_END};
+const uint16_t PROGMEM combo067[] = {LEFT_TOGGLE, KC_O, COMBO_END};
+const uint16_t PROGMEM combo068[] = {LEFT_TOGGLE, KC_P, COMBO_END};
+const uint16_t PROGMEM combo069[] = {LEFT_TOGGLE, KC_Q, COMBO_END};
+const uint16_t PROGMEM combo070[] = {LEFT_TOGGLE, KC_R, COMBO_END};
+const uint16_t PROGMEM combo071[] = {LEFT_TOGGLE, KC_S, COMBO_END};
+const uint16_t PROGMEM combo072[] = {LEFT_TOGGLE, KC_T, COMBO_END};
+const uint16_t PROGMEM combo075[] = {LEFT_TOGGLE, KC_W, COMBO_END};
+const uint16_t PROGMEM combo076[] = {LEFT_TOGGLE, KC_X, COMBO_END};
+const uint16_t PROGMEM combo077[] = {LEFT_TOGGLE, KC_Y, COMBO_END};
+const uint16_t PROGMEM combo078[] = {LEFT_TOGGLE, KC_Z, COMBO_END};
+
+const uint16_t PROGMEM combo010[] = {LEFT_TOGGLE, ESC_ALT, KC_L, COMBO_END};
+
+const uint16_t PROGMEM combo0054[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_B, COMBO_END};
+const uint16_t PROGMEM combo0055[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_C, COMBO_END};
+const uint16_t PROGMEM combo0060[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_H, COMBO_END};
+const uint16_t PROGMEM combo0063[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_K, COMBO_END};
+const uint16_t PROGMEM combo0064[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_L, COMBO_END};
+const uint16_t PROGMEM combo0065[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_M, COMBO_END};
+const uint16_t PROGMEM combo0066[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_N, COMBO_END};
+const uint16_t PROGMEM combo0067[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_O, COMBO_END};
+const uint16_t PROGMEM combo0068[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_P, COMBO_END};
+const uint16_t PROGMEM combo0076[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_X, COMBO_END};
+const uint16_t PROGMEM combo0077[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_Y, COMBO_END};
+const uint16_t PROGMEM combo0078[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_Z, COMBO_END};
+
+const uint16_t PROGMEM combo079[] = {RIGHT_TOGGLE, KC_0, COMBO_END};
+const uint16_t PROGMEM combo080[] = {RIGHT_TOGGLE, KC_1, COMBO_END};
+const uint16_t PROGMEM combo081[] = {RIGHT_TOGGLE, KC_2, COMBO_END};
+const uint16_t PROGMEM combo082[] = {RIGHT_TOGGLE, KC_3, COMBO_END};
+const uint16_t PROGMEM combo083[] = {RIGHT_TOGGLE, KC_4, COMBO_END};
+const uint16_t PROGMEM combo084[] = {RIGHT_TOGGLE, KC_5, COMBO_END};
+const uint16_t PROGMEM combo085[] = {RIGHT_TOGGLE, KC_6, COMBO_END};
+const uint16_t PROGMEM combo086[] = {RIGHT_TOGGLE, KC_7, COMBO_END};
+const uint16_t PROGMEM combo087[] = {RIGHT_TOGGLE, KC_8, COMBO_END};
+const uint16_t PROGMEM combo088[] = {RIGHT_TOGGLE, KC_9, COMBO_END};
+const uint16_t PROGMEM combo089[] = {RIGHT_TOGGLE, KC_DLR , COMBO_END};
+const uint16_t PROGMEM combo090[] = {RIGHT_TOGGLE, KC_HASH, COMBO_END};
+const uint16_t PROGMEM combo091[] = {RIGHT_TOGGLE, KC_AMPR, COMBO_END};
+const uint16_t PROGMEM combo093[] = {RIGHT_TOGGLE, KC_QUES, COMBO_END};
+const uint16_t PROGMEM combo096[] = {RIGHT_TOGGLE, KC_EQL, COMBO_END};
+const uint16_t PROGMEM combo097[] = {RIGHT_TOGGLE, MY_LESS, COMBO_END};
+const uint16_t PROGMEM combo098[] = {RIGHT_TOGGLE, KC_BSLS, COMBO_END};
+const uint16_t PROGMEM combo099[] = {RIGHT_TOGGLE, ACCEL, COMBO_END};
+const uint16_t PROGMEM combo100[] = {RIGHT_TOGGLE, KC_PPLS, COMBO_END};
+const uint16_t PROGMEM combo101[] = {RIGHT_TOGGLE, KC_PAST, COMBO_END};
+const uint16_t PROGMEM combo102[] = {RIGHT_TOGGLE, KC_LPRN, COMBO_END};
+const uint16_t PROGMEM combo103[] = {RIGHT_TOGGLE, KC_LBRC, COMBO_END};
+const uint16_t PROGMEM combo104[] = {RIGHT_TOGGLE, KC_LCBR, COMBO_END};
+
+const uint16_t PROGMEM combo153[] = {KC_LCTL, KC_A, COMBO_END};
+const uint16_t PROGMEM combo154[] = {KC_LCTL, KC_B, COMBO_END};
+const uint16_t PROGMEM combo155[] = {KC_LCTL, KC_C, COMBO_END};
+const uint16_t PROGMEM combo156[] = {KC_LCTL, KC_D, COMBO_END};
+const uint16_t PROGMEM combo157[] = {KC_LCTL, KC_E, COMBO_END};
+const uint16_t PROGMEM combo158[] = {KC_LCTL, KC_F, COMBO_END};
+const uint16_t PROGMEM combo159[] = {KC_LCTL, KC_G, COMBO_END};
+const uint16_t PROGMEM combo160[] = {KC_LCTL, KC_H, COMBO_END};
+const uint16_t PROGMEM combo161[] = {KC_LCTL, KC_I, COMBO_END};
+const uint16_t PROGMEM combo162[] = {KC_LCTL, KC_J, COMBO_END};
+const uint16_t PROGMEM combo163[] = {KC_LCTL, KC_K, COMBO_END};
+const uint16_t PROGMEM combo164[] = {KC_LCTL, KC_L, COMBO_END};
+const uint16_t PROGMEM combo165[] = {KC_LCTL, KC_M, COMBO_END};
+const uint16_t PROGMEM combo166[] = {KC_LCTL, KC_N, COMBO_END};
+const uint16_t PROGMEM combo167[] = {KC_LCTL, KC_O, COMBO_END};
+const uint16_t PROGMEM combo168[] = {KC_LCTL, KC_P, COMBO_END};
+const uint16_t PROGMEM combo169[] = {KC_LCTL, KC_Q, COMBO_END};
+const uint16_t PROGMEM combo170[] = {KC_LCTL, KC_R, COMBO_END};
+const uint16_t PROGMEM combo171[] = {KC_LCTL, KC_S, COMBO_END};
+const uint16_t PROGMEM combo172[] = {KC_LCTL, KC_T, COMBO_END};
+const uint16_t PROGMEM combo173[] = {KC_LCTL, KC_U, COMBO_END};
+const uint16_t PROGMEM combo174[] = {KC_LCTL, KC_V, COMBO_END};
+const uint16_t PROGMEM combo175[] = {KC_LCTL, KC_W, COMBO_END};
+const uint16_t PROGMEM combo176[] = {KC_LCTL, KC_X, COMBO_END};
+const uint16_t PROGMEM combo177[] = {KC_LCTL, KC_Y, COMBO_END};
+const uint16_t PROGMEM combo178[] = {KC_LCTL, KC_Z, COMBO_END};
+
 const uint16_t PROGMEM combo2[] = {TD(TD_SHIFT_CAPS), KC_COMM, COMBO_END};
 const uint16_t PROGMEM combo4[] = {TD(TD_SHIFT_CAPS), KC_EQL, COMBO_END};
 const uint16_t PROGMEM combo7[] = {TD(TD_SHIFT_CAPS), KC_QUOTE, COMBO_END};
@@ -507,11 +617,11 @@ const uint16_t PROGMEM combo31[] = {TD(TD_SHIFT_CAPS), MY_LESS, COMBO_END};
 const uint16_t PROGMEM combo32[] = {TD(TD_SHIFT_CAPS), KC_BSPC, COMBO_END};
 const uint16_t PROGMEM combo33[] = {TD(TD_SHIFT_CAPS), KC_AMPR, COMBO_END};
 const uint16_t PROGMEM combo34[] = {TD(TD_SHIFT_CAPS), KC_QUES, COMBO_END};
-const uint16_t PROGMEM combo35[] = {TD(TD_SHIFT_CAPS), KC_DLR, COMBO_END};
 const uint16_t PROGMEM combo41[] = {TD(TD_SHIFT_CAPS), KC_PAST, COMBO_END};
 const uint16_t PROGMEM combo0[] = {TD(TD_SHIFT_CAPS), KC_PPLS, COMBO_END};
 const uint16_t PROGMEM combo01[] = {TD(TD_SHIFT_CAPS), KC_SCLN, COMBO_END};
 const uint16_t PROGMEM combo02[] = {TD(TD_SHIFT_CAPS), KC_COMMA, COMBO_END};
+const uint16_t PROGMEM combo03[] = {TD(TD_SHIFT_CAPS), KC_BSLS, COMBO_END};
 
 #if MY_UNICODE_ENABLE
 const uint16_t PROGMEM combo36[] = {ESC_ALT, MY_LESS, COMBO_END};
@@ -537,7 +647,35 @@ const uint16_t PROGMEM combo19[] = {TD(TD_SHIFT_CAPS), MY_EXIST, COMBO_END};
 const uint16_t PROGMEM combo20[] = {ESC_ALT, MY_INTEGR, COMBO_END};
 const uint16_t PROGMEM combo21[] = {TD(TD_SHIFT_CAPS), MY_INTEGR, COMBO_END};
 
-#endif 
+const uint16_t PROGMEM combo061[] = {LEFT_TOGGLE, KC_I, COMBO_END};
+const uint16_t PROGMEM combo073[] = {LEFT_TOGGLE, KC_U, COMBO_END};
+const uint16_t PROGMEM combo074[] = {LEFT_TOGGLE, KC_V, COMBO_END};
+
+const uint16_t PROGMEM combo037[] = {LEFT_TOGGLE, ESC_ALT, KC_O, COMBO_END};
+const uint16_t PROGMEM combo038[] = {LEFT_TOGGLE, ESC_ALT, KC_K, COMBO_END};
+const uint16_t PROGMEM combo040[] = {LEFT_TOGGLE, ESC_ALT, KC_I, COMBO_END};
+const uint16_t PROGMEM combo05[] = {LEFT_TOGGLE, ESC_ALT, KC_V, COMBO_END};
+const uint16_t PROGMEM combo020[] = {LEFT_TOGGLE, ESC_ALT, KC_U, COMBO_END};
+
+const uint16_t PROGMEM combo0061[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_I, COMBO_END};
+const uint16_t PROGMEM combo0073[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_U, COMBO_END};
+const uint16_t PROGMEM combo0074[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_V, COMBO_END};
+const uint16_t PROGMEM combo0053[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_A, COMBO_END};
+const uint16_t PROGMEM combo0056[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_D, COMBO_END};
+const uint16_t PROGMEM combo0057[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_E, COMBO_END};
+const uint16_t PROGMEM combo0058[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_F, COMBO_END};
+const uint16_t PROGMEM combo0059[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_G, COMBO_END};
+const uint16_t PROGMEM combo0069[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_Q, COMBO_END};
+const uint16_t PROGMEM combo0070[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_R, COMBO_END};
+const uint16_t PROGMEM combo0071[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_S, COMBO_END};
+const uint16_t PROGMEM combo0072[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_T, COMBO_END};
+const uint16_t PROGMEM combo0075[] = {LEFT_TOGGLE,TD(TD_SHIFT_CAPS), KC_W, COMBO_END};
+
+const uint16_t PROGMEM combo094[] = {RIGHT_TOGGLE, MY_INTEGR, COMBO_END};
+const uint16_t PROGMEM combo095[] = {RIGHT_TOGGLE, MY_EXIST, COMBO_END};
+const uint16_t PROGMEM combo092[] = {RIGHT_TOGGLE, MY_RIGHTARR, COMBO_END};
+
+#endif
 
 combo_t key_combos[] = {
   COMBO(combo53, S(KC_A)),
@@ -566,9 +704,98 @@ combo_t key_combos[] = {
   COMBO(combo76, S(KC_X)),
   COMBO(combo77, S(KC_Y)),
   COMBO(combo78, S(KC_Z)),
-  
+
+  COMBO(combo010, KC_CIRC),
+
+  COMBO(combo053, KC_5),
+  COMBO(combo054, KC_LPRN),
+  COMBO(combo055, KC_AMPR),
+  COMBO(combo056, KC_7),
+  COMBO(combo057, KC_2),
+  COMBO(combo058, KC_8),
+  COMBO(combo059, KC_9),
+  COMBO(combo060, KC_BSLS),
+  COMBO(combo063, KC_PPLS),
+  COMBO(combo064, KC_PAST),
+  COMBO(combo065, KC_LCBR),
+  COMBO(combo066, KC_LBRC),
+  COMBO(combo067, KC_EQL),
+  COMBO(combo068, MY_LESS),
+  COMBO(combo069, KC_0),
+  COMBO(combo070, KC_3),
+  COMBO(combo071, KC_6),
+  COMBO(combo072, KC_4),
+  COMBO(combo075, KC_1),
+  COMBO(combo076, KC_HASH),
+  COMBO(combo077, KC_QUES),
+  COMBO(combo078, KC_DLR),
+
+  COMBO(combo0054, KC_RPRN),
+  COMBO(combo0055, KC_AT),
+  COMBO(combo0060, S(KC_BSLS)),
+  COMBO(combo0063, KC_PMNS),
+  COMBO(combo0064, KC_SLASH),
+  COMBO(combo0065, KC_RCBR),
+  COMBO(combo0066, KC_RBRC),
+  COMBO(combo0067, KC_TILD),
+  COMBO(combo0068, MY_GREAT),
+  COMBO(combo0076, KC_PERC),
+  COMBO(combo0077, KC_EXLM),
+
+  COMBO(combo079, KC_Q),
+  COMBO(combo080, KC_W),
+  COMBO(combo081, KC_E),
+  COMBO(combo082, KC_R),
+  COMBO(combo083, KC_T),
+  COMBO(combo084, KC_A),
+  COMBO(combo085, KC_S),
+  COMBO(combo086, KC_D),
+  COMBO(combo087, KC_F),
+  COMBO(combo088, KC_G),
+  COMBO(combo089, KC_Z),
+  COMBO(combo090, KC_X),
+  COMBO(combo091, KC_C),
+  COMBO(combo093, KC_Y),
+  COMBO(combo096, KC_O),
+  COMBO(combo097, KC_P),
+  COMBO(combo098, KC_H),
+  COMBO(combo099, KC_J),
+  COMBO(combo100, KC_K),
+  COMBO(combo101, KC_L),
+  COMBO(combo102, KC_B),
+  COMBO(combo103, KC_N),
+  COMBO(combo104, KC_M),
+
+  COMBO(combo153, C(KC_A)),
+  COMBO(combo154, C(KC_B)),
+  COMBO(combo155, C(KC_C)),
+  COMBO(combo156, C(KC_D)),
+  COMBO(combo157, C(KC_E)),
+  COMBO(combo158, C(KC_F)),
+  COMBO(combo159, C(KC_G)),
+  COMBO(combo160, C(KC_H)),
+  COMBO(combo161, C(KC_I)),
+  COMBO(combo162, C(KC_J)),
+  COMBO(combo163, C(KC_K)),
+  COMBO(combo164, C(KC_L)),
+  COMBO(combo165, C(KC_M)),
+  COMBO(combo166, C(KC_N)),
+  COMBO(combo167, C(KC_O)),
+  COMBO(combo168, C(KC_P)),
+  COMBO(combo169, C(KC_Q)),
+  COMBO(combo170, C(KC_R)),
+  COMBO(combo171, C(KC_S)),
+  COMBO(combo172, C(KC_T)),
+  COMBO(combo173, C(KC_U)),
+  COMBO(combo174, C(KC_V)),
+  COMBO(combo175, C(KC_W)),
+  COMBO(combo176, C(KC_X)),
+  COMBO(combo177, C(KC_Y)),
+  COMBO(combo178, C(KC_Z)),
+
   COMBO(combo01, S(KC_SCLN)),
   COMBO(combo02, S(KC_COMMA)),
+  COMBO(combo03, S(KC_BSLS)),
   COMBO(combo2, KC_DOT),
   COMBO(combo4, KC_TILD),
   COMBO(combo7, KC_DQT),
@@ -586,7 +813,6 @@ combo_t key_combos[] = {
   COMBO(combo32, KC_DEL),
   COMBO(combo33, KC_AT),
   COMBO(combo34, KC_EXLM),
-  COMBO(combo35, KC_HASH),
   COMBO(combo41, KC_SLASH),
   COMBO(combo0, KC_PMNS),
   #if MY_UNICODE_ENABLE
@@ -611,6 +837,35 @@ combo_t key_combos[] = {
   COMBO(combo19, UM(ELEMOF)),
   COMBO(combo20, UM(INFTY)),
   COMBO(combo21, UM(NABLA)),
+
+  COMBO(combo073, MY_INTEGR),
+  COMBO(combo074, MY_RIGHTARR),
+  COMBO(combo061, MY_EXIST),
+
+  COMBO(combo037, UM(NOTEQ)),
+  COMBO(combo038, UM(PLMIN)),
+  COMBO(combo040, UM(FORALL)),
+  COMBO(combo05, UM(LEFTRIGHTARR)),
+  COMBO(combo020, UM(INFTY)),
+
+  COMBO(combo0061, UM(ELEMOF)),
+  COMBO(combo0073, UM(NABLA)),
+  COMBO(combo0074, UM(LEFTARR)),
+  COMBO(combo0078, UM(EUR)),
+  COMBO(combo0053, UM(SUB_5)),
+  COMBO(combo0056, UM(SUB_7)),
+  COMBO(combo0057, UM(SUB_2)),
+  COMBO(combo0058, UM(SUB_8)),
+  COMBO(combo0059, UM(SUB_9)),
+  COMBO(combo0069, UM(SUB_0)),
+  COMBO(combo0070, UM(SUB_3)),
+  COMBO(combo0071, UM(SUB_6)),
+  COMBO(combo0072, UM(SUB_4)),
+  COMBO(combo0075, UM(SUB_1)),
+
+  COMBO(combo092, KC_V),
+  COMBO(combo094, KC_U),
+  COMBO(combo095, KC_I),
   #endif
 };
 
@@ -624,28 +879,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
 
         case RIGHT_TOGGLE:
-        
+
             if (record->event.pressed) {
-               layer_state = 1; // 100... in binary
+               layer_state = 1; // 1000... in binary
                 //for(uint16_t i=1; i<=MY_MAX_LAYER; i++){
                 //    layer_off(i);
                 //}
             }
             else {
                 if (!record->tap.count) {
-                    layer_state = 3; // 110... in binary
+                    layer_state = 3; // 1100... in binary
                     //layer_on(1);
                 }
             }
             return false;
             break;
-            
+
         ///// ---------------------
 
         case LEFT_TOGGLE:
-            
+
             if (record->event.pressed) {
-                layer_state = 3; // 110... in binary
+                layer_state = 3; // 1100... in binary
                 //layer_on(1);
                 //for(uint16_t i=2; i<=MY_MAX_LAYER; i++){
                 //    layer_off(i);
@@ -653,28 +908,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             else {
                 if (!record->tap.count) {
-                    layer_state = 1; // 100... in binary
+                    layer_state = 1; // 1000... in binary
                     //layer_off(1);
                 }
             }
             return false;
             break;
-            
+
          ///// ---------------------
-            
+
          case TWO_TOGGLE:
-            
+
             if (record->event.pressed) {
-                layer_on(2);
-                for(uint16_t i=3; i<=MY_MAX_LAYER-2; i++){
-                    layer_off(i);
-                }
+                layer_state = 7; // 1110... in binary
+                //layer_on(2);
+                //for(uint16_t i=3; i<=MY_MAX_LAYER; i++){
+                //    layer_off(i);
+                //}
             }
             return false;
             break;
 
         ///// ---------------------
-            
+
         case ACCEL: // toggle between different cursor and wheel speeds
 
             if (record->event.pressed) {
@@ -704,19 +960,16 @@ static uint32_t turn_off(uint32_t trigger_time, void *arg) {
      return 0;
 }
 
-#define MOUSE_BUTTONS_LAYER MY_MAX_LAYER-1
-// QMK has issue with mouse keys when the cursor is not moving,
-// so we will use them only while moving the mouse with high sensitivity.
 #define TURN_LAYER_OFF_TIMEOUT 500 //milliseconds
-// ps2_mouse_moved_user is called only when the keyboard detects mouse movements.  
+// ps2_mouse_moved_user is called only when the keyboard detects mouse movements.
 void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
-    layer_on(MOUSE_BUTTONS_LAYER);
+    layer_on(MOUSE_LAYER);
 
     static deferred_token token = INVALID_DEFERRED_TOKEN;
     cancel_deferred_exec(token); // cancel previous schedule
 
     // schedule layer turn-off, passing layer number as argument not to hardcode it on the previous function
-    token = defer_exec(TURN_LAYER_OFF_TIMEOUT, turn_off, (void *)MOUSE_BUTTONS_LAYER);
+    token = defer_exec(TURN_LAYER_OFF_TIMEOUT, turn_off, (void *)MOUSE_LAYER);
 }
 # endif
 
@@ -726,13 +979,6 @@ void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
 //    |   KEYBOARD LAYERS   |
 //    %---------------------%
 
-#if MY_UNICODE_ENABLE 
-    #define GREEK_LAYER TG(3)
-    #define ADD_LAYER 4
-#else 
-    #define GREEK_LAYER XXXXXXX
-    #define ADD_LAYER 3
-#endif
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_split_3x6_3( //alphabetic
@@ -741,7 +987,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_BSPC,                        KC_H,    KC_J,    KC_UP,   KC_K,    KC_L,  KC_COMMA,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_Z,    KC_X,    KC_C,    KC_V,    KC_SPC, KC_ENTER,           		  KC_B,  KC_LEFT, KC_DOWN, KC_RIGHT,  KC_N,   KC_M,
+      KC_Z,    KC_X,    KC_C,    KC_V,    KC_SPC, KC_ENTER,           		      KC_B,  KC_LEFT, KC_DOWN, KC_RIGHT,  KC_N,   KC_M,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                             	   TD(META_TO6),LEFT_TOGGLE,KC_LCTL,  TD(TD_SHIFT_CAPS),RIGHT_TOGGLE,ESC_ALT
                                       //`--------------------------'  `--------------------------'
@@ -754,7 +1000,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_5,    KC_6,    KC_7,    KC_8,    KC_9,   KC_BSPC,                      KC_BSLS,  ACCEL,   KC_UP,  KC_PPLS, KC_PAST, KC_COMMA,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_DLR, KC_HASH,KC_AMPR,MY_RIGHTARR,KC_SPC,KC_ENTER,                 	KC_LPRN, KC_LEFT, KC_DOWN, KC_RIGHT, KC_LBRC, KC_LCBR,
+      KC_DLR, KC_HASH,KC_AMPR,MY_RIGHTARR,KC_SPC,KC_ENTER,                   	KC_LPRN, KC_LEFT, KC_DOWN, KC_RIGHT, KC_LBRC, KC_LCBR,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                    TD(META_TO6),LEFT_TOGGLE,KC_LCTL,  TD(TD_SHIFT_CAPS),RIGHT_TOGGLE,ESC_ALT
                                       //`--------------------------'  `--------------------------'
@@ -764,16 +1010,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
          KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,  KC_PWR,                      UG_TOGG,KC_PSCR,XXXXXXX,XXXXXXX,TG(ADD_LAYER+1),TG(ADD_LAYER),
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        KC_F6,    KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_BSPC,                   GREEK_LAYER, ACCEL,  KC_UP,  KC_BRIU,  KC_VOLU, KC_MUTE,
+        KC_F6,    KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_BSPC,                TG_GREEK_LAYER, ACCEL,  KC_UP,  KC_BRIU,  KC_VOLU, KC_MUTE,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        KC_F11,   KC_F12, XXXXXXX, XXXXXXX, KC_SPC, KC_ENTER,            	  KC_CALC, KC_LEFT, KC_DOWN, KC_RIGHT, KC_MPLY, EE_CLR,
+        KC_F11,   KC_F12, XXXXXXX, XXXXXXX, KC_SPC, KC_ENTER,            	      KC_CALC, KC_LEFT, KC_DOWN, KC_RIGHT, KC_MPLY, EE_CLR,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                      TD(META_TO6),LEFT_TOGGLE,KC_LCTL, 	TD(TD_SHIFT_CAPS),RIGHT_TOGGLE,ESC_ALT
                                         //`--------------------------'  `--------------------------'
   ),
 
   #if MY_UNICODE_ENABLE
-    [3] = LAYOUT_split_3x6_3( //greek
+    [GREEK_LAYER] = LAYOUT_split_3x6_3( //greek
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         XXXXXXX,   FSIGM,   EPSI,   RHO,   TAU,  KC_QUOTE  ,                        UPSI,    THET,    IOTA,    OMIC,    PI,    KC_SCLN,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -786,12 +1032,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   #endif
 
+  #if MY_TRACKPOINT_ENABLE
+    [MOUSE_LAYER] = LAYOUT_split_3x6_3( // mouse transparent layer
+      //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, MS_BTN1, MS_BTN3, MS_BTN2, KC_TRNS, KC_TRNS,
+      //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+      //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+      //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                             KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS
+                                          //`--------------------------'  `--------------------------'
+  ),
+  #endif
+
+
+
+  [SCROLL_LAYER] = LAYOUT_split_3x6_3( // scroll transparent layer
+    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, MS_BTN1, MS_BTN3, MS_BTN2, KC_TRNS, KC_TRNS,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS,  ACCEL, MS_WHLU,  KC_TRNS, KC_TRNS, KC_TRNS,
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, MS_WHLL, MS_WHLD, MS_WHLR, KC_TRNS, KC_TRNS,
+    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                           KC_TRNS, KC_TRNS,  KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS
+                                        //`--------------------------'  `--------------------------'
+  ),
+
 
 
   // ------------------------------ ADD ADDITIONAL LAYERS ONLY AFTER THESE LAYERS, for hyerarchy purposes ------------------------------
 
 
-  
+
     [ADD_LAYER] = LAYOUT_split_3x6_3( //vr_chat
       //,-----------------------------------------------------.                    ,-----------------------------------------------------.
           KC_F12,  XXXXXXX,  KC_E,    KC_W,    KC_R,    KC_C,                     S(KC_F1), S(KC_F2), S(KC_F3), S(KC_F4), S(KC_F5), S(KC_F6),
@@ -814,40 +1088,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                              TD(META_TO6),LEFT_TOGGLE,TD(TD_SHIFT_CAPS),   KC_SPC,RIGHT_TOGGLE,ESC_ALT
                                           //`--------------------------'  `--------------------------'
-  ),
-
-
-
-  // ------------------------------ ADD ADDITIONAL LAYERS ONLY BEFORE THESE LAYERS, for hyerarchy purposes ------------------------------
-
-
-   #if MY_TRACKPOINT_ENABLE
-    [MY_MAX_LAYER-1] = LAYOUT_split_3x6_3( // mouse transparent layer
-      //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, MS_BTN1, MS_BTN3, MS_BTN2, KC_TRNS, KC_TRNS,
-      //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-      //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-      //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                             KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS
-                                          //`--------------------------'  `--------------------------'
-  ),
-  #endif
-
-
-
-  [MY_MAX_LAYER] = LAYOUT_split_3x6_3( // scroll transparent layer
-    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TRNS, KC_TRNS, MS_BTN4, MS_BTN5, KC_TRNS, KC_TRNS,                      KC_TRNS, MS_BTN1, MS_BTN3, MS_BTN2, KC_TRNS, KC_TRNS,
-    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS,  ACCEL, MS_WHLU,  KC_TRNS, KC_TRNS, KC_TRNS,
-    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, MS_WHLL, MS_WHLD, MS_WHLR, KC_TRNS, KC_TRNS,
-    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                           KC_TRNS, KC_TRNS,  KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS
-                                        //`--------------------------'  `--------------------------'
   )//,
-
 
 };
