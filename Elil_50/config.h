@@ -22,7 +22,10 @@ SPDX-License-Identifier: GPL-2.0-or-later
 #if MY_TRACKPOINT_ENABLE
     #define PS2_PIO_USE_PIO1
     #define PS2_CLOCK_PIN B5
-    #define PS2_DATA_PIN B4
+    #define PS2_DATA_PIN B4 
+    
+    #define POINTING_DEVICE_AUTO_MOUSE_ENABLE
+    #define AUTO_MOUSE_TIME 500 // milliseconds
 #endif
 
 #if MY_UNICODE_ENABLE

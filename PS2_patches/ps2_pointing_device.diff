@@ -1,0 +1,1777 @@
+diff --git a/builddefs/common_features.mk b/builddefs/common_features.mk
+index 1da13997b5..ca46efa670 100644
+--- a/builddefs/common_features.mk
++++ b/builddefs/common_features.mk
+@@ -125,7 +125,7 @@ ifeq ($(strip $(MOUSEKEY_ENABLE)), yes)
+     MOUSE_ENABLE := yes
+ endif
+ 
+-VALID_POINTING_DEVICE_DRIVER_TYPES := adns5050 adns9800 analog_joystick azoteq_iqs5xx cirque_pinnacle_i2c cirque_pinnacle_spi paw3204 pmw3320 pmw3360 pmw3389 pimoroni_trackball custom
++VALID_POINTING_DEVICE_DRIVER_TYPES := adns5050 adns9800 analog_joystick azoteq_iqs5xx cirque_pinnacle_i2c cirque_pinnacle_spi paw3204 pmw3320 pmw3360 pmw3389 pimoroni_trackball ps2_mouse custom
+ ifeq ($(strip $(POINTING_DEVICE_ENABLE)), yes)
+     ifeq ($(filter $(POINTING_DEVICE_DRIVER),$(VALID_POINTING_DEVICE_DRIVER_TYPES)),)
+         $(call CATASTROPHIC_ERROR,Invalid POINTING_DEVICE_DRIVER,POINTING_DEVICE_DRIVER="$(POINTING_DEVICE_DRIVER)" is not a valid pointing device type)
+@@ -162,6 +162,8 @@ ifeq ($(strip $(POINTING_DEVICE_ENABLE)), yes)
+         else ifneq ($(filter $(strip $(POINTING_DEVICE_DRIVER)),pmw3360 pmw3389),)
+             SPI_DRIVER_REQUIRED = yes
+             SRC += drivers/sensors/pmw33xx_common.c
++        else ifeq ($(strip $(POINTING_DEVICE_DRIVER)), ps2_mouse)
++            PS2_ENABLE := yes
+         endif
+     endif
+ endif
+@@ -822,10 +824,7 @@ ifeq ($(strip $(UNICODE_COMMON)), yes)
+ endif
+ 
+ ifeq ($(strip $(PS2_MOUSE_ENABLE)), yes)
+-    PS2_ENABLE := yes
+-    MOUSE_ENABLE := yes
+-    SRC += ps2_mouse.c
+-    OPT_DEFS += -DPS2_MOUSE_ENABLE
++      $(call CATASTROPHIC_ERROR,PS2_MOUSE has migrated to pointing device,Please see docs/feature_pointing_device.md for more information.)
+ endif
+ 
+ VALID_PS2_DRIVER_TYPES := busywait interrupt usart vendor
+diff --git a/builddefs/show_options.mk b/builddefs/show_options.mk
+index 1c1a3ebf8e..fe1879b3bd 100644
+--- a/builddefs/show_options.mk
++++ b/builddefs/show_options.mk
+@@ -63,7 +63,6 @@ OTHER_OPTION_NAMES = \
+   LCD_BACKLIGHT_ENABLE \
+   MACROS_ENABLED \
+   PS2_ENABLE \
+-  PS2_MOUSE_ENABLE \
+   PS2_DRIVER \
+   RAW_ENABLE \
+   SWAP_HANDS_ENABLE \
+diff --git a/data/mappings/info_rules.hjson b/data/mappings/info_rules.hjson
+index 5ecd5c12b3..ceb5ede8ec 100644
+--- a/data/mappings/info_rules.hjson
++++ b/data/mappings/info_rules.hjson
+@@ -40,7 +40,6 @@
+     "PLATFORM_KEY": {"info_key": "platform_key", "to_json": false},
+     "PS2_DRIVER": {"info_key": "ps2.driver"},
+     "PS2_ENABLE": {"info_key": "ps2.enabled", "value_type": "bool"},
+-    "PS2_MOUSE_ENABLE": {"info_key": "ps2.mouse_enabled", "value_type": "bool"},
+     "RGB_MATRIX_DRIVER": {"info_key": "rgb_matrix.driver"},
+     "RGBLIGHT_DRIVER": {"info_key": "rgblight.driver"},
+     "SECURE_ENABLE": {"info_key": "secure.enabled", "value_type": "bool"},
+@@ -58,4 +57,5 @@
+     "CONVERT_TO_PROTON_C": {"info_key": "_invalid.ctpc", "invalid": true, "replace_with": "CONVERT_TO=proton_c"},
+     "DEFAULT_FOLDER": {"info_key": "_invalid.default_folder", "invalid": true},
+     "VIAL_ENABLE": {"info_key": "_invalid.vial", "invalid": true}
++    "PS2_MOUSE_ENABLE": {"info_key": "_invalid.ps2.mouse_enabled", "invalid": true},
+ }
+diff --git a/data/schemas/keyboard.jsonschema b/data/schemas/keyboard.jsonschema
+index 93b1c82b1c..d7f58872be 100644
+--- a/data/schemas/keyboard.jsonschema
++++ b/data/schemas/keyboard.jsonschema
+@@ -802,7 +802,6 @@
+             "additionalProperties": false,
+             "properties": {
+                 "enabled": {"type": "boolean"},
+-                "mouse_enabled": {"type": "boolean"},
+                 "clock_pin": {"$ref": "./definitions.jsonschema#/mcu_pin"},
+                 "data_pin": {"$ref": "./definitions.jsonschema#/mcu_pin"},
+                 "driver": {
+diff --git a/docs/features/pointing_device.md b/docs/features/pointing_device.md
+index d6dcddcdf0..9d97a0bd7c 100644
+--- a/docs/features/pointing_device.md
++++ b/docs/features/pointing_device.md
+@@ -368,6 +368,248 @@ report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
+ 
+ ```
+ 
++### PS/2 mouse {#pointing-device-ps2-mouse}
++
++It is possible to attach a PS/2 mouse (for example touchpad or trackpoint) to your keyboard, and use it as a pointing device.
++
++To use the PS/2 mouse sensor, add the following to your `rules.mk`
++
++```make
++POINTING_DEVICE_DRIVER = ps2_mouse
++PS2_DRIVER = <usart|interrupt|busywait|vendor>
++```
++
++In addition, `PS2_CLOCK_PIN` and `PS2_DATA_PIN` must be defined in `config.h`.
++
++
++| Setting (`config.h`)          | Description                                                                    | Default       |
++| ----------------------------- | ------------------------------------------------------------------------------ | ------------- |
++| `PS2_CLOCK_PIN`               | (Required) The pin connected to the clock pin of the PS/2 mouse.               | `POINTING_DEVICE_SCLK_PIN` |
++| `PS2_DATA_PIN`                | (Required) The pin connected to the data pin of the PS/2 mouse.                | `POINTING_DEVICE_SDIO_PIN` |
++| `PS2_MOUSE_USE_REMOTE_MODE`   | (Optional) Use remote mode instead of the default stream mode                  | _not defined_ |
++| `PS2_MOUSE_ENABLE_SCROLLING`  | (Optional) Enable the scrollwheel or scroll gesture on your mouse or touchpad  | _not defined_ |
++| `PS2_MOUSE_SCROLL_MASK`       | (Optional) Some mice will need a scroll mask to be configured                  | `0xFF`        |
++| `PS2_MOUSE_USE_2_1_SCALING`   | (Optional) Applies 2:1 scaling to the movement before sending to the host      | _not defined_ |
++| `PS2_MOUSE_INIT_DELAY`        | (Optional) Time to wait (in ms) after initializing the PS/2 host               | `1000`        |
++| `PS2_MOUSE_X_MULTIPLIER`      | (Optional) Multiplier for horizontal mouse events                              | `1`           |
++| `PS2_MOUSE_Y_MULTIPLIER`      | (Optional) Multiplier for vertical mouse events                                | `1`           |
++| `PS2_MOUSE_V_MULTIPLIER`      | (Optional) Multiplier for scroll movements                                     | `1`           |
++| `PS2_MOUSE_INVERT_BUTTONS`    | (Optional) Invert the left & right buttons                                     | _not defined_ |
++| `PS2_MOUSE_SAMPLE_RATE`       | (Optional) Set the sample rate in samples/sec (stream mode only)               | `100`         |
++
++PS/2 mice use counts/mm instead of CPI, where the only valid values are 1, 2, 4 and 8.
++Defaults to 4 counts/mm.
++
++Valid sample rates are 10, 20, 40, 60, 80, 100, and 200 samples/sec.
++
++For more information on the PS/2 mouse protocol, see [this document on archive](https://web.archive.org/web/20040404065904/http://panda.cs.ndsu.nodak.edu/~achapwes/PICmicro/mouse/mouse.html).
++
++#### PS/2 circuitry
++
++The PS/2 clock and data lines require pullup resistors.
++External 4.7K resistors may be added between Vcc (5V or 3.3V) and the clock and data pin.
++
++Note: not all MCUs (e.g. RP2040) have 5V tolerant I/O, in which case level shifters should be used if the PS/2 device operates at 5V.
++
++#### PS/2 drivers
++
++There are several PS/2 drivers available, which are detailed below.
++Select the preferred driver with `PS2_DRIVER` in `rules.mk`.
++
++##### Busywait driver
++
++This driver is not recommended, you may encounter jerky movement or unsent inputs.
++Please use any of the other drivers, if possible.
++
++In `rules.mk`:
++
++```make
++PS2_DRIVER = busywait
++```
++
++In your keyboard `config.h`:
++
++```c
++#ifdef PS2_DRIVER_BUSYWAIT
++# define PS2_CLOCK_PIN   D1
++# define PS2_DATA_PIN    D2
++#endif
++```
++
++##### Interrupt driver: AVR/ATMega32u4
++
++You can use any `INT` or `PCINT` pin for clock, and any pin for data.
++The example below uses `D2` for clock and `D5` for data. 
++
++In `rules.mk`:
++
++```make
++PS2_DRIVER = interrupt
++```
++
++In your keyboard `config.h`:
++
++```c
++#ifdef PS2_DRIVER_INTERRUPT
++#define PS2_CLOCK_PIN   D2
++#define PS2_DATA_PIN    D5
++
++#define PS2_INT_INIT()  do {    \
++    EICRA |= ((1<<ISC21) |      \
++              (0<<ISC20));      \
++} while (0)
++#define PS2_INT_ON()  do {      \
++    EIMSK |= (1<<INT2);         \
++} while (0)
++#define PS2_INT_OFF() do {      \
++    EIMSK &= ~(1<<INT2);        \
++} while (0)
++#define PS2_INT_VECT   INT2_vect
++#endif
++```
++
++##### Interrupt driver: ARM chibios
++
++Pretty much any two pins can be used for the (software) interrupt variant on ARM cores.
++The example below uses `A8` for clock, and `A9` for data.
++
++In `rules.mk`:
++
++```make
++PS2_DRIVER = interrupt
++```
++
++In your keyboard `config.h`:
++
++```c
++#ifdef PS2_DRIVER_INTERRUPT
++#define PS2_CLOCK_PIN A8
++#define PS2_DATA_PIN  A9
++#endif
++```
++
++And in the ChibiOS specific `halconf.h`:
++
++```c
++#pragma once
++
++#define PAL_USE_CALLBACKS TRUE // [!code focus]
++
++#include_next <halconf.h>
++```
++
++##### USART driver: AVR/ATMega32u4
++
++To use USART on the ATMega32u4, you have to use `D5` for clock and `D2` for data.
++If one of those are unavailable, you need to use interrupt version.
++
++In `rules.mk`:
++
++```make
++PS2_DRIVER = usart
++```
++
++In your keyboard `config.h`:
++
++```c
++#ifdef PS2_DRIVER_USART
++#define PS2_CLOCK_PIN   D5
++#define PS2_DATA_PIN    D2
++
++/* synchronous, odd parity, 1-bit stop, 8-bit data, sample at falling edge */
++/* set DDR of CLOCK as input to be slave */
++#define PS2_USART_INIT() do {   \
++    PS2_CLOCK_DDR &= ~(1<<PS2_CLOCK_BIT);   \
++    PS2_DATA_DDR &= ~(1<<PS2_DATA_BIT);     \
++    UCSR1C = ((1 << UMSEL10) |  \
++              (3 << UPM10)   |  \
++              (0 << USBS1)   |  \
++              (3 << UCSZ10)  |  \
++              (0 << UCPOL1));   \
++    UCSR1A = 0;                 \
++    UBRR1H = 0;                 \
++    UBRR1L = 0;                 \
++} while (0)
++#define PS2_USART_RX_INT_ON() do {  \
++    UCSR1B = ((1 << RXCIE1) |       \
++              (1 << RXEN1));        \
++} while (0)
++#define PS2_USART_RX_POLL_ON() do { \
++    UCSR1B = (1 << RXEN1);          \
++} while (0)
++#define PS2_USART_OFF() do {    \
++    UCSR1C = 0;                 \
++    UCSR1B &= ~((1 << RXEN1) |  \
++                (1 << TXEN1));  \
++} while (0)
++#define PS2_USART_RX_READY      (UCSR1A & (1<<RXC1))
++#define PS2_USART_RX_DATA       UDR1
++#define PS2_USART_ERROR         (UCSR1A & ((1<<FE1) | (1<<DOR1) | (1<<UPE1)))
++#define PS2_USART_RX_VECT       USART1_RX_vect
++#endif
++```
++
++##### RP2040 PIO driver
++
++The `PIO` subsystem is a Raspberry Pi RP2040 specific implementation, using the integrated PIO peripheral and is therefore only available on this MCU.
++
++```make
++PS2_DRIVER = vendor
++```
++
++In your keyboard `config.h`:
++
++```c
++#ifdef PS2_DRIVER_VENDOR
++# define PS2_CLOCK_PIN   GP1
++# define PS2_DATA_PIN    GP0
++#endif
++```
++
++There are strict requirements for pin ordering but any pair of GPIO pins can be used.
++The GPIO used for clock must be directly after data.
++See also the `info.json` snippet below for an example of correct order.
++
++Example `info.json` content:
++
++```json
++    "ps2": {
++        "clock_pin": "GP1",
++        "data_pin": "GP0",
++        "driver": "vendor",
++        "enabled": true,
++    }
++```
++
++You may optionally switch the PIO peripheral used with the following define in `config.h`:
++
++```c
++#define PS2_PIO_USE_PIO1 // Force the usage of PIO1 peripheral, by default the PS2 implementation uses the PIO0 peripheral
++```
++#### Advanced PS/2 control
++User code may call the following functions from `sensors/ps2_mouse.h` to change settings at runtime:
++```c
++void ps2_mouse_disable_data_reporting(void);
++void ps2_mouse_enable_data_reporting(void);
++void ps2_mouse_set_remote_mode(void);
++void ps2_mouse_set_stream_mode(void);
++void ps2_mouse_set_scaling_2_1(void);
++void ps2_mouse_set_scaling_1_1(void);
++void ps2_mouse_set_resolution(ps2_mouse_resolution_t resolution);
++void ps2_mouse_set_sample_rate(ps2_mouse_sample_rate_t sample_rate);
++```
++
++In addition, the macros `PS2_MOUSE_SEND()` and `PS2_MOUSE_RECEIVE()` are available for sending custom PS/2 commands to the mouse:
++
++```c
++#define PS2_MOUSE_SEND(command, message)
++#define PS2_MOUSE_RECEIVE(message)
++```
++
++Note: `message` is a user-provided string which is only used for debugging purposes when the results of the commands are output to the console (when `POINTING_DEVICE_DEBUG` is enabled).
++
++
++
+ ### Custom Driver
+ 
+ If you have a sensor type that isn't supported above, a custom option is available by adding the following to your `rules.mk`
+diff --git a/docs/features/ps2_mouse.md b/docs/features/ps2_mouse.md
+index 6ef7e46768..55a348b56d 100644
+--- a/docs/features/ps2_mouse.md
++++ b/docs/features/ps2_mouse.md
+@@ -1,356 +1,3 @@
+ # PS/2 Mouse Support {#ps2-mouse-support}
+ 
+-Its possible to hook up a PS/2 mouse (for example touchpads or trackpoints) to your keyboard as a composite device.
+-
+-To hook up a Trackpoint, you need to obtain a Trackpoint module (i.e. harvest from a Thinkpad keyboard), identify the function of each pin of the module, and make the necessary circuitry between controller and Trackpoint module. For more information, please refer to [Trackpoint Hardware](https://deskthority.net/wiki/TrackPoint_Hardware) page on Deskthority Wiki.
+-
+-There are three available modes for hooking up PS/2 devices: USART (best), interrupts (better) or busywait (not recommended).
+-
+-## The Circuitry between Trackpoint and Controller {#the-circuitry-between-trackpoint-and-controller}
+-
+-To get the things working, a 4.7K drag is needed between the two lines DATA and CLK and the line 5+. 
+-
+-```
+-
+-          DATA ----------+--------- PIN
+-                         |
+-                        4.7K
+-                         |
+-MODULE    5+  --------+--+--------- PWR   CONTROLLER
+-                      |
+-                     4.7K
+-                      |    
+-          CLK   ------+------------ PIN
+-```
+-
+-## Driver Configuration {#driver-configuration}
+-
+-Driver selection can be configured in `rules.mk` as `PS2_DRIVER`, or in `info.json` as `ps2.driver`. Valid values are `busywait` (default), `interrupt`, `usart`, or `vendor`. See below for information on individual drivers.
+-
+-### Busywait Driver {#busywait-driver}
+-
+-Note: This is not recommended, you may encounter jerky movement or unsent inputs. Please use interrupt or USART version if possible.
+-
+-In rules.mk:
+-
+-```make
+-PS2_MOUSE_ENABLE = yes
+-PS2_ENABLE = yes
+-PS2_DRIVER = busywait
+-```
+-
+-In your keyboard config.h:
+-
+-```c
+-#ifdef PS2_DRIVER_BUSYWAIT
+-# define PS2_CLOCK_PIN   D1
+-# define PS2_DATA_PIN    D2
+-#endif
+-```
+-
+-### Interrupt Driver (AVR/ATMega32u4) {#interrupt-driver-avr}
+-
+-The following example uses D2 for clock and D5 for data. You can use any INT or PCINT pin for clock, and any pin for data.
+-
+-In rules.mk:
+-
+-```make
+-PS2_MOUSE_ENABLE = yes
+-PS2_ENABLE = yes
+-PS2_DRIVER = interrupt
+-```
+-
+-In your keyboard config.h:
+-
+-```c
+-#ifdef PS2_DRIVER_INTERRUPT
+-#define PS2_CLOCK_PIN   D2
+-#define PS2_DATA_PIN    D5
+-
+-#define PS2_INT_INIT()  do {    \
+-    EICRA |= ((1<<ISC21) |      \
+-              (0<<ISC20));      \
+-} while (0)
+-#define PS2_INT_ON()  do {      \
+-    EIMSK |= (1<<INT2);         \
+-} while (0)
+-#define PS2_INT_OFF() do {      \
+-    EIMSK &= ~(1<<INT2);        \
+-} while (0)
+-#define PS2_INT_VECT   INT2_vect
+-#endif
+-```
+-
+-### Interrupt Driver (ARM chibios) {#interrupt-driver-chibios}
+-
+-Pretty much any two pins can be used for the (software) interrupt variant on ARM cores. The example below uses A8 for clock, and A9 for data.
+-
+-In rules.mk:
+-
+-```
+-PS2_MOUSE_ENABLE = yes
+-PS2_ENABLE = yes
+-PS2_DRIVER = interrupt
+-```
+-
+-In your keyboard `config.h`:
+-
+-```c
+-#define PS2_CLOCK_PIN A8
+-#define PS2_DATA_PIN  A9
+-```
+-
+-And in the ChibiOS specific `halconf.h`:
+-
+-```c
+-#pragma once
+-
+-#define PAL_USE_CALLBACKS TRUE // [!code focus]
+-
+-#include_next <halconf.h>
+-```
+-
+-### USART Driver {#usart-driver}
+-
+-To use USART on the ATMega32u4, you have to use PD5 for clock and PD2 for data. If one of those are unavailable, you need to use interrupt version.
+-
+-In rules.mk:
+-
+-```make
+-PS2_MOUSE_ENABLE = yes
+-PS2_ENABLE = yes
+-PS2_DRIVER = usart
+-```
+-
+-In your keyboard config.h:
+-
+-```c
+-#ifdef PS2_DRIVER_USART
+-#define PS2_CLOCK_PIN   D5
+-#define PS2_DATA_PIN    D2
+-
+-/* synchronous, odd parity, 1-bit stop, 8-bit data, sample at falling edge */
+-/* set DDR of CLOCK as input to be slave */
+-#define PS2_USART_INIT() do {   \
+-    PS2_CLOCK_DDR &= ~(1<<PS2_CLOCK_BIT);   \
+-    PS2_DATA_DDR &= ~(1<<PS2_DATA_BIT);     \
+-    UCSR1C = ((1 << UMSEL10) |  \
+-              (3 << UPM10)   |  \
+-              (0 << USBS1)   |  \
+-              (3 << UCSZ10)  |  \
+-              (0 << UCPOL1));   \
+-    UCSR1A = 0;                 \
+-    UBRR1H = 0;                 \
+-    UBRR1L = 0;                 \
+-} while (0)
+-#define PS2_USART_RX_INT_ON() do {  \
+-    UCSR1B = ((1 << RXCIE1) |       \
+-              (1 << RXEN1));        \
+-} while (0)
+-#define PS2_USART_RX_POLL_ON() do { \
+-    UCSR1B = (1 << RXEN1);          \
+-} while (0)
+-#define PS2_USART_OFF() do {    \
+-    UCSR1C = 0;                 \
+-    UCSR1B &= ~((1 << RXEN1) |  \
+-                (1 << TXEN1));  \
+-} while (0)
+-#define PS2_USART_RX_READY      (UCSR1A & (1<<RXC1))
+-#define PS2_USART_RX_DATA       UDR1
+-#define PS2_USART_ERROR         (UCSR1A & ((1<<FE1) | (1<<DOR1) | (1<<UPE1)))
+-#define PS2_USART_RX_VECT       USART1_RX_vect
+-#endif
+-```
+-
+-### RP2040 PIO Driver {#rp2040-pio-driver}
+-
+-The `PIO` subsystem is a Raspberry Pi RP2040 specific implementation, using the integrated PIO peripheral and is therefore only available on this MCU.
+-
+-There are strict requirements for pin ordering but any pair of GPIO pins can be used. The GPIO used for clock must be directly after data, see the included info.json snippet for an example of correct order.
+-
+-You may optionally switch the PIO peripheral used with the following define in config.h:
+-```c
+-#define PS2_PIO_USE_PIO1 // Force the usage of PIO1 peripheral, by default the PS2 implementation uses the PIO0 peripheral
+-```
+-
+-Example info.json content:
+-
+-```json
+-    "ps2": {
+-        "clock_pin": "GP1",
+-        "data_pin": "GP0",
+-        "driver": "vendor",
+-        "enabled": true,
+-        "mouse_enabled": true
+-    }
+-```
+-
+-## Additional Settings {#additional-settings}
+-
+-### PS/2 Mouse Features {#ps2-mouse-features}
+-
+-These enable settings supported by the PS/2 mouse protocol.
+-
+-```c
+-/* Use remote mode instead of the default stream mode (see link) */
+-#define PS2_MOUSE_USE_REMOTE_MODE
+-
+-/* Enable the scrollwheel or scroll gesture on your mouse or touchpad */
+-#define PS2_MOUSE_ENABLE_SCROLLING
+-
+-/* Some mice will need a scroll mask to be configured. The default is 0xFF. */
+-#define PS2_MOUSE_SCROLL_MASK 0x0F
+-
+-/* Applies a transformation to the movement before sending to the host (see link) */
+-#define PS2_MOUSE_USE_2_1_SCALING
+-
+-/* The time to wait after initializing the ps2 host */
+-#define PS2_MOUSE_INIT_DELAY 1000 /* Default */
+-```
+-
+-You can also call the following functions from ps2_mouse.h
+-
+-```c
+-void ps2_mouse_disable_data_reporting(void);
+-
+-void ps2_mouse_enable_data_reporting(void);
+-
+-void ps2_mouse_set_remote_mode(void);
+-
+-void ps2_mouse_set_stream_mode(void);
+-
+-void ps2_mouse_set_scaling_2_1(void);
+-
+-void ps2_mouse_set_scaling_1_1(void);
+-
+-void ps2_mouse_set_resolution(ps2_mouse_resolution_t resolution);
+-
+-void ps2_mouse_set_sample_rate(ps2_mouse_sample_rate_t sample_rate);
+-```
+-
+-### Fine Control {#fine-control}
+-
+-Use the following defines to change the sensitivity and speed of the mouse.
+-Note: you can also use `ps2_mouse_set_resolution` for the same effect (not supported on most touchpads).
+-
+-```c
+-#define PS2_MOUSE_X_MULTIPLIER 3
+-#define PS2_MOUSE_Y_MULTIPLIER 3
+-#define PS2_MOUSE_V_MULTIPLIER 1
+-```
+-
+-### Scroll Button {#scroll-button}
+-
+-If you're using a trackpoint, you will likely want to be able to use it for scrolling.
+-It's possible to enable a "scroll button/s" that when pressed will cause the mouse to scroll instead of moving.
+-To enable the feature, you must set a scroll button mask as follows:
+-
+-```c
+-#define PS2_MOUSE_SCROLL_BTN_MASK (1<<PS2_MOUSE_BTN_MIDDLE) /* Default */
+-```
+-
+-To disable the scroll button feature:
+-
+-```c
+-#define PS2_MOUSE_SCROLL_BTN_MASK 0
+-```
+-
+-The available buttons are:
+-
+-```c
+-#define PS2_MOUSE_BTN_LEFT      0
+-#define PS2_MOUSE_BTN_RIGHT     1
+-#define PS2_MOUSE_BTN_MIDDLE    2
+-```
+-
+-You can also combine buttons in the mask by `|`ing them together.
+-
+-Once you've configured your scroll button mask, you must configure the scroll button send interval.
+-This is the interval before which if the scroll buttons were released they would be sent to the host.
+-After this interval, they will cause the mouse to scroll and will not be sent.
+-
+-```c
+-#define PS2_MOUSE_SCROLL_BTN_SEND 300 /* Default */
+-```
+-
+-To disable sending the scroll buttons:
+-
+-```c
+-#define PS2_MOUSE_SCROLL_BTN_SEND 0
+-```
+-
+-Fine control over the scrolling is supported with the following defines:
+-
+-```c
+-#define PS2_MOUSE_SCROLL_DIVISOR_H 2
+-#define PS2_MOUSE_SCROLL_DIVISOR_V 2
+-```
+-
+-### Invert Mouse buttons {#invert-buttons}
+-
+-To invert the left & right buttons you can put:
+-
+-```c
+-#define PS2_MOUSE_INVERT_BUTTONS
+-```
+-
+-into config.h.
+-
+-### Invert Mouse and Scroll Axes {#invert-mouse-and-scroll-axes}
+-
+-To invert the X and Y axes you can put:
+-
+-```c
+-#define PS2_MOUSE_INVERT_X
+-#define PS2_MOUSE_INVERT_Y
+-```
+-
+-into config.h.
+-
+-To reverse the scroll axes you can put:
+-
+-```c
+-#define PS2_MOUSE_INVERT_H
+-#define PS2_MOUSE_INVERT_V
+-```
+-
+-into config.h.
+-
+-### Rotate Mouse Axes {#rotate-mouse-axes}
+-
+-Transform the output of the device with a clockwise rotation of 90, 180, or 270
+-degrees.
+-
+-When compensating for device orientation, rotate the output the same amount in
+-the opposite direction.  E.g. if the normal device orientation is considered to
+-be North-facing, compensate as follows:
+-
+-```c
+-#define PS2_MOUSE_ROTATE 270 /* Compensate for East-facing device orientation. */
+-```
+-```c
+-#define PS2_MOUSE_ROTATE 180 /* Compensate for South-facing device orientation. */
+-```
+-```c
+-#define PS2_MOUSE_ROTATE 90 /* Compensate for West-facing device orientation. */
+-```
+-
+-### Debug Settings {#debug-settings}
+-
+-To debug the mouse, add `debug_mouse = true` or enable via bootmagic.
+-
+-```c
+-/* To debug the mouse reports */
+-#define PS2_MOUSE_DEBUG_HID
+-#define PS2_MOUSE_DEBUG_RAW
+-```
+-
+-### Movement Hook {#movement-hook}
+-
+-Process mouse movement in the keymap before it is sent to the host.  Example
+-uses include filtering noise, adding acceleration, and automatically activating
+-a layer.  To use, define the following function in your keymap:
+-
+-```c
+-void ps2_mouse_moved_user(report_mouse_t *mouse_report);
+-```
++PS/2 Mouse Support has migrated to [Pointing Device](pointing_device#pointing-device-ps2-mouse) in [#22532](https://github.com/qmk/qmk_firmware/pull/22532).
+diff --git a/drivers/ps2/ps2_mouse.c b/drivers/ps2/ps2_mouse.c
+deleted file mode 100644
+index b5d6824a84..0000000000
+--- a/drivers/ps2/ps2_mouse.c
++++ /dev/null
+@@ -1,317 +0,0 @@
+-/*
+-Copyright 2011,2013 Jun Wako <wakojun@gmail.com>
+-
+-This program is free software: you can redistribute it and/or modify
+-it under the terms of the GNU General Public License as published by
+-the Free Software Foundation, either version 2 of the License, or
+-(at your option) any later version.
+-
+-This program is distributed in the hope that it will be useful,
+-but WITHOUT ANY WARRANTY; without even the implied warranty of
+-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-GNU General Public License for more details.
+-
+-You should have received a copy of the GNU General Public License
+-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-*/
+-
+-#include <stdbool.h>
+-#include "ps2_mouse.h"
+-#include "wait.h"
+-#include "gpio.h"
+-#include "host.h"
+-#include "timer.h"
+-#include "print.h"
+-#include "report.h"
+-#include "debug.h"
+-#include "ps2.h"
+-
+-/* ============================= MACROS ============================ */
+-
+-static report_mouse_t mouse_report = {};
+-
+-static inline void ps2_mouse_print_report(report_mouse_t *mouse_report);
+-static inline void ps2_mouse_convert_report_to_hid(report_mouse_t *mouse_report);
+-static inline void ps2_mouse_clear_report(report_mouse_t *mouse_report);
+-static inline void ps2_mouse_enable_scrolling(void);
+-static inline void ps2_mouse_scroll_button_task(report_mouse_t *mouse_report);
+-
+-/* ============================= IMPLEMENTATION ============================ */
+-
+-/* supports only 3 button mouse at this time */
+-void ps2_mouse_init(void) {
+-    ps2_host_init();
+-
+-    wait_ms(PS2_MOUSE_INIT_DELAY); // wait for powering up
+-
+-    PS2_MOUSE_SEND(PS2_MOUSE_RESET, "ps2_mouse_init: sending reset");
+-
+-    PS2_MOUSE_RECEIVE("ps2_mouse_init: read BAT");
+-    PS2_MOUSE_RECEIVE("ps2_mouse_init: read DevID");
+-
+-#ifdef PS2_MOUSE_USE_REMOTE_MODE
+-    ps2_mouse_set_remote_mode();
+-#else
+-    ps2_mouse_enable_data_reporting();
+-    ps2_mouse_set_stream_mode();
+-#endif
+-
+-#ifdef PS2_MOUSE_ENABLE_SCROLLING
+-    ps2_mouse_enable_scrolling();
+-#endif
+-
+-#ifdef PS2_MOUSE_USE_2_1_SCALING
+-    ps2_mouse_set_scaling_2_1();
+-#endif
+-
+-    ps2_mouse_init_user();
+-}
+-
+-__attribute__((weak)) void ps2_mouse_init_user(void) {}
+-
+-__attribute__((weak)) void ps2_mouse_moved_user(report_mouse_t *mouse_report) {}
+-
+-void ps2_mouse_task(void) {
+-    static uint8_t buttons_prev = 0;
+-    extern int     tp_buttons;
+-
+-    /* receives packet from mouse */
+-#ifdef PS2_MOUSE_USE_REMOTE_MODE
+-    uint8_t rcv;
+-    rcv = ps2_host_send(PS2_MOUSE_READ_DATA);
+-    if (rcv == PS2_ACK) {
+-        mouse_report.buttons = ps2_host_recv_response();
+-        mouse_report.x       = ps2_host_recv_response();
+-        mouse_report.y       = ps2_host_recv_response();
+-#    ifdef PS2_MOUSE_ENABLE_SCROLLING
+-        mouse_report.v = -(ps2_host_recv_response() & PS2_MOUSE_SCROLL_MASK);
+-#    endif
+-    } else {
+-        if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
+-        /* return here to avoid updating the mouse button state */
+-        return;
+-    }
+-#else
+-    if (pbuf_has_data()) {
+-        mouse_report.buttons = ps2_host_recv_response();
+-        mouse_report.x       = ps2_host_recv_response();
+-        mouse_report.y       = ps2_host_recv_response();
+-#    ifdef PS2_MOUSE_ENABLE_SCROLLING
+-        mouse_report.v       = -(ps2_host_recv_response() & PS2_MOUSE_SCROLL_MASK);
+-#    endif
+-    } else {
+-        if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
+-        /* return here to avoid updating the mouse button state */
+-        return;
+-    }
+-#endif
+-
+-    mouse_report.buttons |= tp_buttons;
+-    /* if mouse moves or buttons state changes */
+-    if (mouse_report.x || mouse_report.y || mouse_report.v || ((mouse_report.buttons ^ buttons_prev) & PS2_MOUSE_BTN_MASK)) {
+-#ifdef PS2_MOUSE_DEBUG_RAW
+-        // Used to debug raw ps2 bytes from mouse
+-        ps2_mouse_print_report(&mouse_report);
+-#endif
+-        buttons_prev = mouse_report.buttons;
+-        ps2_mouse_convert_report_to_hid(&mouse_report);
+-#if PS2_MOUSE_SCROLL_BTN_MASK
+-        ps2_mouse_scroll_button_task(&mouse_report);
+-#endif
+-        if (mouse_report.x || mouse_report.y || mouse_report.v) {
+-            ps2_mouse_moved_user(&mouse_report);
+-        }
+-#ifdef PS2_MOUSE_DEBUG_HID
+-        // Used to debug the bytes sent to the host
+-        ps2_mouse_print_report(&mouse_report);
+-#endif
+-        host_mouse_send(&mouse_report);
+-    }
+-
+-    ps2_mouse_clear_report(&mouse_report);
+-}
+-
+-void ps2_mouse_disable_data_reporting(void) {
+-    PS2_MOUSE_SEND(PS2_MOUSE_DISABLE_DATA_REPORTING, "ps2 mouse disable data reporting");
+-}
+-
+-void ps2_mouse_enable_data_reporting(void) {
+-    PS2_MOUSE_SEND(PS2_MOUSE_ENABLE_DATA_REPORTING, "ps2 mouse enable data reporting");
+-}
+-
+-void ps2_mouse_set_remote_mode(void) {
+-    PS2_MOUSE_SEND_SAFE(PS2_MOUSE_SET_REMOTE_MODE, "ps2 mouse set remote mode");
+-    ps2_mouse_mode = PS2_MOUSE_REMOTE_MODE;
+-}
+-
+-void ps2_mouse_set_stream_mode(void) {
+-    PS2_MOUSE_SEND_SAFE(PS2_MOUSE_SET_STREAM_MODE, "ps2 mouse set stream mode");
+-    ps2_mouse_mode = PS2_MOUSE_STREAM_MODE;
+-}
+-
+-void ps2_mouse_set_scaling_2_1(void) {
+-    PS2_MOUSE_SEND_SAFE(PS2_MOUSE_SET_SCALING_2_1, "ps2 mouse set scaling 2:1");
+-}
+-
+-void ps2_mouse_set_scaling_1_1(void) {
+-    PS2_MOUSE_SEND_SAFE(PS2_MOUSE_SET_SCALING_1_1, "ps2 mouse set scaling 1:1");
+-}
+-
+-void ps2_mouse_set_resolution(ps2_mouse_resolution_t resolution) {
+-    PS2_MOUSE_SET_SAFE(PS2_MOUSE_SET_RESOLUTION, resolution, "ps2 mouse set resolution");
+-}
+-
+-void ps2_mouse_set_sample_rate(ps2_mouse_sample_rate_t sample_rate) {
+-    PS2_MOUSE_SET_SAFE(PS2_MOUSE_SET_SAMPLE_RATE, sample_rate, "ps2 mouse set sample rate");
+-}
+-
+-/* ============================= HELPERS ============================ */
+-
+-#define X_IS_NEG (mouse_report->buttons & (1 << PS2_MOUSE_X_SIGN))
+-#define Y_IS_NEG (mouse_report->buttons & (1 << PS2_MOUSE_Y_SIGN))
+-#define X_IS_OVF (mouse_report->buttons & (1 << PS2_MOUSE_X_OVFLW))
+-#define Y_IS_OVF (mouse_report->buttons & (1 << PS2_MOUSE_Y_OVFLW))
+-static inline void ps2_mouse_convert_report_to_hid(report_mouse_t *mouse_report) {
+-#ifndef MOUSE_EXTENDED_REPORT
+-    // PS/2 mouse data is '9-bit integer'(-256 to 255) which is comprised of sign-bit and 8-bit value.
+-    // bit: 8    7 ... 0
+-    //      sign \8-bit/
+-    //
+-    // Meanwhile USB HID mouse indicates 8bit data(-127 to 127), note that -128 is not used.
+-    //
+-    // This converts PS/2 data into HID value. Use only -127-127 out of PS/2 9-bit.
+-    mouse_report->x *= PS2_MOUSE_X_MULTIPLIER;
+-    mouse_report->y *= PS2_MOUSE_Y_MULTIPLIER;
+-    mouse_report->x = X_IS_NEG ? ((!X_IS_OVF && -127 <= mouse_report->x && mouse_report->x <= -1) ? mouse_report->x : -127) : ((!X_IS_OVF && 0 <= mouse_report->x && mouse_report->x <= 127) ? mouse_report->x : 127);
+-    mouse_report->y = Y_IS_NEG ? ((!Y_IS_OVF && -127 <= mouse_report->y && mouse_report->y <= -1) ? mouse_report->y : -127) : ((!Y_IS_OVF && 0 <= mouse_report->y && mouse_report->y <= 127) ? mouse_report->y : 127);
+-#else
+-    // Sign extend if negative, otherwise leave positive 8-bits as-is
+-    mouse_report->x = X_IS_NEG ? (mouse_report->x | ~0xFF) : mouse_report->x;
+-    mouse_report->y = Y_IS_NEG ? (mouse_report->y | ~0xFF) : mouse_report->y;
+-    mouse_report->x *= PS2_MOUSE_X_MULTIPLIER;
+-    mouse_report->y *= PS2_MOUSE_Y_MULTIPLIER;
+-#endif
+-    mouse_report->v *= PS2_MOUSE_V_MULTIPLIER;
+-
+-#ifdef PS2_MOUSE_INVERT_BUTTONS
+-    // swap left & right buttons
+-    bool needs_left       = mouse_report->buttons & (1 << PS2_MOUSE_BTN_RIGHT);
+-    bool needs_right      = mouse_report->buttons & (1 << PS2_MOUSE_BTN_LEFT);
+-    mouse_report->buttons = (mouse_report->buttons & ~((1 << PS2_MOUSE_BTN_LEFT) | (1 << PS2_MOUSE_BTN_RIGHT))) | (needs_left << PS2_MOUSE_BTN_LEFT) | (needs_right << PS2_MOUSE_BTN_RIGHT);
+-#endif
+-    // remove sign and overflow flags
+-    mouse_report->buttons &= PS2_MOUSE_BTN_MASK;
+-
+-#ifdef PS2_MOUSE_INVERT_X
+-    mouse_report->x = -mouse_report->x;
+-#endif
+-#ifndef PS2_MOUSE_INVERT_Y // NOTE if not!
+-    // invert coordinate of y to conform to USB HID mouse
+-    mouse_report->y = -mouse_report->y;
+-#endif
+-
+-#ifdef PS2_MOUSE_ROTATE
+-    mouse_xy_report_t x = mouse_report->x;
+-    mouse_xy_report_t y = mouse_report->y;
+-#    if PS2_MOUSE_ROTATE == 90
+-    mouse_report->x = y;
+-    mouse_report->y = -x;
+-#    elif PS2_MOUSE_ROTATE == 180
+-    mouse_report->x = -x;
+-    mouse_report->y = -y;
+-#    elif PS2_MOUSE_ROTATE == 270
+-    mouse_report->x = -y;
+-    mouse_report->y = x;
+-#    endif
+-#endif
+-}
+-
+-static inline void ps2_mouse_clear_report(report_mouse_t *mouse_report) {
+-    mouse_report->x       = 0;
+-    mouse_report->y       = 0;
+-    mouse_report->v       = 0;
+-    mouse_report->h       = 0;
+-    mouse_report->buttons = 0;
+-}
+-
+-static inline void ps2_mouse_print_report(report_mouse_t *mouse_report) {
+-    if (!debug_mouse) return;
+-    print("ps2_mouse: [");
+-    print_hex8(mouse_report->buttons);
+-    print("|");
+-    print_hex8((uint8_t)mouse_report->x);
+-    print(" ");
+-    print_hex8((uint8_t)mouse_report->y);
+-    print(" ");
+-    print_hex8((uint8_t)mouse_report->v);
+-    print(" ");
+-    print_hex8((uint8_t)mouse_report->h);
+-    print("]\n");
+-}
+-
+-static inline void ps2_mouse_enable_scrolling(void) {
+-    PS2_MOUSE_SEND(PS2_MOUSE_SET_SAMPLE_RATE, "Initiaing scroll wheel enable: Set sample rate");
+-    PS2_MOUSE_SEND(200, "200");
+-    PS2_MOUSE_SEND(PS2_MOUSE_SET_SAMPLE_RATE, "Set sample rate");
+-    PS2_MOUSE_SEND(100, "100");
+-    PS2_MOUSE_SEND(PS2_MOUSE_SET_SAMPLE_RATE, "Set sample rate");
+-    PS2_MOUSE_SEND(80, "80");
+-    PS2_MOUSE_SEND(PS2_MOUSE_GET_DEVICE_ID, "Finished enabling scroll wheel");
+-    wait_ms(20);
+-}
+-
+-#define PRESS_SCROLL_BUTTONS mouse_report->buttons |= (PS2_MOUSE_SCROLL_BTN_MASK)
+-#define RELEASE_SCROLL_BUTTONS mouse_report->buttons &= ~(PS2_MOUSE_SCROLL_BTN_MASK)
+-static inline void ps2_mouse_scroll_button_task(report_mouse_t *mouse_report) {
+-    static enum {
+-        SCROLL_NONE,
+-        SCROLL_BTN,
+-        SCROLL_SENT,
+-    } scroll_state                     = SCROLL_NONE;
+-    static uint16_t scroll_button_time = 0;
+-    static int16_t  scroll_x, scroll_y;
+-
+-    if (PS2_MOUSE_SCROLL_BTN_MASK == (mouse_report->buttons & (PS2_MOUSE_SCROLL_BTN_MASK))) {
+-        // All scroll buttons are pressed
+-
+-        if (scroll_state == SCROLL_NONE) {
+-            scroll_button_time = timer_read();
+-            scroll_state       = SCROLL_BTN;
+-            scroll_x           = 0;
+-            scroll_y           = 0;
+-        }
+-
+-        // If the mouse has moved, update the report to scroll instead of move the mouse
+-        if (mouse_report->x || mouse_report->y) {
+-            scroll_state = SCROLL_SENT;
+-            scroll_y += mouse_report->y;
+-            scroll_x += mouse_report->x;
+-            mouse_report->v = -scroll_y / (PS2_MOUSE_SCROLL_DIVISOR_V);
+-            mouse_report->h = scroll_x / (PS2_MOUSE_SCROLL_DIVISOR_H);
+-            scroll_y += (mouse_report->v * (PS2_MOUSE_SCROLL_DIVISOR_V));
+-            scroll_x -= (mouse_report->h * (PS2_MOUSE_SCROLL_DIVISOR_H));
+-            mouse_report->x = 0;
+-            mouse_report->y = 0;
+-#ifdef PS2_MOUSE_INVERT_H
+-            mouse_report->h = -mouse_report->h;
+-#endif
+-#ifdef PS2_MOUSE_INVERT_V
+-            mouse_report->v = -mouse_report->v;
+-#endif
+-        }
+-    } else if (0 == (PS2_MOUSE_SCROLL_BTN_MASK & mouse_report->buttons)) {
+-        // None of the scroll buttons are pressed
+-
+-#if PS2_MOUSE_SCROLL_BTN_SEND
+-        if (scroll_state == SCROLL_BTN && timer_elapsed(scroll_button_time) < PS2_MOUSE_SCROLL_BTN_SEND) {
+-            PRESS_SCROLL_BUTTONS;
+-            host_mouse_send(mouse_report);
+-            wait_ms(100);
+-            RELEASE_SCROLL_BUTTONS;
+-        }
+-#endif
+-        scroll_state = SCROLL_NONE;
+-    }
+-
+-    RELEASE_SCROLL_BUTTONS;
+-}
+diff --git a/drivers/sensors/ps2_mouse.c b/drivers/sensors/ps2_mouse.c
+new file mode 100644
+index 0000000000..8e5b22b8ab
+--- /dev/null
++++ b/drivers/sensors/ps2_mouse.c
+@@ -0,0 +1,239 @@
++/*
++Copyright 2011,2013 Jun Wako <wakojun@gmail.com>
++Copyright 2023 Johannes H. Jensen <joh@pseudoberries.com>
++This program is free software: you can redistribute it and/or modify
++it under the terms of the GNU General Public License as published by
++the Free Software Foundation, either version 2 of the License, or
++(at your option) any later version.
++This program is distributed in the hope that it will be useful,
++but WITHOUT ANY WARRANTY; without even the implied warranty of
++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++GNU General Public License for more details.
++You should have received a copy of the GNU General Public License
++along with this program.  If not, see <http://www.gnu.org/licenses/>.
++*/
++
++#include <stdbool.h>
++#include "ps2_mouse.h"
++#include "wait.h"
++#include "gpio.h"
++#include "host.h"
++#include "timer.h"
++#include "report.h"
++#include "ps2.h"
++#include "pointing_device.h"
++#include "pointing_device_internal.h"
++
++const pointing_device_driver_t ps2_mouse_pointing_device_driver = {
++    .init       = ps2_mouse_init,
++    .get_report = ps2_mouse_get_report,
++    .set_cpi    = ps2_mouse_set_cpi,
++    .get_cpi    = ps2_mouse_get_cpi,
++};
++
++/* ============================= HELPERS ============================ */
++
++static inline void ps2_mouse_convert_report_to_hid(ps2_mouse_report_t *ps2_report, report_mouse_t *mouse_report);
++static inline void ps2_mouse_enable_scrolling(void);
++
++/* ============================= IMPLEMENTATION ============================ */
++
++/* supports only 3 button mouse at this time */
++__attribute__((weak)) bool ps2_mouse_init(void) {
++    ps2_host_init();
++
++    wait_ms(PS2_MOUSE_INIT_DELAY); // wait for powering up
++
++    PS2_MOUSE_SEND(PS2_MOUSE_RESET, "ps2_mouse_init: sending reset");
++
++    PS2_MOUSE_RECEIVE("ps2_mouse_init: read BAT");
++    PS2_MOUSE_RECEIVE("ps2_mouse_init: read DevID");
++
++#ifdef PS2_MOUSE_USE_REMOTE_MODE
++    ps2_mouse_set_remote_mode();
++#else
++    ps2_mouse_enable_data_reporting();
++    ps2_mouse_set_stream_mode();
++#endif
++
++#ifdef PS2_MOUSE_ENABLE_SCROLLING
++    ps2_mouse_enable_scrolling();
++#endif
++
++#ifdef PS2_MOUSE_USE_2_1_SCALING
++    ps2_mouse_set_scaling_2_1();
++#endif
++
++#ifdef PS2_MOUSE_SAMPLE_RATE
++    ps2_mouse_set_sample_rate(PS2_MOUSE_SAMPLE_RATE);
++#endif
+
+    return true;
++}
++
++report_mouse_t ps2_mouse_get_report(report_mouse_t mouse_report) {
++    report_mouse_t     new_report = {};
++    ps2_mouse_report_t ps2_report = {};
++
++    /* receives packet from mouse */
++#ifdef PS2_MOUSE_USE_REMOTE_MODE
++    uint8_t rcv;
++    rcv = ps2_host_send(PS2_MOUSE_READ_DATA);
++    if (rcv == PS2_ACK) {
++        ps2_report.head.w = ps2_host_recv_response();
++        ps2_report.x      = ps2_host_recv_response();
++        ps2_report.y      = ps2_host_recv_response();
++#    ifdef PS2_MOUSE_ENABLE_SCROLLING
++        ps2_report.z = ps2_host_recv_response();
++#    endif
++    } else {
++        pd_dprintf("ps2_mouse: fail to get mouse packet\n");
++    }
++#else
++    /* Streaming mode */
++    if (pbuf_has_data()) {
++        ps2_report.head.w = ps2_host_recv_response();
++        ps2_report.x      = ps2_host_recv_response();
++        ps2_report.y      = ps2_host_recv_response();
++#    ifdef PS2_MOUSE_ENABLE_SCROLLING
++        ps2_report.z = ps2_host_recv_response();
++#    endif
++    }
++#endif
++
++    ps2_mouse_convert_report_to_hid(&ps2_report, &new_report);
++
++#ifdef POINTING_DEVICE_DEBUG
++    if (has_mouse_report_changed(&new_report, &mouse_report)) {
++        pd_dprintf("ps2_mouse: raw x=%02x y=%02x head=0x%02x [left=%u right=%u middle=%u one=%u x_sign=%u y_sign=%u x_ovf=%u y_ovf=%u]\n", ps2_report.x, ps2_report.y, ps2_report.head.w, ps2_report.head.b.left_button, ps2_report.head.b.right_button, ps2_report.head.b.middle_button, ps2_report.head.b.always_one, ps2_report.head.b.x_sign, ps2_report.head.b.y_sign, ps2_report.head.b.x_overflow, ps2_report.head.b.y_overflow);
++
++        pd_dprintf("ps2_mouse: hid x=%d y=%d v=%d h=%d buttons=%x\n", new_report.x, new_report.y, new_report.v, new_report.h, new_report.buttons);
++    }
++#endif
++
++    return new_report;
++}
++
++void ps2_mouse_disable_data_reporting(void) {
++    PS2_MOUSE_SEND(PS2_MOUSE_DISABLE_DATA_REPORTING, "ps2 mouse disable data reporting");
++}
++
++void ps2_mouse_enable_data_reporting(void) {
++    PS2_MOUSE_SEND(PS2_MOUSE_ENABLE_DATA_REPORTING, "ps2 mouse enable data reporting");
++}
++
++void ps2_mouse_set_remote_mode(void) {
++    PS2_MOUSE_SEND_SAFE(PS2_MOUSE_SET_REMOTE_MODE, "ps2 mouse set remote mode");
++    ps2_mouse_mode = PS2_MOUSE_REMOTE_MODE;
++}
++
++void ps2_mouse_set_stream_mode(void) {
++    PS2_MOUSE_SEND_SAFE(PS2_MOUSE_SET_STREAM_MODE, "ps2 mouse set stream mode");
++    ps2_mouse_mode = PS2_MOUSE_STREAM_MODE;
++}
++
++void ps2_mouse_set_scaling_2_1(void) {
++    PS2_MOUSE_SEND_SAFE(PS2_MOUSE_SET_SCALING_2_1, "ps2 mouse set scaling 2:1");
++}
++
++void ps2_mouse_set_scaling_1_1(void) {
++    PS2_MOUSE_SEND_SAFE(PS2_MOUSE_SET_SCALING_1_1, "ps2 mouse set scaling 1:1");
++}
++
++void ps2_mouse_set_resolution(ps2_mouse_resolution_t resolution) {
++    PS2_MOUSE_SET_SAFE(PS2_MOUSE_SET_RESOLUTION, resolution, "ps2 mouse set resolution");
++}
++
++void ps2_mouse_set_sample_rate(ps2_mouse_sample_rate_t sample_rate) {
++    PS2_MOUSE_SET_SAFE(PS2_MOUSE_SET_SAMPLE_RATE, sample_rate, "ps2 mouse set sample rate");
++}
++
++/* Note: PS/2 mouse uses counts/mm */
++uint16_t ps2_mouse_get_cpi(void) {
++    uint8_t rcv, cpm;
++    rcv = ps2_host_send(PS2_MOUSE_STATUS_REQUEST);
++    if (rcv == PS2_ACK) {
++        rcv = ps2_host_recv_response();
++        cpm = ps2_host_recv_response();
++        rcv = ps2_host_recv_response();
++
++        return (1 << cpm);
++    }
++
++    return 0;
++}
++
++/* Note: PS/2 mouse uses counts/mm */
++void ps2_mouse_set_cpi(uint16_t cpi) {
++    switch (cpi) {
++        case 1:
++            ps2_mouse_set_resolution(PS2_MOUSE_1_COUNT_MM);
++            break;
++        case 2:
++            ps2_mouse_set_resolution(PS2_MOUSE_2_COUNT_MM);
++            break;
++        case 4:
++            ps2_mouse_set_resolution(PS2_MOUSE_4_COUNT_MM);
++            break;
++        case 8:
++            ps2_mouse_set_resolution(PS2_MOUSE_8_COUNT_MM);
++            break;
++        default:
++            pd_dprintf("ps2_mouse: invalid cpi: %u\n", cpi);
++            break;
++    }
++}
++
++/* ============================= HELPERS ============================ */
++
++#define min(a, b) ((a) < (b) ? (a) : (b))
++#define max(a, b) ((a) > (b) ? (a) : (b))
++
++static inline void ps2_mouse_convert_report_to_hid(ps2_mouse_report_t *ps2_report, report_mouse_t *mouse_report) {
++    bool x_sign        = ps2_report->head.b.x_sign;
++    bool y_sign        = ps2_report->head.b.y_sign;
++    bool left_button   = ps2_report->head.b.left_button;
++    bool right_button  = ps2_report->head.b.right_button;
++    bool middle_button = ps2_report->head.b.middle_button;
++
++    // PS/2 mouse data is '9-bit integer'(-256 to 255), comprised of sign-bit and 8-bit value.
++    // Sign extend if negative, otherwise leave positive 8-bits as-is
++    int16_t x = x_sign ? (ps2_report->x | ~0xFF) : ps2_report->x;
++    int16_t y = y_sign ? (ps2_report->y | ~0xFF) : ps2_report->y;
++
++    x *= PS2_MOUSE_X_MULTIPLIER;
++    y *= PS2_MOUSE_Y_MULTIPLIER;
++
++    // Constrain xy values to valid range
++    mouse_report->x = min(max(MOUSE_REPORT_XY_MIN, x), MOUSE_REPORT_XY_MAX);
++    mouse_report->y = min(max(MOUSE_REPORT_XY_MIN, y), MOUSE_REPORT_XY_MAX);
++
++    // invert coordinate of y to conform to USB HID mouse
++    mouse_report->y = -mouse_report->y;
++
++#ifdef PS2_MOUSE_ENABLE_SCROLLING
++    // Valid z values are in the range -8 to +7
++    mouse_report->v = -(ps2_report->z & PS2_MOUSE_SCROLL_MASK);
++    mouse_report->v *= PS2_MOUSE_V_MULTIPLIER;
++#endif
++
++#ifdef PS2_MOUSE_INVERT_BUTTONS
++    // swap left & right buttons
++    if (left_button) mouse_report->buttons |= MOUSE_BTN2;
++    if (right_button) mouse_report->buttons |= MOUSE_BTN1;
++#else
++    if (left_button) mouse_report->buttons |= MOUSE_BTN1;
++    if (right_button) mouse_report->buttons |= MOUSE_BTN2;
++#endif
++
++    if (middle_button) mouse_report->buttons |= MOUSE_BTN3;
++}
++
++static inline void ps2_mouse_enable_scrolling(void) {
++    PS2_MOUSE_SEND(PS2_MOUSE_SET_SAMPLE_RATE, "Initiaing scroll wheel enable: Set sample rate");
++    PS2_MOUSE_SEND(200, "200");
++    PS2_MOUSE_SEND(PS2_MOUSE_SET_SAMPLE_RATE, "Set sample rate");
++    PS2_MOUSE_SEND(100, "100");
++    PS2_MOUSE_SEND(PS2_MOUSE_SET_SAMPLE_RATE, "Set sample rate");
++    PS2_MOUSE_SEND(80, "80");
++    PS2_MOUSE_SEND(PS2_MOUSE_GET_DEVICE_ID, "Finished enabling scroll wheel");
++    wait_ms(20);
++}
+diff --git a/drivers/ps2/ps2_mouse.h b/drivers/sensors/ps2_mouse.h
+similarity index 70%
+rename from drivers/ps2/ps2_mouse.h
+rename to drivers/sensors/ps2_mouse.h
+index 885eeecbd2..3772fd4170 100644
+--- a/drivers/ps2/ps2_mouse.h
++++ b/drivers/sensors/ps2_mouse.h
+@@ -1,5 +1,6 @@
+ /*
+ Copyright 2011 Jun Wako <wakojun@gmail.com>
++Copyright 2023 Johannes H. Jensen <joh@pseudoberries.com>
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+@@ -20,14 +21,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #include <stdbool.h>
+ #include "debug.h"
+ #include "report.h"
++#include "pointing_device.h"
++#include "pointing_device_internal.h"
++
++#ifndef PS2_CLOCK_PIN
++#    ifdef POINTING_DEVICE_SCLK_PIN
++#        define PS2_CLOCK_PIN POINTING_DEVICE_SCLK_PIN
++#    else
++#        error "No clock pin defined -- missing POINTING_DEVICE_SCLK_PIN or PS2_CLOCK_PIN"
++#    endif
++#endif
++
++#ifndef PS2_DATA_PIN
++#    ifdef POINTING_DEVICE_SDIO_PIN
++#        define PS2_DATA_PIN POINTING_DEVICE_SDIO_PIN
++#    else
++#        error "No data pin defined -- missing POINTING_DEVICE_SDIO_PIN or PS2_DATA_PIN"
++#    endif
++#endif
+ 
+-#define PS2_MOUSE_SEND(command, message)                                                \
+-    do {                                                                                \
+-        __attribute__((unused)) uint8_t rcv = ps2_host_send(command);                   \
+-        if (debug_mouse) {                                                              \
+-            print((message));                                                           \
+-            xprintf(" command: %X, result: %X, error: %X \n", command, rcv, ps2_error); \
+-        }                                                                               \
++#define PS2_MOUSE_SEND(command, message)                                                          \
++    do {                                                                                          \
++        __attribute__((unused)) uint8_t rcv = ps2_host_send(command);                             \
++        pd_dprintf("%s command: %X, result: %X, error: %X \n", message, command, rcv, ps2_error); \
+     } while (0)
+ 
+ #define PS2_MOUSE_SEND_SAFE(command, message)          \
+@@ -53,13 +69,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+         }                                              \
+     } while (0)
+ 
+-#define PS2_MOUSE_RECEIVE(message)                                      \
+-    do {                                                                \
+-        __attribute__((unused)) uint8_t rcv = ps2_host_recv_response(); \
+-        if (debug_mouse) {                                              \
+-            print((message));                                           \
+-            xprintf(" result: %X, error: %X \n", rcv, ps2_error);       \
+-        }                                                               \
++#define PS2_MOUSE_RECEIVE(message)                                          \
++    do {                                                                    \
++        __attribute__((unused)) uint8_t rcv = ps2_host_recv_response();     \
++        pd_dprintf("%s result: %X, error: %X \n", message, rcv, ps2_error); \
+     } while (0)
+ 
+ __attribute__((unused)) static enum ps2_mouse_mode_e {
+@@ -74,31 +87,39 @@ __attribute__((unused)) static enum ps2_mouse_mode_e {
+  *    0|[Yovflw][Xovflw][Ysign ][Xsign ][ 1    ][Middle][Right ][Left  ]
+  *    1|[                    X movement(0-255)                         ]
+  *    2|[                    Y movement(0-255)                         ]
++ *
++ * if PS2_MOUSE_ENABLE_SCROLLING:
++ *    3|[                    Z movement(0-255)                         ]
+  */
+-#define PS2_MOUSE_BTN_MASK 0x07
+-#define PS2_MOUSE_BTN_LEFT 0
+-#define PS2_MOUSE_BTN_RIGHT 1
+-#define PS2_MOUSE_BTN_MIDDLE 2
+-#define PS2_MOUSE_X_SIGN 4
+-#define PS2_MOUSE_Y_SIGN 5
+-#define PS2_MOUSE_X_OVFLW 6
+-#define PS2_MOUSE_Y_OVFLW 7
+-
+-/* mouse button to start scrolling; set 0 to disable scroll */
+-#ifndef PS2_MOUSE_SCROLL_BTN_MASK
+-#    define PS2_MOUSE_SCROLL_BTN_MASK (1 << PS2_MOUSE_BTN_MIDDLE)
+-#endif
+-/* send button event when button is released within this value(ms); set 0 to disable  */
+-#ifndef PS2_MOUSE_SCROLL_BTN_SEND
+-#    define PS2_MOUSE_SCROLL_BTN_SEND 300
+-#endif
+-/* divide virtical and horizontal mouse move by this to convert to scroll move */
+-#ifndef PS2_MOUSE_SCROLL_DIVISOR_V
+-#    define PS2_MOUSE_SCROLL_DIVISOR_V 2
++
++typedef struct __attribute__((packed)) {
++    union {
++        struct {
++            bool left_button : 1;
++            bool right_button : 1;
++            bool middle_button : 1;
++            bool always_one : 1;
++            bool x_sign : 1;
++            bool y_sign : 1;
++            bool x_overflow : 1;
++            bool y_overflow : 1;
++        } b;
++        uint8_t w;
++    } head;
++    uint8_t x;
++    uint8_t y;
++#ifdef PS2_MOUSE_ENABLE_SCROLLING
++    uint8_t z;
+ #endif
+-#ifndef PS2_MOUSE_SCROLL_DIVISOR_H
+-#    define PS2_MOUSE_SCROLL_DIVISOR_H 2
++} ps2_mouse_report_t;
++
++#ifdef PS2_MOUSE_ENABLE_SCROLLING
++_Static_assert(sizeof(ps2_mouse_report_t) == 4, "ps2_mouse_report_t must be 4 bytes in size");
++#else
++_Static_assert(sizeof(ps2_mouse_report_t) == 3, "ps2_mouse_report_t must be 3 bytes in size");
+ #endif
++_Static_assert(sizeof((ps2_mouse_report_t){0}.head) == 1, "ps2_mouse_report_t.head must be 1 byte in size");
++
+ /* multiply reported mouse values by these */
+ #ifndef PS2_MOUSE_X_MULTIPLIER
+ #    define PS2_MOUSE_X_MULTIPLIER 1
+@@ -152,11 +173,9 @@ typedef enum ps2_mouse_sample_rate_e {
+     PS2_MOUSE_200_SAMPLES_SEC = 200,
+ } ps2_mouse_sample_rate_t;
+ 
+-void ps2_mouse_init(void);
+-
+-void ps2_mouse_init_user(void);
++const pointing_device_driver_t ps2_mouse_pointing_device_driver;
+ 
+-void ps2_mouse_task(void);
++bool ps2_mouse_init(void);
+ 
+ void ps2_mouse_disable_data_reporting(void);
+ 
+@@ -174,4 +193,8 @@ void ps2_mouse_set_resolution(ps2_mouse_resolution_t resolution);
+ 
+ void ps2_mouse_set_sample_rate(ps2_mouse_sample_rate_t sample_rate);
+ 
+-void ps2_mouse_moved_user(report_mouse_t *mouse_report);
++report_mouse_t ps2_mouse_get_report(report_mouse_t mouse_report);
++
++uint16_t ps2_mouse_get_cpi(void);
++
++void ps2_mouse_set_cpi(uint16_t cpi);
+diff --git a/keyboards/buzzard/keymaps/default/config.h b/keyboards/buzzard/keymaps/default/config.h
+index 0a2776afd1..6b6a1d5422 100644
+--- a/keyboards/buzzard/keymaps/default/config.h
++++ b/keyboards/buzzard/keymaps/default/config.h
+@@ -30,7 +30,6 @@
+ #endif
+ 
+ 
+-#ifdef PS2_MOUSE_ENABLE
+-#define PS2_MOUSE_SCROLL_BTN_MASK (1<<PS2_MOUSE_BTN_RIGHT)   // using the right mouse button for scrolling (other buttons can be configured)
+-#define PS2_MOUSE_SCROLL_BTN_SEND 500
++#ifdef POINTING_DEVICE_DRIVER_PS2_MOUSE
++#define DRAG_SCROLL KC_BTN2 // using the right mouse button for scrolling (other buttons can be configured)
+ #endif
+diff --git a/keyboards/buzzard/keymaps/default/keymap.c b/keyboards/buzzard/keymaps/default/keymap.c
+index 9e9fe20577..e709fd8af4 100644
+--- a/keyboards/buzzard/keymaps/default/keymap.c
++++ b/keyboards/buzzard/keymaps/default/keymap.c
+@@ -271,4 +271,25 @@ bool get_haptic_enabled_key(uint16_t keycode, keyrecord_t *record) {
+ 
+     return false;
+ }
+-#endif
+\ No newline at end of file
++#endif
++
++#ifdef POINTING_DEVICE_DRIVER_PS2_MOUSE
++bool set_scrolling = false;
++
++report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
++    if (set_scrolling) {
++        mouse_report.h = mouse_report.x;
++        mouse_report.v = mouse_report.y;
++        mouse_report.x = 0;
++        mouse_report.y = 0;
++    }
++    return mouse_report;
++}
++
++bool process_record_user(uint16_t keycode, keyrecord_t *record) {
++    if (keycode == DRAG_SCROLL && record->event.pressed) {
++        set_scrolling = !set_scrolling;
++    }
++    return true;
++}
++#endif
+diff --git a/keyboards/buzzard/keymaps/default/rules.mk b/keyboards/buzzard/keymaps/default/rules.mk
+index 46728f3803..1ec236d458 100644
+--- a/keyboards/buzzard/keymaps/default/rules.mk
++++ b/keyboards/buzzard/keymaps/default/rules.mk
+@@ -3,5 +3,6 @@ OLED_ENABLE = yes				# uncomment if you are using an OLED display
+ #HAPTIC_ENABLE = yes			# uncomment only on the master side if you are using a Pimoroni haptic buzz
+ #HAPTIC_DRIVER = drv2605l		# uncomment only on the master side if you are using a Pimoroni haptic buzz
+ 
+-#PS2_MOUSE_ENABLE = yes			# uncomment only on the master side if you are usin a TrackPoint
+-MOUSEKEY_ENABLE = yes
+\ No newline at end of file
++#POINTING_DEVICE_ENABLE = yes	# uncomment only on the master side if you are usin a TrackPoint
++POINTING_DEVICE_DRIVER = ps2_mouse
++MOUSEKEY_ENABLE = yes
+diff --git a/keyboards/buzzard/rev1/config.h b/keyboards/buzzard/rev1/config.h
+index a040e92dfd..7ed2e072b0 100644
+--- a/keyboards/buzzard/rev1/config.h
++++ b/keyboards/buzzard/rev1/config.h
+@@ -22,5 +22,5 @@
+     EIMSK &= ~(1<<INT6);        \
+ } while (0)
+ #define PS2_INT_VECT   INT6_vect
+-#define PS2_MOUSE_ROTATE 270 /* Compensate for East-facing device orientation. */
++#define POINTING_DEVICE_ROTATION_270 /* Compensate for East-facing device orientation. */
+ #endif
+diff --git a/keyboards/frobiac/blackbowl/config.h b/keyboards/frobiac/blackbowl/config.h
+index cb13e69423..6f4e63fc79 100644
+--- a/keyboards/frobiac/blackbowl/config.h
++++ b/keyboards/frobiac/blackbowl/config.h
+@@ -11,7 +11,7 @@
+ #define EXPANDER_COL_REGISTER GPIOA
+ #define EXPANDER_ROW_REGISTER GPIOB
+ 
+-#ifdef PS2_MOUSE_ENABLE
++#ifdef POINTING_DEVICE_DRIVER_PS2_MOUSE
+ #    define PS2_MOUSE_USE_REMOTE_MODE
+ #    define PS2_MOUSE_INIT_DELAY 1000
+ #endif
+diff --git a/keyboards/frobiac/blackbowl/keyboard.json b/keyboards/frobiac/blackbowl/keyboard.json
+index 704a8b0d62..113bff506f 100644
+--- a/keyboards/frobiac/blackbowl/keyboard.json
++++ b/keyboards/frobiac/blackbowl/keyboard.json
+@@ -12,8 +12,7 @@
+         "extrakey": true,
+         "mousekey": true,
+         "nkro": false,
+-        "ps2": true,
+-        "ps2_mouse": true
++        "pointing_device": true,
+     },
+     "build": {
+         "lto": true
+diff --git a/keyboards/frobiac/blackbowl/rules.mk b/keyboards/frobiac/blackbowl/rules.mk
+index 3b95c11843..b89a8a5c80 100644
+--- a/keyboards/frobiac/blackbowl/rules.mk
++++ b/keyboards/frobiac/blackbowl/rules.mk
+@@ -5,3 +5,4 @@ I2C_DRIVER_REQUIRED = yes
+ SRC += matrix.c
+ 
+ PS2_DRIVER = usart
++POINTING_DEVICE_DRIVER = ps2_mouse
+diff --git a/keyboards/frobiac/blackflat/config.h b/keyboards/frobiac/blackflat/config.h
+index 20801757dc..934424ee6b 100644
+--- a/keyboards/frobiac/blackflat/config.h
++++ b/keyboards/frobiac/blackflat/config.h
+@@ -3,7 +3,7 @@
+ 
+ #pragma once
+ 
+-#ifdef PS2_MOUSE_ENABLE
++#ifdef POINTING_DEVICE_DRIVER_PS2_MOUSE
+ #    define PS2_DATA_PIN D4
+ #    define PS2_CLOCK_PIN B3
+ 
+diff --git a/keyboards/frobiac/hypernano/config.h b/keyboards/frobiac/hypernano/config.h
+index 843ad6f55b..fe05b0dadd 100644
+--- a/keyboards/frobiac/hypernano/config.h
++++ b/keyboards/frobiac/hypernano/config.h
+@@ -3,13 +3,13 @@
+ 
+ #pragma once
+ 
+-#ifdef PS2_MOUSE_ENABLE
++#ifdef POINTING_DEVICE_DRIVER_PS2_MOUSE
+ #    define PS2_RESET_PIN B0
+ #    define PS2_DATA_PIN B1
+ #    define PS2_CLOCK_PIN B2
+ 
+-#    define PS2_MOUSE_INVERT_X
+-#    define PS2_MOUSE_INVERT_Y
++#    define POINTING_DEVICE_INVERT_X
++#    define POINTING_DEVICE_INVERT_Y
+ 
+ #    define PS2_MOUSE_USE_REMOTE_MODE
+ #    define PS2_MOUSE_INIT_DELAY 1000
+diff --git a/keyboards/frobiac/redtilt/config.h b/keyboards/frobiac/redtilt/config.h
+index 5eb0f8bc3d..dc8db921fa 100644
+--- a/keyboards/frobiac/redtilt/config.h
++++ b/keyboards/frobiac/redtilt/config.h
+@@ -3,12 +3,12 @@
+ 
+ #pragma once
+ 
+-#ifdef PS2_MOUSE_ENABLE
++#ifdef POINTING_DEVICE_DRIVER_PS2_MOUSE
+ #    define PS2_RESET_PIN B0
+ #    define PS2_DATA_PIN B1
+ #    define PS2_CLOCK_PIN B2
+ 
+ #    define PS2_MOUSE_USE_REMOTE_MODE
+ #    define PS2_MOUSE_INIT_DELAY 1000
+-#    define PS2_MOUSE_ROTATE 90
++#    define POINTING_DEVICE_ROTATION_90
+ #endif
+diff --git a/keyboards/handwired/108key_trackpoint/keyboard.json b/keyboards/handwired/108key_trackpoint/keyboard.json
+index 0e8e1a0963..18ac9e62c6 100644
+--- a/keyboards/handwired/108key_trackpoint/keyboard.json
++++ b/keyboards/handwired/108key_trackpoint/keyboard.json
+@@ -21,8 +21,7 @@
+     "console": true,
+     "command": true,
+     "nkro": true,
+-    "ps2_mouse": true,
+-    "ps2": true
++    "pointing_device": true,
+   },
+   "qmk": {
+     "locking": {
+diff --git a/keyboards/handwired/108key_trackpoint/rules.mk b/keyboards/handwired/108key_trackpoint/rules.mk
+index 74035c9903..89d3638000 100644
+--- a/keyboards/handwired/108key_trackpoint/rules.mk
++++ b/keyboards/handwired/108key_trackpoint/rules.mk
+@@ -1 +1,2 @@
+ PS2_DRIVER = usart
++POINTING_DEVICE_DRIVER = ps2_mouse
+diff --git a/keyboards/handwired/promethium/keyboard.json b/keyboards/handwired/promethium/keyboard.json
+index 2e47bd186a..d6c876bf16 100644
+--- a/keyboards/handwired/promethium/keyboard.json
++++ b/keyboards/handwired/promethium/keyboard.json
+@@ -26,8 +26,7 @@
+     "mousekey": false,
+     "extrakey": true,
+     "nkro": true,
+-    "ps2_mouse": true,
+-    "ps2": true,
++    "pointing_device": true,
+     "battery": true,
+     "bluetooth": true
+   },
+diff --git a/keyboards/handwired/promethium/keymaps/default/keymap.c b/keyboards/handwired/promethium/keymaps/default/keymap.c
+index 7db69a2a97..ec9638b977 100644
+--- a/keyboards/handwired/promethium/keymaps/default/keymap.c
++++ b/keyboards/handwired/promethium/keymaps/default/keymap.c
+@@ -26,8 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #include "rgbsps.h"
+ #include "rgbtheme.h"
+ #endif
+-#ifdef PS2_MOUSE_ENABLE
+-#include "ps2_mouse.h"
++#ifdef POINTING_DEVICE_DRIVER_PS2_MOUSE
++#include "drivers/sensors/ps2_mouse.h"
+ #include "ps2.h"
+ #endif
+ #ifdef FAUXCLICKY_ENABLE
+@@ -1315,8 +1315,8 @@ void turn_off_capslock(void) {
+   }
+ #endif
+ 
+-#ifdef PS2_MOUSE_ENABLE
+-  void ps2_mouse_init_user(void) {
++#ifdef POINTING_DEVICE_DRIVER_PS2_MOUSE
++  void pointing_device_init_user(void) {
+       uint8_t rcv;
+ 
+       // set TrackPoint sensitivity
+diff --git a/keyboards/handwired/promethium/keymaps/default/rules.mk b/keyboards/handwired/promethium/keymaps/default/rules.mk
+index 598ade50b8..05237a4b0e 100644
+--- a/keyboards/handwired/promethium/keymaps/default/rules.mk
++++ b/keyboards/handwired/promethium/keymaps/default/rules.mk
+@@ -8,6 +8,5 @@ BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
+ AUDIO_ENABLE = no           # Audio output
+ UNICODEMAP_ENABLE = yes
+ RGBLIGHT_ENABLE = no        # Enable WS2812 RGB underlight.
+-PS2_MOUSE_ENABLE = yes
+ PS2_ENABLE = yes
+ PS2_DRIVER = interrupt
+diff --git a/keyboards/handwired/promethium/rules.mk b/keyboards/handwired/promethium/rules.mk
+index ecadca399c..d0520fba03 100644
+--- a/keyboards/handwired/promethium/rules.mk
++++ b/keyboards/handwired/promethium/rules.mk
+@@ -2,6 +2,7 @@
+ F_CPU = 8000000
+ 
+ PS2_DRIVER = interrupt
++POINTING_DEVICE_DRIVER = ps2_mouse
+ CUSTOM_MATRIX = yes
+ 
+ WS2812_DRIVER_REQUIRED = yes
+diff --git a/keyboards/handwired/trackpoint/keyboard.json b/keyboards/handwired/trackpoint/keyboard.json
+index 1cd10dbb47..978c732912 100644
+--- a/keyboards/handwired/trackpoint/keyboard.json
++++ b/keyboards/handwired/trackpoint/keyboard.json
+@@ -20,8 +20,7 @@
+         "extrakey": true,
+         "console": true,
+         "command": true,
+-        "ps2": true,
+-        "ps2_mouse": true
++        "pointing_device": true,
+     },
+     "qmk": {
+         "locking": {
+diff --git a/keyboards/handwired/trackpoint/rules.mk b/keyboards/handwired/trackpoint/rules.mk
+index 74035c9903..89d3638000 100644
+--- a/keyboards/handwired/trackpoint/rules.mk
++++ b/keyboards/handwired/trackpoint/rules.mk
+@@ -1 +1,2 @@
+ PS2_DRIVER = usart
++POINTING_DEVICE_DRIVER = ps2_mouse
+diff --git a/keyboards/pierce/post_rules.mk b/keyboards/pierce/post_rules.mk
+index 9cc6739d78..6b40058093 100644
+--- a/keyboards/pierce/post_rules.mk
++++ b/keyboards/pierce/post_rules.mk
+@@ -1,5 +1,6 @@
+ ifeq ($(strip $(TRACKPOINT)), yes)
+-  PS2_MOUSE_ENABLE = yes
++  POINTING_DEVICE_ENABLE = yes
++  POINTING_DEVICE_DRIVER = ps2_mouse
+   PS2_ENABLE = yes
+   PS2_DRIVER = usart
+   OPT_DEFS += -DUSART
+diff --git a/platforms/chibios/drivers/vendor/RP/RP2040/ps2_vendor.c b/platforms/chibios/drivers/vendor/RP/RP2040/ps2_vendor.c
+index e60bfa04a0..59b4cbebdc 100644
+--- a/platforms/chibios/drivers/vendor/RP/RP2040/ps2_vendor.c
++++ b/platforms/chibios/drivers/vendor/RP/RP2040/ps2_vendor.c
+@@ -11,16 +11,6 @@
+ #    error PIO Driver is only available for Raspberry Pi 2040 MCUs!
+ #endif
+ 
+-#if defined(PS2_ENABLE)
+-#    if defined(PS2_MOUSE_ENABLE)
+-#        if !defined(PS2_MOUSE_USE_REMOTE_MODE)
+-#            define BUFFERED_MODE_ENABLE
+-#        endif
+-#    else // PS2 Keyboard
+-#        define BUFFERED_MODE_ENABLE
+-#    endif
+-#endif
+-
+ #if PS2_DATA_PIN + 1 != PS2_CLOCK_PIN
+ #    error PS/2 clock pin must be data pin + 1!
+ #endif
+@@ -241,8 +231,6 @@ uint8_t ps2_host_recv_response(void) {
+     return ps2_get_data_from_frame(frame);
+ }
+ 
+-#ifdef BUFFERED_MODE_ENABLE
+-
+ bool pbuf_has_data(void) {
+     osalSysLock();
+     bool has_data = !ibqIsEmptyI(&pio_rx_queue);
+@@ -267,5 +255,3 @@ uint8_t ps2_host_recv(void) {
+ 
+     return frame != 0 ? ps2_get_data_from_frame(frame) : 0;
+ }
+-
+-#endif
+diff --git a/quantum/keyboard.c b/quantum/keyboard.c
+index 173c696e2d..0e5cd6de9a 100644
+--- a/quantum/keyboard.c
++++ b/quantum/keyboard.c
+@@ -47,9 +47,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #ifdef MOUSEKEY_ENABLE
+ #    include "mousekey.h"
+ #endif
+-#ifdef PS2_MOUSE_ENABLE
+-#    include "ps2_mouse.h"
+-#endif
+ #ifdef RGBLIGHT_ENABLE
+ #    include "rgblight.h"
+ #endif
+@@ -496,9 +493,6 @@ void keyboard_init(void) {
+ #ifdef ST7565_ENABLE
+     st7565_init(DISPLAY_ROTATION_0);
+ #endif
+-#ifdef PS2_MOUSE_ENABLE
+-    ps2_mouse_init();
+-#endif
+ #ifdef BACKLIGHT_ENABLE
+     backlight_init();
+ #endif
+@@ -767,10 +761,6 @@ void keyboard_task(void) {
+     mousekey_task();
+ #endif
+ 
+-#ifdef PS2_MOUSE_ENABLE
+-    ps2_mouse_task();
+-#endif
+-
+ #ifdef MIDI_ENABLE
+     midi_task();
+ #endif
+diff --git a/quantum/pointing_device/pointing_device.h b/quantum/pointing_device/pointing_device.h
+index 5dfb9ce196..a621174901 100644
+--- a/quantum/pointing_device/pointing_device.h
++++ b/quantum/pointing_device/pointing_device.h
+@@ -74,6 +74,8 @@ typedef struct {
+ #    include "spi_master.h"
+ #    include "drivers/sensors/pmw33xx_common.h"
+ #    define POINTING_DEVICE_MOTION_PIN_ACTIVE_LOW
++#elif defined(POINTING_DEVICE_DRIVER_ps2_mouse)
++#    include "drivers/sensors/ps2_mouse.h"
+ #else
+ bool           pointing_device_driver_init(void);
+ report_mouse_t pointing_device_driver_get_report(report_mouse_t mouse_report);

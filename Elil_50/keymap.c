@@ -8,7 +8,7 @@
 #include QMK_KEYBOARD_H
 
 #if MY_TRACKPOINT_ENABLE
-    #include "ps2_mouse.h"
+    #include "drivers/sensors/ps2_mouse.h"
     #include "ps2.h"
 #endif
 
@@ -93,7 +93,7 @@ bool process_detected_host_os_kb(os_variant_t detected_os) {
 // Threshold Press to select: Adress: 0xE2 0x81 0x5C, value: 0 - 255 in hex. Default: 0x08
 
 #if MY_TRACKPOINT_ENABLE
-void ps2_mouse_init_user() {
+void pointing_device_init_user() {
     PS2_MOUSE_SEND(0xE2, "tpspeed: 0xE2"); //address
     PS2_MOUSE_SEND(0x81, "tpspeed: 0x81"); //address
     PS2_MOUSE_SEND(0x60, "tpspeed: 0x60"); // address
@@ -118,6 +118,9 @@ void ps2_mouse_init_user() {
     // PS2_MOUSE_SEND(0x81, "ptson_thr: 0x81"); //address
     // PS2_MOUSE_SEND(0x58, "ptson_thr: 0x5C"); // address
     // PS2_MOUSE_SEND(0x00, "ptson_thr: 0xFF"); // value
+    
+    set_auto_mouse_layer(MOUSE_LAYER);
+    set_auto_mouse_enable(true);
 }
 # endif
 
@@ -622,6 +625,8 @@ const uint16_t PROGMEM combo0[] = {TD(TD_SHIFT_CAPS), KC_PPLS, COMBO_END};
 const uint16_t PROGMEM combo01[] = {TD(TD_SHIFT_CAPS), KC_SCLN, COMBO_END};
 const uint16_t PROGMEM combo02[] = {TD(TD_SHIFT_CAPS), KC_COMMA, COMBO_END};
 const uint16_t PROGMEM combo03[] = {TD(TD_SHIFT_CAPS), KC_BSLS, COMBO_END};
+const uint16_t PROGMEM combo000[] = {TD(TD_SHIFT_CAPS), KC_LCTL, KC_RIGHT, COMBO_END};
+const uint16_t PROGMEM combo001[] = {TD(TD_SHIFT_CAPS), KC_LCTL, KC_LEFT, COMBO_END};
 
 #if MY_UNICODE_ENABLE
 const uint16_t PROGMEM combo36[] = {ESC_ALT, MY_LESS, COMBO_END};
@@ -815,6 +820,9 @@ combo_t key_combos[] = {
   COMBO(combo34, KC_EXLM),
   COMBO(combo41, KC_SLASH),
   COMBO(combo0, KC_PMNS),
+  COMBO(combo000, LCS(KC_RIGHT)),
+  COMBO(combo001, LCS(KC_LEFT)),
+  
   #if MY_UNICODE_ENABLE
   COMBO(combo36, UM(LTEQ)),
   COMBO(combo37, UM(NOTEQ)),
@@ -949,32 +957,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 
 
-//    %-------------------------%
-//    |  AUTOMATIC MOUSE LAYER  |
-//    %-------------------------%
-
-#if MY_TRACKPOINT_ENABLE
-static uint32_t turn_off(uint32_t trigger_time, void *arg) {
-     const uintptr_t layer = (uintptr_t)arg;
-     layer_off(layer);
-     return 0;
-}
-
-#define TURN_LAYER_OFF_TIMEOUT 500 //milliseconds
-// ps2_mouse_moved_user is called only when the keyboard detects mouse movements.
-void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
-    layer_on(MOUSE_LAYER);
-
-    static deferred_token token = INVALID_DEFERRED_TOKEN;
-    cancel_deferred_exec(token); // cancel previous schedule
-
-    // schedule layer turn-off, passing layer number as argument not to hardcode it on the previous function
-    token = defer_exec(TURN_LAYER_OFF_TIMEOUT, turn_off, (void *)MOUSE_LAYER);
-}
-# endif
-
-
-
 //    %---------------------%
 //    |   KEYBOARD LAYERS   |
 //    %---------------------%
@@ -1050,7 +1032,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [SCROLL_LAYER] = LAYOUT_split_3x6_3( // scroll transparent layer
     //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS, MS_BTN1, MS_BTN3, MS_BTN2, KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_TRNS, MS_BTN4, MS_BTN5, KC_TRNS, KC_TRNS,                      KC_TRNS, MS_BTN1, MS_BTN3, MS_BTN2, KC_TRNS, KC_TRNS,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                      KC_TRNS,  ACCEL, MS_WHLU,  KC_TRNS, KC_TRNS, KC_TRNS,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|

@@ -51,7 +51,7 @@ I have no issues to be solved here, so I don't need to gamble on the chance of h
 
 QMK is an acronym for Quantum Mechanical Keyboard, but rest assured: it has nothing to do with the quantum world.
 
-It is based on the idea that you have less physical keys than the ones you actually use. This already happens on normal keyboards, where you can switch from lower-case letters like ```a``` to upper-case ones like ```A``` by clicking the ```caps lock``` button, and where you can use the modifiers keys ```shift```, ```alt```, ```ctrl``` and ```fn``` with regular keys, to enable other features. This is nothing new either: just think of old nokia phones with just 12 physical keys.
+It is based on the idea that you have less physical keys than the ones you actually use. This already happens on normal keyboards, where you can switch from lower-case letters like ```a``` to upper-case ones like ```A``` by clicking the ```caps lock``` button, and where you can use the modifiers keys ```shift```, ```alt```, ```ctrl``` and ```fn``` with regular keys, to enable other features. This is nothing new either: just think of old nokia phones with only 12 physical keys.
 
 In addition to regular modifiers, QMK features new ones called ```layer switching keys```, which change the virtual keys assigned to the physical ones. We can easily represent the keyboard layout with actual layers. Some of them can be applied like a mask and change few keys only, like the automatic mouse layer and the scroll layer described below. This is the most classical behaviour you can expect.
 
@@ -59,13 +59,13 @@ In addition to regular modifiers, QMK features new ones called ```layer switchin
 
 This layout was optimized in 1 year, for coding and typing purposes. It works only if you set the OS language input to English(US).
 
-Layouts like QWERTY, DVORAK, COLEMAK are designed around commonly used letters and words in order to reduce finger movement and strain. This is useless on a keyboard which is literally designed around your hand.<br/>
+Layouts like QWERTY, DVORAK, COLEMAK are designed around commonly used letters and words in order to reduce finger movement and strain. This is useless when coding and nonsense when typing in multiple languages. In addition, this keyboard is literally designed around your hand, so there is no movement at all.<br/>
 I only needed to assign commonly used keys - like modifiers and arrows - to strong fingers, and to avoid creating ankward positions when combining multiple modifiers with other keys.
 
 Thus, I chose QWERTY to reduce the learning curve and improve compatibility with other devices.<br/>
-For the same reasons, I avoided strange key combinations - like ```D+F=TAB``` - which may help you reduce the number of keys at the cost of increasing the keyboard complexity. I found that this keyboard has nearly the minimum number of keys to type fast without resorting to such tricks.
+For the same reasons, I avoided strange key combinations - like ```D+F=TAB``` - which may help you reduce the number of keys at the cost of increasing the keyboard complexity. To type fast, you need a good mechanical memory. To achieve that memory, you need to spend a lot of time. We can reduce that time by making simple and effective layouts you can easily view in your mind. I found that this keyboard has nearly the minimum number of keys to type fast without resorting to weird tricks.
 
-Indeed, the alphabetical layer - later called ```layer 0``` - cannot be reduced anymore without using combinations. On the other hand, the numerical one has so much space I filled it with unicode I sometimes use when talking to people.
+Indeed, the alphabetical layer - later called ```layer 0``` - cannot be reduced anymore without using such combinations. On the other hand, the numerical one has so much space I filled it with unicode, which I sometimes use when chatting with people.
 
 In the following, I use the key ```GUI``` to refer to all the other aliases like ```meta```, ```command```, ```windows```, ```super```.
 
@@ -90,14 +90,14 @@ The keymap I wrote does an automatic OS detection to use the right unicode input
 
 * ### Automatic Mouse Layer
 
-Enabled if ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk``` is enabled. Highlighted in grey in the keyboard layout.
+Enabled if ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk``` is enabled. Highlighted in blue in the keyboard layout.
 
-Whenever you move the trackpoint and 500ms after, this layer is activated. You can change this time by changing the number of ```TURN_LAYER_OFF_TIMEOUT``` at line 961 of ```./Elil_50/keymap.c```. <br/>
-The layer switching key △ or ▢ deactivates it.
+Whenever you move the trackpoint and for 500ms after, this layer is activated. You can change this time by changing the number of ```AUTO_MOUSE_TIME``` at line 28 of ```./Elil_50/config.h```. <br/>
+The layer switching key △ or ▢ deactivates it, even before ```AUTO_MOUSE_TIME```.
 
 * ### Scroll Layer
 
-If you double click the key ```GUI``` you activate the scroll layer, which replaces arrows with scroll movements, adds the key ```AC``` - which can be found by default in layer 1 - and mouse keys - the same of the automatic mouse layer. <br/>
+If you double click the key ```GUI``` you activate the scroll layer, highlighted in red in the keyboard layout. It replaces arrows with scroll movements, adds the key ```AC``` - which can be found by default in layer 1 - and mouse keys - some of which can be found in the automatic mouse layer -. <br/>
 If you double click the key ```GUI``` again or single click the layer switching key △ or ▢, the layer is deactivated.
 
 If you toggle the key ```AC``` you change the scroll speed between fast and slow. You can change them by changing the numbers of the two ```MK_W_OFFSET``` in ```./Elil_50/config.h```.
@@ -123,15 +123,15 @@ Both overrides and combos are written in ```.\Elil_50\keymap.c```, just follow t
 
 The main selling point of flashable keyboards is the layout customization, so get comfy with writing in the last part of ```./Elil_50/keymap.c``` (which contains the layout implementation) and flashing it: it's really easy.
 
-Instead of remapping softwares and videogames, additional layers can be added and reached from layer 2, which is activated by clicking the layer switching keys △ and ▢ together. If you want to return to layer 0 or 1 you just need to click ▢ or △ respectively.
+Instead of remapping softwares and videogames, new layers can be added and linked to layer 2, which is activated by clicking △ and ▢ together. If you want to return to layer 0 or 1 you just need to click ▢ or △ respectively.
 
-Be sure to place the additional layers after layer 3 (i.e. the Greek layer. Follow my comments and it will make sense). I've left undefined ```XXXXXXX``` buttons in layer 2 which can be replaced with the toggle layer key ```TG(n)``` where ```n``` is the number of your additional layer.
+I've left undefined ```XXXXXXX``` buttons in layer 2 which can be replaced with anything you want, especially with the toggle layer key ```TG(n)``` where ```n``` is the number of your additional layer.
 
-This layout already has two gaming layer examples: you can understand the logic just by reading the layout implementation.
+This layout already has two gaming layer examples: you can understand the logic just by reading their implementation.
 
 * ### Executables
 
-**qmk_file_inject.sh:** injects user files (described below) in ```qmk_firmware```.
+**qmk_file_inject.sh:** injects user files and changes (described below) in ```qmk_firmware```. If you download my submodule ```qmk_firmware```, they are already there.
 
 **flash.sh:** executes ```qmk_file_inject.sh``` and ```qmk flash``` in the user keyboard folder.
 
@@ -146,42 +146,14 @@ Before running a program, remember to change its execution permissions. For exam
 
 * ### Keymap.c, rules.mk, config.h
 
-Add the folder ``` Elil_50 ``` in the following path:
-```
-./qmk_firmware/keyboards/crkbd/keymaps
-```
+Add the folder ```./Elil_50``` in ```./qmk_firmware/keyboards/crkbd/keymaps```.
 
 * ### PS/2 Driver Trackpoint (optional)
 
 The host needs pull-up resistors on PS/2 DATA and CLK lines. The built-in pullup resistors from the host 4k to 100k are acceptable.<br/>
-In conclusion, you need to add those pull-up resistors (I didn't), or apply the following patch:
+In conclusion, you need to add those pull-up resistors (I didn't), or apply the patch written in ```./PS2_patches/ps2_vendor.diff```.
 
-Add ```PAL_RP_PAD_PUE |``` in line 150 of file
-```
-./qmk_firmware/platforms/chibios/drivers/vendor/RP/RP2040/ps2_vendor.c
-```
-so that it looks like:
-```c
-    // clang-format off
-    iomode_t pin_mode = PAL_RP_PAD_IE |
-                        PAL_RP_GPIO_OE |
-                        PAL_RP_PAD_SLEWFAST |
-                        PAL_RP_PAD_DRIVE12 |
-                        PAL_RP_PAD_PUE |
-```
-
-The PS/2 section of QMK is quite a mess, so you need to apply the following patches to file
-```
-./qmk_firmware/drivers/ps2/ps2_mouse.c
-```
-* Comment ```return``` in both line 92 and 105, so that it looks like:
-```c
-    } else {
-        if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
-        /* return here to avoid updating the mouse button state */
-        //return;
-    }
-```
+The PS/2 section of QMK is quite a mess. The best route is to integrate it with the existing pointing device framework. To do that I patched [this old pull request](https://github.com/qmk/qmk_firmware/pull/22532) into ```./PS2_patches/ps2_pointing_device.diff```. Note that **now you can use pointing device functions**.
 
 ---
 
@@ -197,7 +169,7 @@ The main components are:
 
 There are tons of sites who sell DIY kits and pre-builts: each one has their own well-documented and similar guide on little details I won't write here. Nowadays even aliexpress sells low cost pre-builts, but be aware they are not easily flashable.
 
-In my personal opinion the OLED of Corne V3 is useless: the keymap I wrote doesn't need a screen as a reminder of which layers you activated, and I want to focus on my screen, not my hands. Corne V4 replaced it with 2 additionak keys, but you need to stretch your hand a little to reach them. In conclusion, I didn't mount it and covered the microcontroller with a black acrylic.
+In my personal opinion the OLED of Corne V3 is useless: the keymap I wrote doesn't need a display to remind you which layers is active, and I want to focus on my screen, not my hands. Corne V4 replaced it with 2 additional keys, but you need to stretch your hand a little to reach them. In conclusion, I didn't mount it and covered the microcontroller with a black acrylic.
 
 ## External shell (optional)
 <img src="./Images/portable_config.jpg" width="400">
@@ -294,15 +266,9 @@ You can find a printable Corne case with an integrated trackpoint mount [here](h
 
 In ```KDE_Plasma``` folder you can find both monitor overview (which stores the widget positions) and keyboard shortcuts files. This is totally optional and it's more related to my typing experience than the keyboard. The two files are independent of each other.
 
-* Replace ```./KDE_Plasma/overview.page``` in the following path:
-```
-.local/share/plasma-systemmonitor/overview.page
-```
+* Replace ```./KDE_Plasma/overview.page``` in ```.local/share/plasma-systemmonitor/overview.page```.
 
-* Replace ```./KDE_Plasma/kglobalshortcutsrc``` in the following path:
-```
-.config/kglobalshortcutsrc
-```
+* Replace ```./KDE_Plasma/kglobalshortcutsrc``` in ```.config/kglobalshortcutsrc```.
 
 The customized OS Shortcuts are the following:
 

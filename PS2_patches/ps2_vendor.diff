@@ -1,0 +1,12 @@
+diff --git a/platforms/chibios/drivers/vendor/RP/RP2040/ps2_vendor.c b/platforms/chibios/drivers/vendor/RP/RP2040/ps2_vendor.c  
+index 1c61f19..e60bfa0 100644
+--- a/platforms/chibios/drivers/vendor/RP/RP2040/ps2_vendor.c
++++ b/platforms/chibios/drivers/vendor/RP/RP2040/ps2_vendor.c
+@@ -147,6 +147,7 @@ void ps2_host_init(void) {
+                         PAL_RP_GPIO_OE |
+                         PAL_RP_PAD_SLEWFAST |
+                         PAL_RP_PAD_DRIVE12 |
++                        PAL_RP_PAD_PUE |
+                         // Invert output enable so that pindirs=1 means input
+                         // and indirs=0 means output. This way, out pindirs
+                         // works correctly with the open-drain PS/2 interface.

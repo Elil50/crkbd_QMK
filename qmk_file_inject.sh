@@ -1,17 +1,28 @@
 KEYMAP="./Elil_50/keymap.c"
 CONFIG="./Elil_50/config.h"
 RULES="./Elil_50/rules.mk"
-PS2_VENDOR="./PS2_driver/ps2_vendor.c"
-PS2_MOUSE="./PS2_driver/ps2_mouse.c"
-
 TARGET="./qmk_firmware/keyboards/crkbd/keymaps"
-PS2_DRIVER_PATH="./qmk_firmware/platforms/chibios/drivers/vendor/RP/RP2040"
-PS2_MOUSE_PATH="./qmk_firmware/drivers/ps2"
+PS2="./PS2_patches"
 
-#rm -r "$TARGET/Elil_50"
-#mkdir "$TARGET/Elil_50"
+mkdir -p "$TARGET/Elil_50"
 cp "$KEYMAP" "$TARGET/Elil_50"
 cp "$CONFIG" "$TARGET/Elil_50"
 cp "$RULES" "$TARGET/Elil_50"
-cp "$PS2_VENDOR" "$PS2_DRIVER_PATH"
-cp "$PS2_MOUSE" "$PS2_MOUSE_PATH" 
+
+mkdir -p ./qmk_firmware/PS2_patches
+cp "$PS2/ps2_pointing_device.diff" ./qmk_firmware/PS2_patches
+cp "$PS2/ps2_vendor.diff" ./qmk_firmware/PS2_patches
+
+cd ./qmk_firmware
+
+if git apply --reverse --check "$PS2/ps2_pointing_device.diff"; then
+  echo "ps2_pointing_device.diff patch already applied"
+else
+  git apply "$PS2/ps2_pointing_device.diff"
+fi
+
+if git apply --reverse --check "$PS2/ps2_vendor.diff"; then
+  echo "ps2_vendor.diff patch already applied"
+else
+  git apply "$PS2/ps2_vendor.diff"
+fi
