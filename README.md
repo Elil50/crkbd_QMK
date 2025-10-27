@@ -77,6 +77,9 @@ In the following, I use the key ```GUI``` to refer to all the other aliases like
 
 <img src="./Images/Elil50_layer_greek_0.png" width=max-width>
 
+> [!NOTE] 
+> Activating ```layer 0``` with the right hand and ```layer 1``` with the left may seem counterintuitive if you think of numbers left to right. In practice, the ergonomics outweigh the mental friction — especially once you realize it’s just a naming issue. Think of it this way: the right hand triggers the ```alphabetic layer```, the left hand the ```numeric layer```. Problem solved.
+
 * ### Disabling Trackpoint and Unicode
 
 The trackpoint can be disabled by turning false the flag ```MY_TRACKPOINT_ENABLE``` in ```./Elil_50/rules.mk```.<br/>
@@ -97,14 +100,14 @@ The layer switching key △ or ▢ deactivates it, even before ```AUTO_MOUSE_TIM
 
 * ### Scroll Layer
 
-If you double click the key ```GUI``` you activate the scroll layer, highlighted in red in the keyboard layout. It replaces arrows with scroll movements, adds the key ```AC``` - which can be found by default in layer 1 - and mouse keys - some of which can be found in the automatic mouse layer -. <br/>
-If you double click the key ```GUI``` again or single click the layer switching key △ or ▢, the layer is deactivated.
+If you double click the key ```Ctrl``` you activate the scroll layer, highlighted in red in the keyboard layout. It replaces arrows with scroll movements, adds the key ```AC``` - which can be found by default in layer 1 - and mouse keys - some of which can be found in the automatic mouse layer. <br/>
+If you double click the key ```Ctrl``` again or single click the layer switching key △ or ▢, the layer is deactivated.
 
 If you toggle the key ```AC``` you change the scroll speed between fast and slow. You can change them by changing the numbers of the two ```MK_W_OFFSET``` in ```./Elil_50/config.h```.
 
 * ### Overrides and combos
 
-Let us consider a key click: first you press it, then you release it. If enough time has passed between the press and the release, the firmware will recognize you held it down.
+Let us consider a key click: first you press it, then you release it. If enough time has passed between the press and the release, the firmware will recognise you held it down.
 
 **Override** is the QMK term which refers to the usual action of holding down a modifier key like ```alt``` or ```shift``` and then clicking a key to get a new output.
 
@@ -112,10 +115,13 @@ Let us consider a key click: first you press it, then you release it. If enough 
 
 I like to match combo and override outputs to increase my typing speed. Thus, in addition to holding down ```shift``` and then pressing ```a``` to get a capital ```A```, you can just click them together. By the way, if you double click ```shift``` you toggle ```caps lock```.
 
-I found out that if you hold down the layer switching key △ to temporarily activate ```layer 1```, you need to wait too much time before you can press a combo: if you don't wait enough, the firmware will recognize your combo as if you are still on ```layer 0```. To overcome this issue - which received no answer from QMK developers - I just defined additional combos which involve the layer switching keys △ and ▢. They work so well, I'm glad they didn't know how to solve this issue:
+I found out that if you hold down the layer switching key △ to temporarily activate ```layer 1```, you need to wait too much time before you can press a combo: if you don't wait enough, the firmware will recognise your combo as if you are still on ```layer 0```. To overcome this issue - which received no answer from QMK developers - I just defined additional combos which involve the layer switching keys △ and ▢. They work so well, I'm glad they didn't know how to solve this issue:
 
 * If you make a make a combo with △ and another key (or another combo), the firmware will understand you want that key (or that combo) from ```layer 1```. This action will not modify your current active layer. <br/>
 If you make it with ▢, it's the same as before, but from ```layer 0```.
+
+> [!NOTE]
+> I assigned new click behaviours to the modifiers ```ctrl```, ```shift``` and ```alt``` - only meant to be coupled to other keys with overrides and combos - to give a purpose to the action of just clicking their physical key. I chose intuitive click behaviours, to avoid increasing the keymap complexity. For two clicks to be recognised as a double click, they need to be at most 175ms apart.
 
 Both overrides and combos are written in ```.\Elil_50\keymap.c```, just follow the comments. You can change them as you like.
 
@@ -245,14 +251,14 @@ More informations about the trackpoint can be found in the official datasheet; y
 
 Most of the guides I've read use wrong voltages (5V) or gloss over stem mounting, for the sole exception of [this detailed repo](https://github.com/wolfwood/navcaps) which I found too later. I hope to shed some light on this topic here, once and for all.
 
-If your PCB has big enough holes - I increased the diameter with a drill on mine - you can safely go down the 3D printing route described by that repository. After having a 3D printed stem broken in half, I went down the metal route: just buy one cheek piercer with the right height and glue / [clamp](https://github.com/wolfwood/navcaps) it to the trackpoint sensor. There are also proptotypes of the SK8707-01-005(3.3V) going around, which should have a little screw as an integrated stem. There is no such item on the Sprintek site, but you just need to email them asking for it (you need to send an email for a normal trackpoint too). If possible, try this last approach as Plan A.
+If your PCB has big enough holes - I increased the diameter with a drill on mine - you can safely go down the 3D printing route described by that repository. After having a 3D printed stem broken in half, I went down the metal route: just buy one cheek piercer with the right height and glue / [clamp](https://github.com/wolfwood/navcaps) it to the trackpoint sensor. There are also prototypes of the SK8707-01-005(3.3V) going around, which should have a little screw as an integrated stem. There is no such item on the Sprintek site, but you just need to email them asking for it (you need to send an email for a normal trackpoint too). If possible, try this last approach as Plan A.
 
 ~~In order to raise the trackpoint keycap above the PCB, I 3D printed the following sketch. Then, I proceeded to cut the excess height and manually reduce the diameter of the section which goes through the PCB. It's probably better to print with 3mm instead of 4mm. I increased the diameter of the PCB hole with a drill. Finally I glued the stem on the trackpoint sensor: it was too shaky otherwise.~~
 
 ~~I leave just a sketch because I think a better design can be made.<br/>
 Anyway, what I have now works.~~
 
-You can find a printable Corne case with an integrated trackpoint mount [here](https://github.com/joh/crkbd-trackpoint?tab=readme-ov-file). If you are unsure about your PCB (for example with a Corne V4) or you already have a case, you can manually glue the trackpoint to it. For example I glued it to a metal plate that came with the DIY kit, screwed underneath the case mentioned in the previous sections. Just be sure to start by using some removable adhesive tape when placing the trackpoint. After a few attempts you find the right position: you don't want the stem to touch - or be too close to - the edges of the PCB hole. You can glue everything now.
+You can find a printable Corne case with an integrated trackpoint mount [here](https://github.com/joh/crkbd-trackpoint?tab=readme-ov-file). If you are unsure about your PCB (for example with a Corne V4) or you already have a case, you can manually drill and screw, or glue the trackpoint to it. For example I glued it to a metal plate that came with the DIY kit, screwed underneath the case mentioned in the previous sections. Just be sure to start by using some removable adhesive tape when placing the trackpoint. After a few attempts you find the right position: you don't want the stem to touch - or be too close to - the edges of the PCB hole. You can glue everything now.
 
 <img src="./Images/trackpoint_stem.jpg" width="400">
 
